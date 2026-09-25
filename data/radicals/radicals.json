@@ -9,7 +9,8 @@
       "yi"
     ],
     "strokes": 1,
-    "name": "一部"
+    "name": "一部",
+    "first_stroke": "h"
   },
   {
     "id": 2,
@@ -22,7 +23,8 @@
       "shu"
     ],
     "strokes": 1,
-    "name": "竖笔"
+    "name": "竖笔",
+    "first_stroke": "s"
   },
   {
     "id": 3,
@@ -34,7 +36,8 @@
       "pie"
     ],
     "strokes": 1,
-    "name": "撇笔"
+    "name": "撇笔",
+    "first_stroke": "p"
   },
   {
     "id": 4,
@@ -46,7 +49,8 @@
       "dian"
     ],
     "strokes": 1,
-    "name": "点笔"
+    "name": "点笔",
+    "first_stroke": "d"
   },
   {
     "id": 5,
@@ -62,7 +66,8 @@
       "zhe"
     ],
     "strokes": 1,
-    "name": "乙部"
+    "name": "乙部",
+    "first_stroke": "z"
   },
   {
     "id": 6,
@@ -75,7 +80,8 @@
       "gou"
     ],
     "strokes": 1,
-    "name": "竖钩"
+    "name": "竖钩",
+    "first_stroke": "s"
   },
   {
     "id": 7,
@@ -87,7 +93,8 @@
       "er"
     ],
     "strokes": 2,
-    "name": "二部"
+    "name": "二部",
+    "first_stroke": "h"
   },
   {
     "id": 8,
@@ -99,7 +106,8 @@
       "tou"
     ],
     "strokes": 2,
-    "name": "点横/六字头"
+    "name": "点横/六字头",
+    "first_stroke": "d"
   },
   {
     "id": 9,
@@ -114,7 +122,8 @@
       "danren"
     ],
     "strokes": 2,
-    "name": "人部/单人旁"
+    "name": "人部/单人旁",
+    "first_stroke": "p"
   },
   {
     "id": 10,
@@ -126,7 +135,8 @@
       "er"
     ],
     "strokes": 2,
-    "name": "儿部/儿字底"
+    "name": "儿部/儿字底",
+    "first_stroke": "p"
   },
   {
     "id": 11,
@@ -139,7 +149,8 @@
       "ba"
     ],
     "strokes": 2,
-    "name": "八部"
+    "name": "八部",
+    "first_stroke": "p"
   },
   {
     "id": 12,
@@ -152,7 +163,8 @@
       "tongzi"
     ],
     "strokes": 2,
-    "name": "同字框"
+    "name": "同字框",
+    "first_stroke": "s"
   },
   {
     "id": 13,
@@ -165,7 +177,8 @@
       "tubaogai"
     ],
     "strokes": 2,
-    "name": "秃宝盖"
+    "name": "秃宝盖",
+    "first_stroke": "d"
   },
   {
     "id": 14,
@@ -178,7 +191,8 @@
       "liangdianshui"
     ],
     "strokes": 2,
-    "name": "两点水"
+    "name": "两点水",
+    "first_stroke": "d"
   },
   {
     "id": 15,
@@ -190,7 +204,8 @@
       "ji"
     ],
     "strokes": 2,
-    "name": "几部"
+    "name": "几部",
+    "first_stroke": "p"
   },
   {
     "id": 16,
@@ -203,7 +218,8 @@
       "kua"
     ],
     "strokes": 2,
-    "name": "凶字框"
+    "name": "凶字框",
+    "first_stroke": "s"
   },
   {
     "id": 17,
@@ -217,7 +233,8 @@
       "lidao"
     ],
     "strokes": 2,
-    "name": "刀部/立刀旁"
+    "name": "刀部/立刀旁",
+    "first_stroke": "z"
   },
   {
     "id": 18,
@@ -229,7 +246,8 @@
       "li"
     ],
     "strokes": 2,
-    "name": "力部"
+    "name": "力部",
+    "first_stroke": "z"
   },
   {
     "id": 19,
@@ -241,7 +259,8 @@
       "bao"
     ],
     "strokes": 2,
-    "name": "包字头"
+    "name": "包字头",
+    "first_stroke": "p"
   },
   {
     "id": 20,
@@ -253,7 +272,8 @@
       "bi"
     ],
     "strokes": 2,
-    "name": "匕部"
+    "name": "匕部",
+    "first_stroke": "p"
   },
   {
     "id": 21,
@@ -265,7 +285,8 @@
       "fang"
     ],
     "strokes": 2,
-    "name": "三框儿"
+    "name": "三框儿",
+    "first_stroke": "h"
   },
   {
     "id": 22,
@@ -277,7 +298,8 @@
       "shi"
     ],
     "strokes": 2,
-    "name": "十字儿"
+    "name": "十字儿",
+    "first_stroke": "h"
   },
   {
     "id": 23,
@@ -289,7 +311,8 @@
       "bu"
     ],
     "strokes": 2,
-    "name": "卜字旁"
+    "name": "卜字旁",
+    "first_stroke": "s"
   },
   {
     "id": 24,
@@ -304,7 +327,8 @@
       "erdao"
     ],
     "strokes": 2,
-    "name": "单耳旁/耳刀"
+    "name": "单耳旁/耳刀",
+    "first_stroke": "z"
   },
   {
     "id": 25,
@@ -316,7 +340,8 @@
       "chang"
     ],
     "strokes": 2,
-    "name": "厂部/偏厂儿"
+    "name": "厂部/偏厂儿",
+    "first_stroke": "h"
   },
   {
     "id": 26,
@@ -328,7 +353,8 @@
       "si"
     ],
     "strokes": 2,
-    "name": "私字儿"
+    "name": "私字儿",
+    "first_stroke": "z"
   },
   {
     "id": 27,
@@ -340,7 +366,8 @@
       "you"
     ],
     "strokes": 2,
-    "name": "又部"
+    "name": "又部",
+    "first_stroke": "z"
   },
   {
     "id": 28,
@@ -352,7 +379,8 @@
       "kou"
     ],
     "strokes": 3,
-    "name": "口字旁"
+    "name": "口字旁",
+    "first_stroke": "s"
   },
   {
     "id": 29,
@@ -365,7 +393,8 @@
       "daguo"
     ],
     "strokes": 3,
-    "name": "大口框/国字框"
+    "name": "大口框/国字框",
+    "first_stroke": "s"
   },
   {
     "id": 30,
@@ -378,7 +407,8 @@
       "tizi"
     ],
     "strokes": 3,
-    "name": "提土旁/土部"
+    "name": "提土旁/土部",
+    "first_stroke": "h"
   },
   {
     "id": 31,
@@ -390,7 +420,8 @@
       "shi"
     ],
     "strokes": 3,
-    "name": "士部"
+    "name": "士部",
+    "first_stroke": "h"
   },
   {
     "id": 32,
@@ -402,7 +433,8 @@
       "zhi"
     ],
     "strokes": 3,
-    "name": "反文头/夂部"
+    "name": "反文头/夂部",
+    "first_stroke": "p"
   },
   {
     "id": 33,
@@ -414,7 +446,8 @@
       "xi"
     ],
     "strokes": 3,
-    "name": "夕部/夕字旁"
+    "name": "夕部/夕字旁",
+    "first_stroke": "p"
   },
   {
     "id": 34,
@@ -426,7 +459,8 @@
       "da"
     ],
     "strokes": 3,
-    "name": "大部/大字头"
+    "name": "大部/大字头",
+    "first_stroke": "h"
   },
   {
     "id": 35,
@@ -439,7 +473,8 @@
       "nu"
     ],
     "strokes": 3,
-    "name": "女字旁"
+    "name": "女字旁",
+    "first_stroke": "z"
   },
   {
     "id": 36,
@@ -451,7 +486,8 @@
       "zi"
     ],
     "strokes": 3,
-    "name": "子字旁"
+    "name": "子字旁",
+    "first_stroke": "z"
   },
   {
     "id": 37,
@@ -464,7 +500,8 @@
       "baogai"
     ],
     "strokes": 3,
-    "name": "宝盖头"
+    "name": "宝盖头",
+    "first_stroke": "d"
   },
   {
     "id": 38,
@@ -476,7 +513,8 @@
       "cun"
     ],
     "strokes": 3,
-    "name": "寸部/寸字旁"
+    "name": "寸部/寸字旁",
+    "first_stroke": "h"
   },
   {
     "id": 39,
@@ -489,7 +527,8 @@
       "xiao"
     ],
     "strokes": 3,
-    "name": "小部/小字头"
+    "name": "小部/小字头",
+    "first_stroke": "s"
   },
   {
     "id": 40,
@@ -501,7 +540,8 @@
       "shi"
     ],
     "strokes": 3,
-    "name": "尸部/尸字头"
+    "name": "尸部/尸字头",
+    "first_stroke": "z"
   },
   {
     "id": 41,
@@ -513,7 +553,8 @@
       "shan"
     ],
     "strokes": 3,
-    "name": "山字旁"
+    "name": "山字旁",
+    "first_stroke": "s"
   },
   {
     "id": 42,
@@ -526,7 +567,8 @@
       "chuan"
     ],
     "strokes": 3,
-    "name": "三拐儿/川部"
+    "name": "三拐儿/川部",
+    "first_stroke": "p"
   },
   {
     "id": 43,
@@ -538,7 +580,8 @@
       "gong"
     ],
     "strokes": 3,
-    "name": "工部"
+    "name": "工部",
+    "first_stroke": "h"
   },
   {
     "id": 44,
@@ -552,7 +595,8 @@
       "ji"
     ],
     "strokes": 3,
-    "name": "己部"
+    "name": "己部",
+    "first_stroke": "z"
   },
   {
     "id": 45,
@@ -564,7 +608,8 @@
       "jin"
     ],
     "strokes": 3,
-    "name": "巾字旁"
+    "name": "巾字旁",
+    "first_stroke": "s"
   },
   {
     "id": 46,
@@ -576,7 +621,8 @@
       "gan"
     ],
     "strokes": 3,
-    "name": "干部"
+    "name": "干部",
+    "first_stroke": "h"
   },
   {
     "id": 47,
@@ -588,7 +634,8 @@
       "yao"
     ],
     "strokes": 3,
-    "name": "幺部/幺字旁"
+    "name": "幺部/幺字旁",
+    "first_stroke": "z"
   },
   {
     "id": 48,
@@ -600,7 +647,8 @@
       "guang"
     ],
     "strokes": 3,
-    "name": "广字旁"
+    "name": "广字旁",
+    "first_stroke": "d"
   },
   {
     "id": 49,
@@ -613,7 +661,8 @@
       "jianzhidi"
     ],
     "strokes": 3,
-    "name": "建字底"
+    "name": "建字底",
+    "first_stroke": "z"
   },
   {
     "id": 50,
@@ -625,7 +674,8 @@
       "gong"
     ],
     "strokes": 3,
-    "name": "弓字旁"
+    "name": "弓字旁",
+    "first_stroke": "z"
   },
   {
     "id": 51,
@@ -638,7 +688,8 @@
       "sanpie"
     ],
     "strokes": 3,
-    "name": "三撇儿"
+    "name": "三撇儿",
+    "first_stroke": "p"
   },
   {
     "id": 52,
@@ -651,7 +702,8 @@
       "shuangren"
     ],
     "strokes": 3,
-    "name": "双人旁"
+    "name": "双人旁",
+    "first_stroke": "p"
   },
   {
     "id": 53,
@@ -666,7 +718,8 @@
       "shuxin"
     ],
     "strokes": 4,
-    "name": "心字底/竖心旁"
+    "name": "心字底/竖心旁",
+    "first_stroke": "d"
   },
   {
     "id": 54,
@@ -678,7 +731,8 @@
       "ge"
     ],
     "strokes": 4,
-    "name": "戈部"
+    "name": "戈部",
+    "first_stroke": "h"
   },
   {
     "id": 55,
@@ -691,7 +745,8 @@
       "hu"
     ],
     "strokes": 4,
-    "name": "户字头"
+    "name": "户字头",
+    "first_stroke": "d"
   },
   {
     "id": 56,
@@ -705,7 +760,8 @@
       "tishou"
     ],
     "strokes": 4,
-    "name": "提手旁"
+    "name": "提手旁",
+    "first_stroke": "h"
   },
   {
     "id": 57,
@@ -717,7 +773,8 @@
       "zhi"
     ],
     "strokes": 4,
-    "name": "支部"
+    "name": "支部",
+    "first_stroke": "h"
   },
   {
     "id": 58,
@@ -731,7 +788,8 @@
       "fanwen"
     ],
     "strokes": 4,
-    "name": "反文旁"
+    "name": "反文旁",
+    "first_stroke": "p"
   },
   {
     "id": 59,
@@ -743,7 +801,8 @@
       "wen"
     ],
     "strokes": 4,
-    "name": "文字头"
+    "name": "文字头",
+    "first_stroke": "d"
   },
   {
     "id": 60,
@@ -755,7 +814,8 @@
       "dou"
     ],
     "strokes": 4,
-    "name": "斗部"
+    "name": "斗部",
+    "first_stroke": "d"
   },
   {
     "id": 61,
@@ -767,7 +827,8 @@
       "jin"
     ],
     "strokes": 4,
-    "name": "斤字旁"
+    "name": "斤字旁",
+    "first_stroke": "p"
   },
   {
     "id": 62,
@@ -779,7 +840,8 @@
       "fang"
     ],
     "strokes": 4,
-    "name": "方字旁"
+    "name": "方字旁",
+    "first_stroke": "d"
   },
   {
     "id": 63,
@@ -791,7 +853,8 @@
       "ri"
     ],
     "strokes": 4,
-    "name": "日字旁"
+    "name": "日字旁",
+    "first_stroke": "s"
   },
   {
     "id": 64,
@@ -803,7 +866,8 @@
       "yue"
     ],
     "strokes": 4,
-    "name": "曰部"
+    "name": "曰部",
+    "first_stroke": "s"
   },
   {
     "id": 65,
@@ -816,7 +880,8 @@
       "rou"
     ],
     "strokes": 4,
-    "name": "月字旁/肉月旁"
+    "name": "月字旁/肉月旁",
+    "first_stroke": "p"
   },
   {
     "id": 66,
@@ -828,7 +893,8 @@
       "mu"
     ],
     "strokes": 4,
-    "name": "木字旁"
+    "name": "木字旁",
+    "first_stroke": "h"
   },
   {
     "id": 67,
@@ -840,7 +906,8 @@
       "qian"
     ],
     "strokes": 4,
-    "name": "欠字旁"
+    "name": "欠字旁",
+    "first_stroke": "p"
   },
   {
     "id": 68,
@@ -852,7 +919,8 @@
       "zhi"
     ],
     "strokes": 4,
-    "name": "止部"
+    "name": "止部",
+    "first_stroke": "s"
   },
   {
     "id": 69,
@@ -864,7 +932,8 @@
       "dai"
     ],
     "strokes": 4,
-    "name": "歹字旁"
+    "name": "歹字旁",
+    "first_stroke": "h"
   },
   {
     "id": 70,
@@ -876,7 +945,8 @@
       "shu"
     ],
     "strokes": 4,
-    "name": "殳部"
+    "name": "殳部",
+    "first_stroke": "p"
   },
   {
     "id": 71,
@@ -888,7 +958,8 @@
       "mao"
     ],
     "strokes": 4,
-    "name": "毛部"
+    "name": "毛部",
+    "first_stroke": "p"
   },
   {
     "id": 72,
@@ -900,7 +971,8 @@
       "shi"
     ],
     "strokes": 4,
-    "name": "氏部"
+    "name": "氏部",
+    "first_stroke": "p"
   },
   {
     "id": 73,
@@ -912,7 +984,8 @@
       "qi"
     ],
     "strokes": 4,
-    "name": "气字头"
+    "name": "气字头",
+    "first_stroke": "p"
   },
   {
     "id": 74,
@@ -927,7 +1000,8 @@
       "sandianshui"
     ],
     "strokes": 4,
-    "name": "三点水/水部"
+    "name": "三点水/水部",
+    "first_stroke": "d"
   },
   {
     "id": 75,
@@ -941,7 +1015,8 @@
       "sidiandian"
     ],
     "strokes": 4,
-    "name": "火字旁/四点底"
+    "name": "火字旁/四点底",
+    "first_stroke": "d"
   },
   {
     "id": 76,
@@ -955,7 +1030,8 @@
       "zhua"
     ],
     "strokes": 4,
-    "name": "爪字头"
+    "name": "爪字头",
+    "first_stroke": "p"
   },
   {
     "id": 77,
@@ -967,7 +1043,8 @@
       "fu"
     ],
     "strokes": 4,
-    "name": "父字头"
+    "name": "父字头",
+    "first_stroke": "p"
   },
   {
     "id": 78,
@@ -980,7 +1057,8 @@
       "niu"
     ],
     "strokes": 4,
-    "name": "牛字旁"
+    "name": "牛字旁",
+    "first_stroke": "p"
   },
   {
     "id": 79,
@@ -994,7 +1072,8 @@
       "fanquan"
     ],
     "strokes": 4,
-    "name": "反犬旁"
+    "name": "反犬旁",
+    "first_stroke": "p"
   },
   {
     "id": 80,
@@ -1008,7 +1087,8 @@
       "yu"
     ],
     "strokes": 4,
-    "name": "王字旁/玉部"
+    "name": "王字旁/玉部",
+    "first_stroke": "h"
   },
   {
     "id": 81,
@@ -1020,7 +1100,8 @@
       "tian"
     ],
     "strokes": 5,
-    "name": "田字旁"
+    "name": "田字旁",
+    "first_stroke": "s"
   },
   {
     "id": 82,
@@ -1033,7 +1114,8 @@
       "bingzi"
     ],
     "strokes": 5,
-    "name": "病字头"
+    "name": "病字头",
+    "first_stroke": "d"
   },
   {
     "id": 83,
@@ -1045,7 +1127,8 @@
       "bai"
     ],
     "strokes": 5,
-    "name": "白字旁"
+    "name": "白字旁",
+    "first_stroke": "p"
   },
   {
     "id": 84,
@@ -1057,7 +1140,8 @@
       "pi"
     ],
     "strokes": 5,
-    "name": "皮部"
+    "name": "皮部",
+    "first_stroke": "z"
   },
   {
     "id": 85,
@@ -1070,7 +1154,8 @@
       "mindi"
     ],
     "strokes": 5,
-    "name": "皿字底"
+    "name": "皿字底",
+    "first_stroke": "s"
   },
   {
     "id": 86,
@@ -1082,7 +1167,8 @@
       "mu"
     ],
     "strokes": 5,
-    "name": "目字旁"
+    "name": "目字旁",
+    "first_stroke": "s"
   },
   {
     "id": 87,
@@ -1094,7 +1180,8 @@
       "shi"
     ],
     "strokes": 5,
-    "name": "石字旁"
+    "name": "石字旁",
+    "first_stroke": "h"
   },
   {
     "id": 88,
@@ -1107,7 +1194,8 @@
       "shi"
     ],
     "strokes": 5,
-    "name": "示字旁/示部"
+    "name": "示字旁/示部",
+    "first_stroke": "d"
   },
   {
     "id": 89,
@@ -1119,7 +1207,8 @@
       "he"
     ],
     "strokes": 5,
-    "name": "禾木旁"
+    "name": "禾木旁",
+    "first_stroke": "p"
   },
   {
     "id": 90,
@@ -1131,7 +1220,8 @@
       "xue"
     ],
     "strokes": 5,
-    "name": "穴宝盖"
+    "name": "穴宝盖",
+    "first_stroke": "d"
   },
   {
     "id": 91,
@@ -1143,7 +1233,8 @@
       "li"
     ],
     "strokes": 5,
-    "name": "立字旁"
+    "name": "立字旁",
+    "first_stroke": "d"
   },
   {
     "id": 92,
@@ -1156,7 +1247,8 @@
       "zhu"
     ],
     "strokes": 6,
-    "name": "竹字头"
+    "name": "竹字头",
+    "first_stroke": "p"
   },
   {
     "id": 93,
@@ -1168,7 +1260,8 @@
       "mi"
     ],
     "strokes": 6,
-    "name": "米字旁"
+    "name": "米字旁",
+    "first_stroke": "d"
   },
   {
     "id": 94,
@@ -1182,7 +1275,8 @@
       "jiaoisi"
     ],
     "strokes": 6,
-    "name": "绞丝旁"
+    "name": "绞丝旁",
+    "first_stroke": "z"
   },
   {
     "id": 95,
@@ -1194,7 +1288,8 @@
       "fou"
     ],
     "strokes": 6,
-    "name": "缶部"
+    "name": "缶部",
+    "first_stroke": "p"
   },
   {
     "id": 96,
@@ -1207,7 +1302,8 @@
       "yang"
     ],
     "strokes": 6,
-    "name": "羊字头/羊部"
+    "name": "羊字头/羊部",
+    "first_stroke": "d"
   },
   {
     "id": 97,
@@ -1219,7 +1315,8 @@
       "yu"
     ],
     "strokes": 6,
-    "name": "羽字旁"
+    "name": "羽字旁",
+    "first_stroke": "z"
   },
   {
     "id": 98,
@@ -1232,7 +1329,8 @@
       "lao"
     ],
     "strokes": 6,
-    "name": "老字头"
+    "name": "老字头",
+    "first_stroke": "h"
   },
   {
     "id": 99,
@@ -1244,7 +1342,8 @@
       "er"
     ],
     "strokes": 6,
-    "name": "耳字旁"
+    "name": "耳字旁",
+    "first_stroke": "h"
   },
   {
     "id": 100,
@@ -1256,7 +1355,8 @@
       "she"
     ],
     "strokes": 6,
-    "name": "舌字旁"
+    "name": "舌字旁",
+    "first_stroke": "p"
   },
   {
     "id": 101,
@@ -1268,7 +1368,8 @@
       "zhou"
     ],
     "strokes": 6,
-    "name": "舟字旁"
+    "name": "舟字旁",
+    "first_stroke": "p"
   },
   {
     "id": 102,
@@ -1280,7 +1381,8 @@
       "gen"
     ],
     "strokes": 6,
-    "name": "艮部"
+    "name": "艮部",
+    "first_stroke": "z"
   },
   {
     "id": 103,
@@ -1294,7 +1396,8 @@
       "caozitou"
     ],
     "strokes": 6,
-    "name": "草字头"
+    "name": "草字头",
+    "first_stroke": "h"
   },
   {
     "id": 104,
@@ -1307,7 +1410,8 @@
       "huzi"
     ],
     "strokes": 6,
-    "name": "虎字头"
+    "name": "虎字头",
+    "first_stroke": "s"
   },
   {
     "id": 105,
@@ -1319,7 +1423,8 @@
       "chong"
     ],
     "strokes": 6,
-    "name": "虫字旁"
+    "name": "虫字旁",
+    "first_stroke": "s"
   },
   {
     "id": 106,
@@ -1331,7 +1436,8 @@
       "xue"
     ],
     "strokes": 6,
-    "name": "血部"
+    "name": "血部",
+    "first_stroke": "p"
   },
   {
     "id": 107,
@@ -1343,7 +1449,8 @@
       "xing"
     ],
     "strokes": 6,
-    "name": "行部"
+    "name": "行部",
+    "first_stroke": "p"
   },
   {
     "id": 108,
@@ -1356,7 +1463,8 @@
       "yi"
     ],
     "strokes": 6,
-    "name": "衣字旁/衣部"
+    "name": "衣字旁/衣部",
+    "first_stroke": "d"
   },
   {
     "id": 109,
@@ -1369,7 +1477,8 @@
       "jian"
     ],
     "strokes": 7,
-    "name": "见字旁"
+    "name": "见字旁",
+    "first_stroke": "s"
   },
   {
     "id": 110,
@@ -1381,7 +1490,8 @@
       "jiao"
     ],
     "strokes": 7,
-    "name": "角字旁"
+    "name": "角字旁",
+    "first_stroke": "p"
   },
   {
     "id": 111,
@@ -1394,7 +1504,8 @@
       "yan"
     ],
     "strokes": 7,
-    "name": "言字旁"
+    "name": "言字旁",
+    "first_stroke": "d"
   },
   {
     "id": 112,
@@ -1406,7 +1517,8 @@
       "gu"
     ],
     "strokes": 7,
-    "name": "谷部"
+    "name": "谷部",
+    "first_stroke": "p"
   },
   {
     "id": 113,
@@ -1418,7 +1530,8 @@
       "dou"
     ],
     "strokes": 7,
-    "name": "豆部"
+    "name": "豆部",
+    "first_stroke": "h"
   },
   {
     "id": 114,
@@ -1430,7 +1543,8 @@
       "shi"
     ],
     "strokes": 7,
-    "name": "豕部"
+    "name": "豕部",
+    "first_stroke": "h"
   },
   {
     "id": 115,
@@ -1443,7 +1557,8 @@
       "bei"
     ],
     "strokes": 7,
-    "name": "贝字旁"
+    "name": "贝字旁",
+    "first_stroke": "s"
   },
   {
     "id": 116,
@@ -1455,7 +1570,8 @@
       "chi"
     ],
     "strokes": 7,
-    "name": "赤部"
+    "name": "赤部",
+    "first_stroke": "土"
   },
   {
     "id": 117,
@@ -1467,7 +1583,8 @@
       "zou"
     ],
     "strokes": 7,
-    "name": "走字底"
+    "name": "走字底",
+    "first_stroke": "h"
   },
   {
     "id": 118,
@@ -1480,7 +1597,8 @@
       "zu"
     ],
     "strokes": 7,
-    "name": "足字旁"
+    "name": "足字旁",
+    "first_stroke": "s"
   },
   {
     "id": 119,
@@ -1492,7 +1610,8 @@
       "shen"
     ],
     "strokes": 7,
-    "name": "身字旁"
+    "name": "身字旁",
+    "first_stroke": "p"
   },
   {
     "id": 120,
@@ -1505,7 +1624,8 @@
       "che"
     ],
     "strokes": 7,
-    "name": "车字旁"
+    "name": "车字旁",
+    "first_stroke": "h"
   },
   {
     "id": 121,
@@ -1517,7 +1637,8 @@
       "xin"
     ],
     "strokes": 7,
-    "name": "辛部"
+    "name": "辛部",
+    "first_stroke": "d"
   },
   {
     "id": 122,
@@ -1531,7 +1652,8 @@
       "zouzhi"
     ],
     "strokes": 7,
-    "name": "走之底"
+    "name": "走之底",
+    "first_stroke": "d"
   },
   {
     "id": 123,
@@ -1545,7 +1667,8 @@
       "youerdao"
     ],
     "strokes": 7,
-    "name": "右耳旁"
+    "name": "右耳旁",
+    "first_stroke": "s"
   },
   {
     "id": 124,
@@ -1557,7 +1680,8 @@
       "you"
     ],
     "strokes": 7,
-    "name": "酉字旁"
+    "name": "酉字旁",
+    "first_stroke": "h"
   },
   {
     "id": 125,
@@ -1569,7 +1693,8 @@
       "li"
     ],
     "strokes": 7,
-    "name": "里字旁"
+    "name": "里字旁",
+    "first_stroke": "s"
   },
   {
     "id": 126,
@@ -1582,7 +1707,8 @@
       "jin"
     ],
     "strokes": 8,
-    "name": "金字旁"
+    "name": "金字旁",
+    "first_stroke": "p"
   },
   {
     "id": 127,
@@ -1595,7 +1721,8 @@
       "men"
     ],
     "strokes": 8,
-    "name": "门字框"
+    "name": "门字框",
+    "first_stroke": "d"
   },
   {
     "id": 128,
@@ -1609,7 +1736,8 @@
       "zuoerdao"
     ],
     "strokes": 8,
-    "name": "左耳旁"
+    "name": "左耳旁",
+    "first_stroke": "z"
   },
   {
     "id": 129,
@@ -1621,7 +1749,8 @@
       "zhui"
     ],
     "strokes": 8,
-    "name": "隹字旁"
+    "name": "隹字旁",
+    "first_stroke": "p"
   },
   {
     "id": 130,
@@ -1634,7 +1763,8 @@
       "yu"
     ],
     "strokes": 8,
-    "name": "雨字头"
+    "name": "雨字头",
+    "first_stroke": "h"
   },
   {
     "id": 131,
@@ -1646,7 +1776,8 @@
       "qing"
     ],
     "strokes": 8,
-    "name": "青部"
+    "name": "青部",
+    "first_stroke": "h"
   },
   {
     "id": 132,
@@ -1658,7 +1789,8 @@
       "fei"
     ],
     "strokes": 8,
-    "name": "非部"
+    "name": "非部",
+    "first_stroke": "s"
   },
   {
     "id": 133,
@@ -1670,7 +1802,8 @@
       "ge"
     ],
     "strokes": 9,
-    "name": "革字旁"
+    "name": "革字旁",
+    "first_stroke": "h"
   },
   {
     "id": 134,
@@ -1682,7 +1815,8 @@
       "yin"
     ],
     "strokes": 9,
-    "name": "音字旁"
+    "name": "音字旁",
+    "first_stroke": "d"
   },
   {
     "id": 135,
@@ -1695,7 +1829,8 @@
       "ye"
     ],
     "strokes": 9,
-    "name": "页字旁"
+    "name": "页字旁",
+    "first_stroke": "h"
   },
   {
     "id": 136,
@@ -1708,7 +1843,8 @@
       "feng"
     ],
     "strokes": 9,
-    "name": "风字旁"
+    "name": "风字旁",
+    "first_stroke": "p"
   },
   {
     "id": 137,
@@ -1721,7 +1857,8 @@
       "fei"
     ],
     "strokes": 9,
-    "name": "飞部"
+    "name": "飞部",
+    "first_stroke": "z"
   },
   {
     "id": 138,
@@ -1734,7 +1871,8 @@
       "shi"
     ],
     "strokes": 9,
-    "name": "食字旁"
+    "name": "食字旁",
+    "first_stroke": "p"
   },
   {
     "id": 139,
@@ -1746,7 +1884,8 @@
       "shou"
     ],
     "strokes": 9,
-    "name": "首部"
+    "name": "首部",
+    "first_stroke": "d"
   },
   {
     "id": 140,
@@ -1758,7 +1897,8 @@
       "xiang"
     ],
     "strokes": 9,
-    "name": "香字旁"
+    "name": "香字旁",
+    "first_stroke": "p"
   },
   {
     "id": 141,
@@ -1771,7 +1911,8 @@
       "ma"
     ],
     "strokes": 10,
-    "name": "马字旁"
+    "name": "马字旁",
+    "first_stroke": "z"
   },
   {
     "id": 142,
@@ -1783,7 +1924,8 @@
       "gu"
     ],
     "strokes": 10,
-    "name": "骨字旁"
+    "name": "骨字旁",
+    "first_stroke": "s"
   },
   {
     "id": 143,
@@ -1795,7 +1937,8 @@
       "gao"
     ],
     "strokes": 10,
-    "name": "高部"
+    "name": "高部",
+    "first_stroke": "d"
   },
   {
     "id": 144,
@@ -1807,7 +1950,8 @@
       "gui"
     ],
     "strokes": 10,
-    "name": "鬼部"
+    "name": "鬼部",
+    "first_stroke": "p"
   },
   {
     "id": 145,
@@ -1820,7 +1964,8 @@
       "yu"
     ],
     "strokes": 11,
-    "name": "鱼字旁"
+    "name": "鱼字旁",
+    "first_stroke": "p"
   },
   {
     "id": 146,
@@ -1833,7 +1978,8 @@
       "niao"
     ],
     "strokes": 11,
-    "name": "鸟字旁"
+    "name": "鸟字旁",
+    "first_stroke": "p"
   },
   {
     "id": 147,
@@ -1846,7 +1992,8 @@
       "lu"
     ],
     "strokes": 11,
-    "name": "卤部"
+    "name": "卤部",
+    "first_stroke": "s"
   },
   {
     "id": 148,
@@ -1858,7 +2005,8 @@
       "lu"
     ],
     "strokes": 11,
-    "name": "鹿字旁"
+    "name": "鹿字旁",
+    "first_stroke": "d"
   },
   {
     "id": 149,
@@ -1871,7 +2019,8 @@
       "mai"
     ],
     "strokes": 11,
-    "name": "麦字旁"
+    "name": "麦字旁",
+    "first_stroke": "h"
   },
   {
     "id": 150,
@@ -1883,7 +2032,8 @@
       "ma"
     ],
     "strokes": 11,
-    "name": "麻部"
+    "name": "麻部",
+    "first_stroke": "d"
   },
   {
     "id": 151,
@@ -1896,7 +2046,8 @@
       "huang"
     ],
     "strokes": 12,
-    "name": "黄部"
+    "name": "黄部",
+    "first_stroke": "h"
   },
   {
     "id": 152,
@@ -1908,7 +2059,8 @@
       "hei"
     ],
     "strokes": 12,
-    "name": "黑字旁"
+    "name": "黑字旁",
+    "first_stroke": "s"
   },
   {
     "id": 153,
@@ -1920,7 +2072,8 @@
       "ding"
     ],
     "strokes": 13,
-    "name": "鼎部"
+    "name": "鼎部",
+    "first_stroke": "s"
   },
   {
     "id": 154,
@@ -1932,7 +2085,8 @@
       "gu"
     ],
     "strokes": 13,
-    "name": "鼓部"
+    "name": "鼓部",
+    "first_stroke": "h"
   },
   {
     "id": 155,
@@ -1944,7 +2098,8 @@
       "shu"
     ],
     "strokes": 13,
-    "name": "鼠部"
+    "name": "鼠部",
+    "first_stroke": "p"
   },
   {
     "id": 156,
@@ -1956,7 +2111,8 @@
       "bi"
     ],
     "strokes": 14,
-    "name": "鼻字旁"
+    "name": "鼻字旁",
+    "first_stroke": "p"
   },
   {
     "id": 157,
@@ -1969,7 +2125,8 @@
       "chi"
     ],
     "strokes": 15,
-    "name": "齿字旁"
+    "name": "齿字旁",
+    "first_stroke": "s"
   },
   {
     "id": 158,
@@ -1982,6 +2139,7 @@
       "long"
     ],
     "strokes": 16,
-    "name": "龙部"
+    "name": "龙部",
+    "first_stroke": "d"
   }
 ]

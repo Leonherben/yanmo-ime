@@ -1,5 +1,6 @@
 """
 Radical and component matching engine for YanMo IME (言墨输入法).
+Supports both Pinyin prefix matching and 5-basic-stroke matching (h/s/p/d/z).
 """
 
 import json
@@ -18,6 +19,9 @@ class RadicalMatcher:
 
         self.radicals: List[RadicalInfo] = []
         self.pinyin_to_radicals: Dict[str, List[RadicalInfo]] = {}
+        self.stroke_to_radicals: Dict[str, List[RadicalInfo]] = {
+            "h": [], "s": [], "p": [], "d": [], "z": []
+        }
         self.variant_to_radical: Dict[str, RadicalInfo] = {}
         self.char_to_info: Dict[str, dict] = {}
         self.radical_to_chars: Dict[str, Set[str]] = {}
@@ -45,6 +49,10 @@ class RadicalMatcher:
                             self.pinyin_to_radicals[py] = []
                         self.pinyin_to_radicals[py].append(rad)
 
+                    # Map first stroke (h/s/p/d/z)
+                    if rad.first_stroke and rad.first_stroke in self.stroke_to_radicals:
+                        self.stroke_to_radicals[rad.first_stroke].append(rad)
+
         # 2. Load character to radical & component mapping
         if self.char_radicals_file.exists():
             with open(self.char_radicals_file, "r", encoding="utf-8") as f:
@@ -71,8 +79,10 @@ class RadicalMatcher:
 
     def resolve_radical_query(self, query: str) -> List[RadicalInfo]:
         """
-        Resolve user radical input (pinyin prefix or literal glyph) to matching radicals.
-        e.g. 'shui' -> [水/氵], '氵' -> [水/氵], 'mu' -> [木]
+        Resolve user radical input:
+        1. Literal glyph (e.g. '氵', '木')
+        2. 5-basic-stroke key: 'h'(横), 's'(竖), 'p'(撇), 'd'(点), 'z'(折)
+        3. Pinyin (exact or prefix, e.g. 'shui', 'mu', 'kou')
         """
         query = query.strip().lower()
         if not query:
@@ -82,10 +92,17 @@ class RadicalMatcher:
         if query in self.variant_to_radical:
             return [self.variant_to_radical[query]]
 
-        # 2. Match by pinyin (exact or prefix)
         matches: List[RadicalInfo] = []
         seen = set()
 
+        # 2. If single stroke key (h, s, p, d, z) -> prioritize stroke group
+        if query in self.stroke_to_radicals and len(query) == 1:
+            for rad in self.stroke_to_radicals[query]:
+                if rad.id not in seen:
+                    seen.add(rad.id)
+                    matches.append(rad)
+
+        # 3. Match by pinyin (exact or prefix)
         for py, rad_list in self.pinyin_to_radicals.items():
             if py.startswith(query):
                 for rad in rad_list:
@@ -99,6 +116,7 @@ class RadicalMatcher:
         """
         Get all characters matching a radical query directly.
         e.g. 'shui' or '氵' -> ['海', '河', '江', '湖', '波', ...]
+        e.g. 'd' -> all characters with dot-starting radicals (氵, 宀, 广, etc.)
         """
         query = query.strip().lower()
         if not query:

@@ -21,6 +21,7 @@ class RadicalInfo:
     pinyin: List[str]
     strokes: int
     name: str
+    first_stroke: Optional[str] = None  # 'h'(横), 's'(竖), 'p'(撇), 'd'(点), 'z'(折)
 
 
 @dataclass
@@ -37,7 +38,7 @@ class Candidate:
 class EngineState:
     mode: InputMode = InputMode.IDLE
     pinyin_buffer: str = ""            # 当前拼音输入，例如 "he"
-    radical_buffer: str = ""           # 当前部首输入，例如 "shui"
+    radical_buffer: str = ""           # 当前部首输入，例如 "shui" 或 "d"
     candidates: List[Candidate] = field(default_factory=list)
     selected_index: int = 0
     committed_text: str = ""           # 本次已上屏文本

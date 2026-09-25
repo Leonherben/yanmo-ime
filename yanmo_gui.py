@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 言墨输入法 (YanMo IME) - Linux Mint 桌面端体验器与悬浮候选窗口
-提供桌面悬浮输入条、右上角部首速查触控面板以及原生 GTK 3 测试沙盒。
+提供桌面悬浮输入条、横竖撇点折(H/S/P/D/Z)部首触控面板以及原生 GTK 3 测试沙盒。
 """
 
 import sys
@@ -52,9 +52,10 @@ class YanMoDesktopApp:
         lbl_desc = Gtk.Label()
         lbl_desc.set_markup(
             "<b>功能特性体验指南:</b>\n"
-            " • <b>键盘连续输入</b>：在下方文本框中敲击拼音（如 <tt>he</tt>、<tt>yanmo</tt>），悬浮候选条实时跟随。\n"
-            " • <b>Tab 键部首筛选</b>：输入拼音后轻按 <b>Tab</b> 键，自动展开部首面板或输入部首拼音（如 <tt>shui</tt>）。\n"
-            " • <b>触屏/鼠标视觉流</b>：随时点击候选条右上角 <b>[部首 ▾]</b>，直接点选部首进行查字与过滤！\n"
+            " • <b>键盘常规输入</b>：在下方文本框中敲击拼音（如 <tt>he</tt>、<tt>yanmo</tt>），悬浮候选条实时跟随。\n"
+            " • <b>Tab 键双模部首筛选</b>：输入拼音后按 <b>Tab</b> 键，既可敲<b>部首拼音</b>（如 <tt>shui</tt>），也可按<b>首笔画</b>：\n"
+            "   👉 <b>h</b> (横) / <b>s</b> (竖) / <b>p</b> (撇) / <b>d</b> (点) / <b>z</b> (折) 秒级过滤！\n"
+            " • <b>触屏/鼠标视觉流</b>：点击候选条右上角 <b>[部首 ▾]</b>，按五大笔画分类点选部首查字！\n"
             " • <b>选词上屏与自学习</b>：按 <b>空格</b> 或 <b>数字键 1-9</b>，字符上屏并自动记录至个人词库。"
         )
         lbl_desc.set_xalign(0.0)
@@ -81,7 +82,7 @@ class YanMoDesktopApp:
         # Action Buttons
         btn_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
-        btn_picker = Gtk.Button(label="📌 展开部首速查面板")
+        btn_picker = Gtk.Button(label="📌 展开五笔画部首面板")
         btn_picker.set_focus_on_click(False)
         btn_picker.connect("clicked", lambda b: self.candidate_window.show_radical_picker())
         btn_box.pack_start(btn_picker, False, False, 0)
@@ -130,7 +131,6 @@ class YanMoDesktopApp:
             engine_key = key_name
 
         if engine_key:
-            # If pressing Tab, also expand the radical panel for visual comfort
             if engine_key in ("Tab", "`") and self.engine.state.mode == InputMode.COMPOSING:
                 self.candidate_window.show_radical_picker()
 
@@ -161,17 +161,16 @@ class YanMoDesktopApp:
     def _trigger_auto_demo(self, button):
         """Simulate typing sequence in desktop environment."""
         demo_steps = [
-            # Type 'he'
+            # 1. Type 'he'
             ("h", 200), ("e", 200),
-            # Press Tab
+            # 2. Press Tab -> enter radical mode
             ("Tab", 600),
-            # Type 'shui' (water radical)
-            ("s", 250), ("h", 250), ("u", 250), ("i", 300),
-            # Select #1 (河)
+            # 3. Type 'd' (点 stroke) -> instantly filters to water radicals (河, 涸, 渮)
+            ("d", 400),
+            # 4. Select #1 (河)
             ("1", 500),
-            # Type 'yanmo'
+            # 5. Type 'yanmo'
             ("y", 200), ("a", 200), ("n", 200), ("m", 200), ("o", 200),
-            # Select space
             (" ", 500),
         ]
 

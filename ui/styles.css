@@ -112,6 +112,30 @@ window.yanmo-window {
     margin-top: 6px;
 }
 
+.yanmo-rad-tab {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    min-height: 24px;
+    margin-right: 2px;
+}
+
+.yanmo-rad-tab:hover {
+    background-color: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+}
+
+.yanmo-rad-tab.active {
+    background-color: #f59e0b;
+    color: #1e293b;
+    font-weight: bold;
+    border-color: #f59e0b;
+}
+
 .yanmo-rad-chip {
     background-color: rgba(255, 255, 255, 0.08);
     color: #e2e8f0;
@@ -128,12 +152,4 @@ window.yanmo-window {
     background-color: #f59e0b;
     color: #1e293b;
     font-weight: bold;
-}
-
-.yanmo-rad-group-label {
-    color: #94a3b8;
-    font-size: 11px;
-    font-weight: bold;
-    margin-top: 4px;
-    margin-bottom: 2px;
 }
