@@ -149,6 +149,7 @@ X-GNOME-Autostart-enabled=true
 
     def _position_candidate_window(self):
         """Position candidate window near active caret or window."""
+        self.last_target_window_id = self.window_tracker.get_active_window_id()
         x, y = self.window_tracker.calculate_candidate_position()
         self.candidate_window.move(x, y)
 
@@ -191,10 +192,12 @@ X-GNOME-Autostart-enabled=true
         """Commit confirmed text into the active window."""
         if not text:
             return
-        # Inject text to active application
-        self.injector.inject_text(text)
-        self.grabber.set_composing(False)
+        target_win = getattr(self, "last_target_window_id", None) or self.window_tracker.get_active_window_id()
+        # 1. Hide candidate window and release compose grab immediately
         self.candidate_window.hide()
+        self.grabber.set_composing(False)
+        # 2. Inject text into target window
+        self.injector.inject_text(text, target_window_id=target_win)
 
 
 def get_running_pid() -> Optional[int]:

@@ -149,6 +149,27 @@ class KeyboardGrabber:
         if self.is_composing != composing:
             self.is_composing = composing
             self.update_grabs()
+            if not composing and self.display:
+                try:
+                    self.display.ungrab_keyboard(X.CurrentTime)
+                    self.display.sync()
+                except Exception:
+                    pass
+
+    def suspend_grabs(self):
+        """Temporarily ungrab all keys and release active keyboard grab."""
+        if not self.display or not self.root:
+            return
+        try:
+            self.display.ungrab_keyboard(X.CurrentTime)
+            self.root.ungrab_key(X.AnyKey, X.AnyModifier)
+            self.display.sync()
+        except Exception:
+            pass
+
+    def resume_grabs(self):
+        """Re-apply key grabs according to current mode and state."""
+        self.update_grabs()
 
     def start(self):
         """Start X11 event interception loop in background thread."""

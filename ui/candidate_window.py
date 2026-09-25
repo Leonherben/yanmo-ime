@@ -309,7 +309,5 @@ class CandidateWindow(Gtk.Window):
         self.resize(1, 1)
 
     def _on_candidate_clicked(self, button, index: int):
-        committed = self.engine.select_candidate(index)
+        self.engine.select_candidate(index)
         self.update_from_engine()
-        if committed and self.on_commit:
-            self.on_commit(committed)
