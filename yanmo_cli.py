@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-言墨输入法 (YanMo IME) - 交互式原型体验终端
-支持直接交互键盘输入、Tab 键部首辅码过滤、数字键上屏，以及一键自动演示功能。
+言墨输入法 (YanMo IME) - 交互式体验终端 (支持 Phase 2 自学习词库)
+支持拼音检索、Tab 键部首辅码过滤、数字选词、动态词频自学习演示。
 """
 
 import sys
@@ -15,15 +15,17 @@ from core.models import InputMode
 def render_ui(engine: YanMoEngine, log_msg: str = ""):
     """Render the candidate bar and visual status in the terminal."""
     sys.stdout.write("\033[2J\033[H")  # Clear screen and move cursor to top
-    print("=" * 66)
-    print("   🖋️   言墨输入法 (YanMo IME) - 核心检索与部首筛选原型")
-    print("=" * 66)
+    print("=" * 68)
+    print("   🖋️   言墨输入法 (YanMo IME) - 词库与部首检索交互终端")
+    print("=" * 68)
+    user_word_count = engine.pinyin_matcher.user_dict.count()
     print("【操作指引】")
-    print(" • 输入拼音字母 (a-z) 进行检索")
+    print(" • 输入拼音 (a-z) 检索词库")
     print(" • 按 [Tab] 或 [~] 键进入/退出【部首辅码过滤】")
-    print(" • 按 [数字 1-9] 或 [空格] 确认选词上屏")
-    print(" • 按 [Backspace] 退格，按 [Esc] 或 [Ctrl+C] 退出原型")
-    print("-" * 66)
+    print(" • 按 [数字 1-9] 或 [空格] 选词上屏（系统会自动记忆并动态调整词频）")
+    print(" • 按 [Backspace] 退格，按 [Esc] 或 [Ctrl+C] 退出")
+    print(f" • 📚 用户自学词库: \033[1;36m{user_word_count}\033[0m 条已记录")
+    print("-" * 68)
 
     # 1. Input status line
     state = engine.state
@@ -39,7 +41,7 @@ def render_ui(engine: YanMoEngine, log_msg: str = ""):
         buffer_str = f"{state.pinyin_buffer} \033[1;33m[部首: {rad_disp}]\033[0m"
 
     print(f"当前状态: {mode_str}   编码: {buffer_str}   \033[36m[部首 ▾]\033[0m")
-    print("-" * 66)
+    print("-" * 68)
 
     # 2. Candidate bar
     print("候选词列表:")
@@ -47,7 +49,9 @@ def render_ui(engine: YanMoEngine, log_msg: str = ""):
         cands_formatted = []
         for i, cand in enumerate(state.candidates[:9]):
             idx = i + 1
-            if cand.comment:
+            if cand.comment == "自学词":
+                cands_formatted.append(f"\033[1m{idx}.\033[0m{cand.text}\033[1;35m(★自学词)\033[0m")
+            elif cand.comment:
                 cands_formatted.append(f"\033[1m{idx}.\033[0m{cand.text}\033[90m({cand.comment})\033[0m")
             else:
                 cands_formatted.append(f"\033[1m{idx}.\033[0m{cand.text}")
@@ -58,24 +62,25 @@ def render_ui(engine: YanMoEngine, log_msg: str = ""):
         else:
             print("  \033[90m(暂无候选词)\033[0m")
 
-    print("-" * 66)
+    print("-" * 68)
     if state.committed_text:
         print(f"\033[92m✔ 上屏文字:\033[0m \033[1;32m{state.committed_text}\033[0m")
     if log_msg:
         print(f"\033[94mℹ️  提示:\033[0m {log_msg}")
-    print("=" * 66)
+    print("=" * 68)
     sys.stdout.flush()
 
 
 def run_demo(engine: YanMoEngine):
-    """Run an automated demonstration of key scenarios."""
+    """Run an automated demonstration of key scenarios including self-learning."""
     scenarios = [
         ("场景 1: 输入全拼 'yanmo' 检索言墨输入法", ["y", "a", "n", "m", "o", " "]),
-        ("场景 2: 输入 'he'，候选项众多 (和, 合, 河, 何, 核, 荷...)", ["h", "e"]),
-        ("场景 3: 按 Tab 键进入部首筛选，输入 'shui' (水部)，候选收敛为水部字", ["Tab", "s", "h", "u", "i"]),
-        ("场景 4: 选中候选 '1' (河) 上屏", ["1"]),
-        ("场景 5: 输入 'he'，按 Tab 输入 'mu' (木部)，筛选出 '核'", ["h", "e", "Tab", "m", "u", "1"]),
-        ("场景 6: 输入 'he'，右上角点选 '艹' (草字头)，筛选出 '荷'", ["h", "e", "CLICK_CAO", "1"]),
+        ("场景 2: 输入 'he'，候选项众多，'何' 位于后列", ["h", "e"]),
+        ("场景 3: 用户主动选择 '何' (按数字 4) 上屏", ["4"]),
+        ("场景 4: 再次输入 'he'，'何' 自动跃升为首选第 1 位 (★自学词动态调频)！", ["h", "e"]),
+        ("场景 5: 按 Tab 键进入部首筛选，输入 'shui' (水部)，候选收敛为水部字", ["Tab", "s", "h", "u", "i"]),
+        ("场景 6: 选中候选 '1' (河) 上屏", ["1"]),
+        ("场景 7: 输入 'he'，右上角点选 '艹' (草字头)，筛选出 '荷'", ["h", "e", "CLICK_CAO", "1"]),
     ]
 
     for title, steps in scenarios:
@@ -84,7 +89,7 @@ def run_demo(engine: YanMoEngine):
         time.sleep(1.0)
 
         for step in steps:
-            time.sleep(0.4)
+            time.sleep(0.35)
             if step == "CLICK_CAO":
                 engine.apply_visual_radical_filter("艹")
                 render_ui(engine, f"点击了右上角 [部首 ▾] -> 选择 '艹' (草部)")
@@ -93,7 +98,7 @@ def run_demo(engine: YanMoEngine):
                 render_ui(engine, f"按下了按键: [{step}]")
         time.sleep(1.2)
 
-    render_ui(engine, "演示完成！言墨核心检索与部首筛选功能运作正常。")
+    render_ui(engine, "演示完成！言墨 Trie 前缀索引与自学习词库运作完美！")
 
 
 def interactive_loop(engine: YanMoEngine):
@@ -111,9 +116,8 @@ def interactive_loop(engine: YanMoEngine):
             if ch == "\x03":
                 break
 
-            # Escape sequence
+            # Escape
             if ch == "\x1b":
-                # Check if it's an arrow key or plain ESC
                 engine.feed_key("Escape")
                 render_ui(engine, "已取消 (Esc)")
                 continue
@@ -133,7 +137,7 @@ def interactive_loop(engine: YanMoEngine):
             # Enter or Space
             if ch in ("\r", "\n", " "):
                 engine.feed_key(" ")
-                render_ui(engine, "选词上屏！")
+                render_ui(engine, "选词上屏，词频已自动自学！")
                 continue
 
             # Backtick / Tilde
@@ -146,7 +150,7 @@ def interactive_loop(engine: YanMoEngine):
             if ch in "123456789":
                 consumed = engine.feed_key(ch)
                 if consumed:
-                    render_ui(engine, f"选择候选 #{ch} 上屏！")
+                    render_ui(engine, f"选择候选 #{ch} 上屏，已记入个人自学词库！")
                 continue
 
             # Alphabet
@@ -157,7 +161,7 @@ def interactive_loop(engine: YanMoEngine):
 
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        print("\n已退出言墨输入法体验原型。\n")
+        print("\n已退出言墨输入法体验终端。\n")
 
 
 def main():
@@ -165,7 +169,6 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--demo":
         run_demo(engine)
     else:
-        # Check if stdin is a tty
         if sys.stdin.isatty():
             interactive_loop(engine)
         else:

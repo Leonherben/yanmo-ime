@@ -1,210 +1,5 @@
 [
   {
-    "word": "言墨",
-    "pinyin": "yanmo",
-    "freq": 10000
-  },
-  {
-    "word": "输入法",
-    "pinyin": "shurufa",
-    "freq": 9800
-  },
-  {
-    "word": "中文",
-    "pinyin": "zhongwen",
-    "freq": 9900
-  },
-  {
-    "word": "中国",
-    "pinyin": "zhongguo",
-    "freq": 9999
-  },
-  {
-    "word": "编码",
-    "pinyin": "bianma",
-    "freq": 9100
-  },
-  {
-    "word": "部首",
-    "pinyin": "bushou",
-    "freq": 9500
-  },
-  {
-    "word": "拼音",
-    "pinyin": "pinyin",
-    "freq": 9600
-  },
-  {
-    "word": "词库",
-    "pinyin": "ciku",
-    "freq": 9400
-  },
-  {
-    "word": "语音",
-    "pinyin": "yuyin",
-    "freq": 9500
-  },
-  {
-    "word": "核心",
-    "pinyin": "hexin",
-    "freq": 9300
-  },
-  {
-    "word": "河水",
-    "pinyin": "heshui",
-    "freq": 8900
-  },
-  {
-    "word": "和平",
-    "pinyin": "heping",
-    "freq": 9400
-  },
-  {
-    "word": "合作",
-    "pinyin": "hezuo",
-    "freq": 9600
-  },
-  {
-    "word": "合同",
-    "pinyin": "hetong",
-    "freq": 9500
-  },
-  {
-    "word": "荷花",
-    "pinyin": "hehua",
-    "freq": 8800
-  },
-  {
-    "word": "喝水",
-    "pinyin": "heshui",
-    "freq": 8900
-  },
-  {
-    "word": "合力",
-    "pinyin": "heli",
-    "freq": 8700
-  },
-  {
-    "word": "合理",
-    "pinyin": "heli",
-    "freq": 9200
-  },
-  {
-    "word": "森林",
-    "pinyin": "senlin",
-    "freq": 9200
-  },
-  {
-    "word": "树木",
-    "pinyin": "shumu",
-    "freq": 9100
-  },
-  {
-    "word": "明月",
-    "pinyin": "mingyue",
-    "freq": 9000
-  },
-  {
-    "word": "明白",
-    "pinyin": "mingbai",
-    "freq": 9700
-  },
-  {
-    "word": "明天",
-    "pinyin": "mingtian",
-    "freq": 9800
-  },
-  {
-    "word": "晶莹",
-    "pinyin": "jingying",
-    "freq": 8600
-  },
-  {
-    "word": "品质",
-    "pinyin": "pinzhi",
-    "freq": 9400
-  },
-  {
-    "word": "作品",
-    "pinyin": "zuopin",
-    "freq": 9300
-  },
-  {
-    "word": "科学",
-    "pinyin": "kexue",
-    "freq": 9700
-  },
-  {
-    "word": "技术",
-    "pinyin": "jishu",
-    "freq": 9800
-  },
-  {
-    "word": "系统",
-    "pinyin": "xitong",
-    "freq": 9800
-  },
-  {
-    "word": "开发",
-    "pinyin": "kaifa",
-    "freq": 9700
-  },
-  {
-    "word": "程序",
-    "pinyin": "chengxu",
-    "freq": 9600
-  },
-  {
-    "word": "机器",
-    "pinyin": "jiqi",
-    "freq": 9500
-  },
-  {
-    "word": "学习",
-    "pinyin": "xuexi",
-    "freq": 9800
-  },
-  {
-    "word": "我们",
-    "pinyin": "women",
-    "freq": 9990
-  },
-  {
-    "word": "你们",
-    "pinyin": "nimen",
-    "freq": 9950
-  },
-  {
-    "word": "他们",
-    "pinyin": "tamen",
-    "freq": 9960
-  },
-  {
-    "word": "自己",
-    "pinyin": "ziji",
-    "freq": 9920
-  },
-  {
-    "word": "国家",
-    "pinyin": "guojia",
-    "freq": 9950
-  },
-  {
-    "word": "时间",
-    "pinyin": "shijian",
-    "freq": 9940
-  },
-  {
-    "word": "问题",
-    "pinyin": "wenti",
-    "freq": 9920
-  },
-  {
-    "word": "工作",
-    "pinyin": "gongzuo",
-    "freq": 9910
-  },
-  {
     "word": "河",
     "pinyin": "he",
     "freq": 9800,
@@ -959,5 +754,385 @@
     "pinyin": "shu",
     "freq": 9100,
     "radical": "车"
+  },
+  {
+    "word": "人工智能",
+    "pinyin": "rengongzhihuineng",
+    "freq": 9950
+  },
+  {
+    "word": "算法",
+    "pinyin": "suanfa",
+    "freq": 9800
+  },
+  {
+    "word": "模型",
+    "pinyin": "moxing",
+    "freq": 9850
+  },
+  {
+    "word": "深度学习",
+    "pinyin": "shenduxuexi",
+    "freq": 9700
+  },
+  {
+    "word": "神经网络",
+    "pinyin": "shenjingwangluo",
+    "freq": 9600
+  },
+  {
+    "word": "数据结构",
+    "pinyin": "shujujiegou",
+    "freq": 9650
+  },
+  {
+    "word": "数据库",
+    "pinyin": "shujuku",
+    "freq": 9800
+  },
+  {
+    "word": "操作系统",
+    "pinyin": "caozuoxitong",
+    "freq": 9750
+  },
+  {
+    "word": "开源",
+    "pinyin": "kaiyuan",
+    "freq": 9700
+  },
+  {
+    "word": "代码",
+    "pinyin": "daima",
+    "freq": 9900
+  },
+  {
+    "word": "仓库",
+    "pinyin": "cangku",
+    "freq": 9500
+  },
+  {
+    "word": "架构",
+    "pinyin": "jiagou",
+    "freq": 9650
+  },
+  {
+    "word": "引擎",
+    "pinyin": "yinqing",
+    "freq": 9600
+  },
+  {
+    "word": "输入法",
+    "pinyin": "shurufa",
+    "freq": 9999
+  },
+  {
+    "word": "言墨",
+    "pinyin": "yanmo",
+    "freq": 10000
+  },
+  {
+    "word": "部首",
+    "pinyin": "bushou",
+    "freq": 9900
+  },
+  {
+    "word": "拼音",
+    "pinyin": "pinyin",
+    "freq": 9950
+  },
+  {
+    "word": "词库",
+    "pinyin": "ciku",
+    "freq": 9850
+  },
+  {
+    "word": "终端",
+    "pinyin": "zhongduan",
+    "freq": 9700
+  },
+  {
+    "word": "编译器",
+    "pinyin": "bianyiqi",
+    "freq": 9500
+  },
+  {
+    "word": "内存",
+    "pinyin": "neicun",
+    "freq": 9800
+  },
+  {
+    "word": "性能",
+    "pinyin": "xingneng",
+    "freq": 9850
+  },
+  {
+    "word": "优化",
+    "pinyin": "youhua",
+    "freq": 9800
+  },
+  {
+    "word": "网络",
+    "pinyin": "wangluo",
+    "freq": 9920
+  },
+  {
+    "word": "协议",
+    "pinyin": "xieyi",
+    "freq": 9700
+  },
+  {
+    "word": "接口",
+    "pinyin": "jiekou",
+    "freq": 9800
+  },
+  {
+    "word": "服务",
+    "pinyin": "fuwu",
+    "freq": 9900
+  },
+  {
+    "word": "客户端",
+    "pinyin": "kehuduan",
+    "freq": 9750
+  },
+  {
+    "word": "浏览器",
+    "pinyin": "liulanqi",
+    "freq": 9850
+  },
+  {
+    "word": "文件",
+    "pinyin": "wenjian",
+    "freq": 9900
+  },
+  {
+    "word": "目录",
+    "pinyin": "mulu",
+    "freq": 9700
+  },
+  {
+    "word": "搜索",
+    "pinyin": "sousuo",
+    "freq": 9900
+  },
+  {
+    "word": "检索",
+    "pinyin": "jiansuo",
+    "freq": 9600
+  },
+  {
+    "word": "你好",
+    "pinyin": "nihao",
+    "freq": 10000
+  },
+  {
+    "word": "谢谢",
+    "pinyin": "xiexie",
+    "freq": 9990
+  },
+  {
+    "word": "早上好",
+    "pinyin": "zaoshanghao",
+    "freq": 9800
+  },
+  {
+    "word": "晚上好",
+    "pinyin": "wanshanghao",
+    "freq": 9800
+  },
+  {
+    "word": "没问题",
+    "pinyin": "meiwenti",
+    "freq": 9850
+  },
+  {
+    "word": "可以",
+    "pinyin": "keyi",
+    "freq": 9980
+  },
+  {
+    "word": "好的",
+    "pinyin": "haode",
+    "freq": 9990
+  },
+  {
+    "word": "今天",
+    "pinyin": "jintian",
+    "freq": 9980
+  },
+  {
+    "word": "明天",
+    "pinyin": "mingtian",
+    "freq": 9970
+  },
+  {
+    "word": "昨天",
+    "pinyin": "zuotian",
+    "freq": 9950
+  },
+  {
+    "word": "现在",
+    "pinyin": "xianzai",
+    "freq": 9980
+  },
+  {
+    "word": "时间",
+    "pinyin": "shijian",
+    "freq": 9980
+  },
+  {
+    "word": "朋友",
+    "pinyin": "pengyou",
+    "freq": 9930
+  },
+  {
+    "word": "同学",
+    "pinyin": "tongxue",
+    "freq": 9850
+  },
+  {
+    "word": "工作",
+    "pinyin": "gongzuo",
+    "freq": 9980
+  },
+  {
+    "word": "学习",
+    "pinyin": "xuexi",
+    "freq": 9970
+  },
+  {
+    "word": "生活",
+    "pinyin": "shenghuo",
+    "freq": 9960
+  },
+  {
+    "word": "世界",
+    "pinyin": "shijie",
+    "freq": 9950
+  },
+  {
+    "word": "国家",
+    "pinyin": "guojia",
+    "freq": 9970
+  },
+  {
+    "word": "社会",
+    "pinyin": "shehui",
+    "freq": 9940
+  },
+  {
+    "word": "人民",
+    "pinyin": "renmin",
+    "freq": 9960
+  },
+  {
+    "word": "中国",
+    "pinyin": "zhongguo",
+    "freq": 10000
+  },
+  {
+    "word": "中文",
+    "pinyin": "zhongwen",
+    "freq": 9990
+  },
+  {
+    "word": "文化",
+    "pinyin": "wenhua",
+    "freq": 9920
+  },
+  {
+    "word": "历史",
+    "pinyin": "lishi",
+    "freq": 9910
+  },
+  {
+    "word": "经济",
+    "pinyin": "jingji",
+    "freq": 9930
+  },
+  {
+    "word": "发展",
+    "pinyin": "fazhan",
+    "freq": 9940
+  },
+  {
+    "word": "未来",
+    "pinyin": "weilai",
+    "freq": 9920
+  },
+  {
+    "word": "希望",
+    "pinyin": "xiwang",
+    "freq": 9910
+  },
+  {
+    "word": "成功",
+    "pinyin": "chenggong",
+    "freq": 9900
+  },
+  {
+    "word": "计划",
+    "pinyin": "jihua",
+    "freq": 9880
+  },
+  {
+    "word": "目标",
+    "pinyin": "mubiao",
+    "freq": 9870
+  },
+  {
+    "word": "任务",
+    "pinyin": "renwu",
+    "freq": 9860
+  },
+  {
+    "word": "心有灵犀",
+    "pinyin": "xinyoulingxi",
+    "freq": 9200
+  },
+  {
+    "word": "循序渐进",
+    "pinyin": "xunxujianjin",
+    "freq": 9100
+  },
+  {
+    "word": "实事求是",
+    "pinyin": "shishiqiushi",
+    "freq": 9300
+  },
+  {
+    "word": "知行合一",
+    "pinyin": "zhixingheyi",
+    "freq": 9200
+  },
+  {
+    "word": "日新月异",
+    "pinyin": "rixinyueyi",
+    "freq": 9150
+  },
+  {
+    "word": "厚积薄发",
+    "pinyin": "houjibofa",
+    "freq": 9250
+  },
+  {
+    "word": "聚沙成塔",
+    "pinyin": "jushachengta",
+    "freq": 9050
+  },
+  {
+    "word": "迎刃而解",
+    "pinyin": "yingrenerjie",
+    "freq": 9100
+  },
+  {
+    "word": "精益求精",
+    "pinyin": "jingyiciujing",
+    "freq": 9200
+  },
+  {
+    "word": "持之以恒",
+    "pinyin": "chizhiyiheng",
+    "freq": 9250
   }
 ]

@@ -1,11 +1,18 @@
 import unittest
+import tempfile
+from pathlib import Path
 from core.engine import YanMoEngine
 from core.models import InputMode
 
 
 class TestYanMoEngine(unittest.TestCase):
     def setUp(self):
-        self.engine = YanMoEngine()
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.user_db = Path(self.temp_dir.name) / "test_user.db"
+        self.engine = YanMoEngine(user_db_path=self.user_db)
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
 
     def test_pinyin_typing_and_selection(self):
         # Type 'h', 'e'
@@ -81,6 +88,27 @@ class TestYanMoEngine(unittest.TestCase):
         self.engine.feed_key("Backspace")
         self.assertEqual(self.engine.state.mode, InputMode.COMPOSING)
         self.assertEqual(self.engine.state.pinyin_buffer, "he")
+
+    def test_dynamic_learning_and_promotion(self):
+        # Type 'h', 'e'
+        self.engine.feed_key("h")
+        self.engine.feed_key("e")
+
+        # Find position of '何'
+        initial_candidates = [c.text for c in self.engine.state.candidates]
+        target_idx = initial_candidates.index("何")
+        self.assertGreater(target_idx, 0)  # It is not #0 initially
+
+        # Select '何'
+        self.engine.feed_key(str(target_idx + 1))
+        self.assertEqual(self.engine.state.committed_text, "何")
+
+        # Type 'h', 'e' again -> '何' must now be #0 (first candidate) due to user learning!
+        self.engine.feed_key("h")
+        self.engine.feed_key("e")
+        new_candidates = [c.text for c in self.engine.state.candidates]
+        self.assertEqual(new_candidates[0], "何")
+        self.assertEqual(self.engine.state.candidates[0].comment, "自学词")
 
 
 if __name__ == "__main__":

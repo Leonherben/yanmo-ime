@@ -1,6 +1,7 @@
 """
 YanMo IME (言墨输入法) Core Engine.
 Coordinates input state machine, pinyin matcher, and radical filtering.
+Integrates user dictionary self-learning.
 """
 
 from pathlib import Path
@@ -11,11 +12,11 @@ from .radical_matcher import RadicalMatcher
 
 
 class YanMoEngine:
-    def __init__(self, data_dir: Optional[Path] = None):
+    def __init__(self, data_dir: Optional[Path] = None, user_db_path: Optional[Path] = None):
         if data_dir is None:
             data_dir = Path(__file__).resolve().parent.parent / "data"
 
-        self.pinyin_matcher = PinyinMatcher(dict_dir=data_dir / "dict")
+        self.pinyin_matcher = PinyinMatcher(dict_dir=data_dir / "dict", user_db_path=user_db_path)
         self.radical_matcher = RadicalMatcher(data_dir=data_dir / "radicals")
         self.state = EngineState()
 
@@ -49,7 +50,6 @@ class YanMoEngine:
                 self._update_candidates()
                 return True
             elif self.state.mode == InputMode.RADICAL_FILTER:
-                # Cycle or toggle back if empty
                 if not self.state.radical_buffer:
                     self.state.mode = InputMode.COMPOSING
                     self._update_candidates()
@@ -62,7 +62,6 @@ class YanMoEngine:
                 if self.state.radical_buffer:
                     self.state.radical_buffer = self.state.radical_buffer[:-1]
                 else:
-                    # Radical buffer empty, switch back to pinyin
                     self.state.mode = InputMode.COMPOSING
                 self._update_candidates()
                 return True
@@ -80,7 +79,6 @@ class YanMoEngine:
         # 4. SPACE or ENTER: Commit candidate
         if key in (" ", "Space"):
             if self.state.candidates:
-                # Select first candidate
                 self.select_candidate(0)
                 return True
             elif self.state.pinyin_buffer:
@@ -115,14 +113,28 @@ class YanMoEngine:
         return False
 
     def select_candidate(self, index: int) -> Optional[str]:
-        """Commit selected candidate at index."""
+        """Commit selected candidate at index and learn into user dictionary."""
         if 0 <= index < len(self.state.candidates):
             selected = self.state.candidates[index]
             committed = selected.text
+            current_pinyin = self.state.pinyin_buffer
+
+            # Learn into user dictionary
+            self.pinyin_matcher.record_selection(committed, current_pinyin)
+
             self.reset()
             self.state.committed_text = committed
             return committed
         return None
+
+    def delete_candidate(self, index: int) -> bool:
+        """Delete candidate from user self-learning dictionary."""
+        if 0 <= index < len(self.state.candidates):
+            target = self.state.candidates[index]
+            deleted = self.pinyin_matcher.delete_word(target.text)
+            self._update_candidates()
+            return deleted
+        return False
 
     def apply_visual_radical_filter(self, radical_glyph: str):
         """
@@ -141,15 +153,19 @@ class YanMoEngine:
 
         base_candidates = self.pinyin_matcher.match(self.state.pinyin_buffer)
 
-        # Populate radical display hints for all single characters
+        # Enriched candidates with radical hints
         enriched_candidates = []
         for c in base_candidates:
+            comment = c.comment
+            if not comment and len(c.text) == 1:
+                comment = self.radical_matcher.get_radical_hint(c.text)
+
             cand_copy = Candidate(
                 text=c.text,
                 pinyin=c.pinyin,
                 freq=c.freq,
                 radical=c.radical,
-                comment=self.radical_matcher.get_radical_hint(c.text) if len(c.text) == 1 else None
+                comment=comment
             )
             enriched_candidates.append(cand_copy)
 
@@ -158,7 +174,6 @@ class YanMoEngine:
             query = self.state.radical_buffer
             filtered = []
             for c in enriched_candidates:
-                # Multi-character words: check if any character in the word matches
                 if len(c.text) > 1:
                     matched = any(self.radical_matcher.match_character(ch, query) for ch in c.text)
                 else:
