@@ -1,7 +1,7 @@
 """
 Candidate Floating Window for YanMo IME (言墨输入法).
 Desktop floating bar with candidate list and corner radical picker toggle.
-Ensures zero focus stealing and full keyboard transparency.
+Ensures zero focus stealing, full transparency, and proper widget rendering.
 """
 
 from pathlib import Path
@@ -21,8 +21,9 @@ class CandidateWindow(Gtk.Window):
         super().__init__(type=Gtk.WindowType.TOPLEVEL)
         self.engine = engine
         self.on_commit = on_commit
+        self.picker_visible = False
 
-        # Critical: Window must never take focus or steal typing from the active text field
+        # Window styling and focus immunity
         self.set_title("言墨候选条")
         self.set_decorated(False)
         self.set_keep_above(True)
@@ -32,9 +33,12 @@ class CandidateWindow(Gtk.Window):
         self.set_accept_focus(False)
         self.set_focus_on_map(False)
         self.set_can_focus(False)
+        self.set_app_paintable(True)
         self.set_type_hint(Gdk.WindowTypeHint.POPUP_MENU)
 
-        # Transparency support
+        self.get_style_context().add_class("yanmo-window")
+
+        # RGBA Transparency
         screen = self.get_screen()
         visual = screen.get_rgba_visual()
         if visual and screen.is_composited():
@@ -51,7 +55,7 @@ class CandidateWindow(Gtk.Window):
             Gtk.StyleContext.add_provider_for_screen(
                 Gdk.Screen.get_default(),
                 css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+                Gtk.STYLE_PROVIDER_PRIORITY_USER
             )
 
     def _build_ui(self):
@@ -94,26 +98,28 @@ class CandidateWindow(Gtk.Window):
         self.candidates_box.set_can_focus(False)
         self.main_card.pack_start(self.candidates_box, False, False, 0)
 
-        # 3. Expandable Radical Picker Panel (hidden by default)
+        # 3. Expandable Radical Picker Panel
         self.picker_panel = RadicalPickerPanel(on_selected=self._on_radical_chosen)
         self.picker_panel.hide()
         self.main_card.pack_start(self.picker_panel, False, False, 0)
 
     def _on_toggle_picker(self, button=None):
         """Toggle visibility of the radical picker grid."""
-        if self.picker_panel.get_visible():
+        if self.picker_visible:
+            self.picker_visible = False
             self.picker_panel.hide()
             self.btn_picker_toggle.set_label("部首 ▾")
         else:
-            self.picker_panel.show()
+            self.picker_visible = True
+            self.picker_panel.show_all()
             self.btn_picker_toggle.set_label("收起 ▴")
-            # If idle and no candidates yet, show the candidate window so panel is seen!
             self.show()
         self.resize(1, 1)
 
     def show_radical_picker(self):
         """Programmatically expand radical picker panel."""
-        self.picker_panel.show()
+        self.picker_visible = True
+        self.picker_panel.show_all()
         self.btn_picker_toggle.set_label("收起 ▴")
         self.show()
         self.resize(1, 1)
@@ -131,8 +137,14 @@ class CandidateWindow(Gtk.Window):
         if state.committed_text and self.on_commit:
             self.on_commit(state.committed_text)
 
-        # If idle and no candidates and picker is hidden, hide window
-        has_content = bool(state.pinyin_buffer or state.radical_buffer or state.candidates or self.picker_panel.get_visible())
+        # Check if there is anything to show
+        has_content = bool(
+            state.pinyin_buffer or 
+            state.radical_buffer or 
+            state.candidates or 
+            self.picker_visible
+        )
+
         if not has_content:
             self.hide()
             return
@@ -194,7 +206,11 @@ class CandidateWindow(Gtk.Window):
                 lbl_empty.get_style_context().add_class("yanmo-cand-index")
                 self.candidates_box.pack_start(lbl_empty, False, False, 0)
 
-        self.candidates_box.show_all()
+        # 3. CRITICAL: Show all children of main_card, but control picker_panel visibility
+        self.main_card.show_all()
+        if not self.picker_visible:
+            self.picker_panel.hide()
+
         self.show()
         self.resize(1, 1)
 
