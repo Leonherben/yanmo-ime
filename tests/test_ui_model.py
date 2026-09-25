@@ -55,6 +55,19 @@ class TestUIModel(unittest.TestCase):
         self.assertTrue(len(self.committed_log) > 0)
         self.assertEqual(self.committed_log[-1], "和")
 
+    def test_voice_ui_controls(self):
+        self.assertIsNotNone(self.window.btn_voice_toggle)
+        # 1. Start voice recording
+        started = self.window.start_voice_recording()
+        self.assertTrue(started)
+        self.assertTrue(self.engine.voice_engine.is_recording)
+        self.assertIn("倾听中", self.window.btn_voice_toggle.get_label())
+
+        # 2. Stop voice recording
+        self.window.stop_voice_recording()
+        self.assertFalse(self.engine.voice_engine.is_recording)
+
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -115,36 +115,53 @@ class CandidateWindow(Gtk.Window):
         self.picker_panel.hide()
         self.main_card.pack_start(self.picker_panel, False, False, 0)
 
+    def start_voice_recording(self) -> bool:
+        """Start offline voice recognition and update UI state."""
+        if not hasattr(self.engine, "voice_engine") or self.engine.voice_engine.is_recording:
+            return False
+
+        started = self.engine.start_voice_recording()
+        if started:
+            self.btn_voice_toggle.set_label("🔴 倾听中... (松开结束)")
+            self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice")
+            self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice-recording")
+            self.update_from_engine()
+        return started
+
+    def stop_voice_recording(self, callback: Optional[Callable[[str], None]] = None):
+        """Stop offline voice recording, run SenseVoice inference, and commit text."""
+        if not hasattr(self.engine, "voice_engine") or not self.engine.voice_engine.is_recording:
+            return
+
+        self.btn_voice_toggle.set_label("⏳ 识别中...")
+
+        def _worker():
+            text = self.engine.stop_voice_recording()
+
+            def _finish():
+                self.btn_voice_toggle.set_label("🎙️ 语音")
+                self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice-recording")
+                self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice")
+                if text and self.on_commit:
+                    self.on_commit(text)
+                if callback:
+                    callback(text)
+                self.update_from_engine()
+                return False
+
+            GLib.idle_add(_finish)
+
+        threading.Thread(target=_worker, daemon=True).start()
+
     def _on_toggle_voice(self, button=None):
         """Toggle offline voice recognition dictation."""
         if not hasattr(self.engine, "voice_engine"):
             return
 
         if not self.engine.voice_engine.is_recording:
-            started = self.engine.start_voice_recording()
-            if started:
-                self.btn_voice_toggle.set_label("🔴 倾听中... (点击完成)")
-                self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice")
-                self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice-recording")
-                self.update_from_engine()
+            self.start_voice_recording()
         else:
-            self.btn_voice_toggle.set_label("⏳ 识别中...")
-
-            def _worker():
-                text = self.engine.stop_voice_recording()
-
-                def _finish():
-                    self.btn_voice_toggle.set_label("🎙️ 语音")
-                    self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice-recording")
-                    self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice")
-                    if text and self.on_commit:
-                        self.on_commit(text)
-                    self.update_from_engine()
-                    return False
-
-                GLib.idle_add(_finish)
-
-            threading.Thread(target=_worker, daemon=True).start()
+            self.stop_voice_recording()
 
     def _on_toggle_picker(self, button=None):
         """Toggle visibility of the radical picker grid."""
@@ -208,7 +225,7 @@ class CandidateWindow(Gtk.Window):
             self.badge_label.get_style_context().remove_class("yanmo-badge-pinyin")
             self.badge_label.get_style_context().remove_class("yanmo-badge-radical")
             self.badge_label.get_style_context().add_class("yanmo-badge-voice")
-            self.buffer_label.set_markup("<span color='#ef4444'>🎙️ 正在倾听语音中... (点击语音按钮完成)</span>")
+            self.buffer_label.set_markup("<span color='#ef4444'>🎙️ 正在倾听中... (松开 v+空格 立即上屏)</span>")
             self.picker_panel.highlight_stroke(None)
         elif state.mode == InputMode.RADICAL_FILTER:
             self.badge_label.set_label("部首/笔画")

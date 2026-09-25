@@ -27,8 +27,15 @@ class YanMoDesktopApp:
             on_commit=self._on_commit_text
         )
 
+        # Key states for push-to-talk (v + 空格 长按，松开结束)
+        self.v_pressed = False
+        self.space_pressed = False
+        self.voice_recording_active = False
+        self.voice_timer_id = None
+
         # Forward any stray key events from candidate window back to handler
         self.candidate_window.connect("key-press-event", self._on_key_press)
+        self.candidate_window.connect("key-release-event", self._on_key_release)
 
         # Build Interactive Testing Sandbox Window
         self.sandbox_window = Gtk.Window(title="言墨输入法 (YanMo IME) - 桌面测试沙盒")
@@ -57,7 +64,7 @@ class YanMoDesktopApp:
             " • <b>Tab 键双模部首筛选</b>：输入拼音后按 <b>Tab</b> 键，既可敲<b>部首拼音</b>（如 <tt>shui</tt>），也可按<b>首笔画</b>：\n"
             "   👉 <b>h</b> (横) / <b>s</b> (竖) / <b>p</b> (撇) / <b>d</b> (点) / <b>z</b> (折) 秒级过滤！\n"
             " • <b>触屏/鼠标视觉流</b>：点击候选条右上角 <b>[部首全景 ▾]</b>，按五大笔画分类点选部首查字！\n"
-            " • <b>离线轻量语音输入</b>：点击 <b>[🎙️ 语音]</b> 或快捷键 <b>F2</b>，使用 SenseVoice-Small 离线听写上屏！\n"
+            " • <b>离线轻量语音输入</b>：<b>v + 空格 长按</b>（松开即结束上屏），或点击 <b>[🎙️ 语音]</b> / 按 <b>F2</b>！\n"
             " • <b>选词上屏与自学习</b>：按 <b>空格</b> 或 <b>数字键 1-9</b>，字符上屏并自动记录至个人词库。"
         )
         lbl_desc.set_xalign(0.0)
@@ -70,10 +77,12 @@ class YanMoDesktopApp:
         self.text_view.set_wrap_mode(Gtk.WrapMode.WORD)
         self.text_view.set_border_width(8)
         self.text_buffer = self.text_view.get_buffer()
-        self.text_buffer.set_text("言墨输入法就绪。请直接在此连续键入拼音测试，或点击语音听写...\n\n")
+        self.text_buffer.set_text("言墨输入法就绪。请在此敲击键盘测试，或长按【v + 空格】体验语音听写...\n\n")
 
-        # Key press interception on sandbox
+        # Key press and release interception on sandbox
         self.text_view.connect("key-press-event", self._on_key_press)
+        self.text_view.connect("key-release-event", self._on_key_release)
+        self.sandbox_window.connect("key-release-event", self._on_key_release)
 
         scrolled = Gtk.ScrolledWindow()
         scrolled.set_min_content_height(180)
@@ -121,31 +130,22 @@ class YanMoDesktopApp:
     def _on_sandbox_voice_clicked(self, button=None):
         """Toggle offline voice dictation from sandbox."""
         if not self.engine.voice_engine.is_recording:
-            started = self.engine.start_voice_recording()
+            started = self.candidate_window.start_voice_recording()
             if started:
-                self.btn_sandbox_voice.set_label("🔴 倾听中... (按F2或再点结束)")
+                self.btn_sandbox_voice.set_label("🔴 倾听中... (松开/点击结束)")
                 self.lbl_status.set_text("🎙️ 正在录音倾听中...")
-                self.candidate_window.update_from_engine()
         else:
             self.btn_sandbox_voice.set_label("⏳ 识别中...")
             self.lbl_status.set_text("🎙️ 正在进行 SenseVoice 离线解码识别...")
 
-            def _worker():
-                text = self.engine.stop_voice_recording()
+            def _on_done(text):
+                self.btn_sandbox_voice.set_label("🎙️ 离线语音听写")
+                if text:
+                    self.lbl_status.set_text(f"🎙️ 语音识别上屏成功: '{text}'")
+                else:
+                    self.lbl_status.set_text("🎙️ 未检测到有效语音")
 
-                def _finish():
-                    self.btn_sandbox_voice.set_label("🎙️ 离线语音听写")
-                    if text:
-                        self._on_commit_text(text)
-                        self.lbl_status.set_text(f"🎙️ 语音识别上屏成功: '{text}'")
-                    else:
-                        self.lbl_status.set_text("🎙️ 未检测到有效语音")
-                    self.candidate_window.update_from_engine()
-                    return False
-
-                GLib.idle_add(_finish)
-
-            threading.Thread(target=_worker, daemon=True).start()
+            self.candidate_window.stop_voice_recording(callback=_on_done)
 
     def _on_key_press(self, widget, event):
         """Intercept key events and route to YanMo engine."""
@@ -155,6 +155,27 @@ class YanMoDesktopApp:
         # F2 hotkey toggles speech dictation
         if key_name in ("F2",):
             self._on_sandbox_voice_clicked(None)
+            return True
+
+        # Track key states for Push-To-Talk (v + 空格 长按，松开结束)
+        if key_name in ("v", "V"):
+            self.v_pressed = True
+        elif key_name in ("space", "Space"):
+            self.space_pressed = True
+
+        # If voice recording is already active, swallow all repeating keys
+        if self.voice_recording_active:
+            return True
+
+        # Detect v + Space combination (长按阈值 150ms)
+        if self.v_pressed and self.space_pressed:
+            if self.engine.state.pinyin_buffer in ("", "v"):
+                if not self.voice_timer_id and not self.voice_recording_active:
+                    self.voice_timer_id = GLib.timeout_add(150, self._on_voice_long_press_triggered)
+                return True
+
+        # If long-press timer is counting down, suppress repeating v/space
+        if self.voice_timer_id and key_name in ("v", "V", "space", "Space"):
             return True
 
         engine_key = None
@@ -185,6 +206,60 @@ class YanMoDesktopApp:
                 self.text_view.grab_focus()
 
             if consumed:
+                return True
+
+        return False
+
+    def _on_voice_long_press_triggered(self):
+        """Called when v + Space has been held down for 150ms."""
+        self.voice_timer_id = None
+        if self.v_pressed and self.space_pressed:
+            self.voice_recording_active = True
+            # Clear initial 'v' from engine state so it won't leave trailing text
+            if self.engine.state.pinyin_buffer == "v":
+                self.engine.reset()
+            self.candidate_window.start_voice_recording()
+            self.btn_sandbox_voice.set_label("🔴 倾听中... (松开 v+空格 结束)")
+            self.lbl_status.set_text("🎙️ 正在录音中... (松开 v 或 空格 立即识别上屏)")
+        return False
+
+    def _on_key_release(self, widget, event):
+        """Handle key release events for Push-To-Talk (v+空格 松开结束)."""
+        keyval = event.keyval
+        key_name = Gdk.keyval_name(keyval)
+
+        was_v = key_name in ("v", "V")
+        was_space = key_name in ("space", "Space")
+
+        if was_v:
+            self.v_pressed = False
+        if was_space:
+            self.space_pressed = False
+
+        if was_v or was_space:
+            # 1. Released before 150ms timer fired -> quick tap, not long-press
+            if self.voice_timer_id:
+                GLib.source_remove(self.voice_timer_id)
+                self.voice_timer_id = None
+                # If user tapped 'v' then Space quickly, let engine handle space as regular commit
+                if was_space and self.engine.state.pinyin_buffer == "v":
+                    self.engine.feed_key(" ")
+                    self.candidate_window.update_from_engine()
+                return True
+
+            # 2. Released after long-press recording started -> STOP and transcribe!
+            if self.voice_recording_active:
+                self.voice_recording_active = False
+                self.btn_sandbox_voice.set_label("🎙️ 离线语音听写")
+                self.lbl_status.set_text("🎙️ 正在进行 SenseVoice 离线解码识别...")
+
+                def _on_done(text):
+                    if text:
+                        self.lbl_status.set_text(f"🎙️ 语音识别上屏成功: '{text}'")
+                    else:
+                        self.lbl_status.set_text("🎙️ 未检测到有效语音")
+
+                self.candidate_window.stop_voice_recording(callback=_on_done)
                 return True
 
         return False
