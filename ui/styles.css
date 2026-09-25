@@ -103,49 +103,69 @@ window.yanmo-window {
     margin-left: 4px;
 }
 
-/* 部首速查面板样式 */
+/* 部首速查面板样式 - 五类直观分行 */
 .yanmo-radical-panel {
-    background-color: #181c24;
+    background-color: #161920;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 10px;
-    padding: 8px;
+    padding: 8px 10px;
     margin-top: 6px;
 }
 
-.yanmo-rad-tab {
-    background-color: rgba(255, 255, 255, 0.08);
+.yanmo-rad-hint {
     color: #94a3b8;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
     font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    min-height: 24px;
-    margin-right: 2px;
+    margin-bottom: 4px;
 }
 
-.yanmo-rad-tab:hover {
-    background-color: rgba(56, 189, 248, 0.2);
+.yanmo-stroke-row {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 3px 6px;
+    margin-bottom: 2px;
+}
+
+.yanmo-stroke-row.highlighted {
+    background-color: rgba(245, 158, 11, 0.15);
+    border: 1px solid #f59e0b;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+.yanmo-stroke-badge {
+    background-color: rgba(56, 189, 248, 0.15);
     color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    min-width: 82px;
+    min-height: 28px;
+    margin-right: 4px;
 }
 
-.yanmo-rad-tab.active {
+.yanmo-stroke-badge:hover {
+    background-color: #38bdf8;
+    color: #0f172a;
+}
+
+.yanmo-stroke-row.highlighted .yanmo-stroke-badge {
     background-color: #f59e0b;
     color: #1e293b;
-    font-weight: bold;
     border-color: #f59e0b;
 }
 
 .yanmo-rad-chip {
     background-color: rgba(255, 255, 255, 0.08);
-    color: #e2e8f0;
+    color: #f1f5f9;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     font-size: 14px;
-    min-width: 32px;
-    min-height: 32px;
-    padding: 2px 6px;
-    margin: 2px;
+    min-width: 30px;
+    min-height: 28px;
+    padding: 1px 4px;
+    margin: 1px;
 }
 
 .yanmo-rad-chip:hover {

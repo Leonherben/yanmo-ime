@@ -1,7 +1,7 @@
 """
 Candidate Floating Window for YanMo IME (言墨输入法).
 Desktop floating bar with candidate list and corner radical picker toggle.
-Supports both Pinyin and 5-basic-stroke (H/S/P/D/Z) filtering.
+Displays all 5 basic stroke categories directly with dynamic spotlighting.
 """
 
 from pathlib import Path
@@ -84,7 +84,7 @@ class CandidateWindow(Gtk.Window):
         self.header_box.pack_start(filler, True, True, 0)
 
         # Right Corner Radical Picker Toggle Button
-        self.btn_picker_toggle = Gtk.Button(label="部首 ▾")
+        self.btn_picker_toggle = Gtk.Button(label="部首全景 ▾")
         self.btn_picker_toggle.set_can_focus(False)
         self.btn_picker_toggle.set_focus_on_click(False)
         self.btn_picker_toggle.get_style_context().add_class("yanmo-btn-radical")
@@ -98,8 +98,11 @@ class CandidateWindow(Gtk.Window):
         self.candidates_box.set_can_focus(False)
         self.main_card.pack_start(self.candidates_box, False, False, 0)
 
-        # 3. Expandable Radical Picker Panel
-        self.picker_panel = RadicalPickerPanel(on_selected=self._on_radical_chosen)
+        # 3. Expandable Radical Picker Panel (All 5 Categories in view)
+        self.picker_panel = RadicalPickerPanel(
+            on_selected=self._on_radical_chosen,
+            on_stroke_category=self._on_stroke_category_chosen
+        )
         self.picker_panel.hide()
         self.main_card.pack_start(self.picker_panel, False, False, 0)
 
@@ -108,7 +111,7 @@ class CandidateWindow(Gtk.Window):
         if self.picker_visible:
             self.picker_visible = False
             self.picker_panel.hide()
-            self.btn_picker_toggle.set_label("部首 ▾")
+            self.btn_picker_toggle.set_label("部首全景 ▾")
         else:
             self.picker_visible = True
             self.picker_panel.show_all()
@@ -116,18 +119,21 @@ class CandidateWindow(Gtk.Window):
             self.show()
         self.resize(1, 1)
 
-    def show_radical_picker(self, stroke: Optional[str] = None):
+    def show_radical_picker(self):
         """Programmatically expand radical picker panel."""
         self.picker_visible = True
         self.picker_panel.show_all()
-        if stroke:
-            self.picker_panel.filter_by_stroke(stroke)
         self.btn_picker_toggle.set_label("收起 ▴")
         self.show()
         self.resize(1, 1)
 
+    def _on_stroke_category_chosen(self, stroke_key: str):
+        """Called when user clicks a category badge like [丶 点 (D)]."""
+        self.engine.apply_visual_radical_filter(stroke_key)
+        self.update_from_engine()
+
     def _on_radical_chosen(self, radical_glyph: str):
-        """Called when user clicks a radical in the grid."""
+        """Called when user clicks an individual radical chip."""
         self.engine.apply_visual_radical_filter(radical_glyph)
         self.update_from_engine()
 
@@ -158,16 +164,19 @@ class CandidateWindow(Gtk.Window):
 
             rad_display = state.radical_buffer if state.radical_buffer else "_"
 
-            # If user typed a single stroke key (h, s, p, d, z), auto-highlight that tab
-            if state.radical_buffer and len(state.radical_buffer) == 1 and state.radical_buffer in ("h", "s", "p", "d", "z"):
+            # If user typed a single stroke key (h, s, p, d, z), auto-highlight that category row!
+            if state.radical_buffer and state.radical_buffer[0].lower() in ("h", "s", "p", "d", "z"):
+                stroke_key = state.radical_buffer[0].lower()
                 stroke_names = {"h": "横(H)", "s": "竖(S)", "p": "撇(P)", "d": "点(D)", "z": "折(Z)"}
-                stroke_label = stroke_names[state.radical_buffer]
-                self.picker_panel.filter_by_stroke(state.radical_buffer)
+                stroke_label = stroke_names[stroke_key]
+                self.picker_panel.highlight_stroke(stroke_key)
+
                 if state.pinyin_buffer:
                     self.buffer_label.set_markup(f"<b>{state.pinyin_buffer}</b> <span color='#f59e0b'>[首笔: {stroke_label}]</span>")
                 else:
                     self.buffer_label.set_markup(f"<span color='#f59e0b'>[首笔查字: {stroke_label}]</span>")
             else:
+                self.picker_panel.highlight_stroke(None)
                 if state.pinyin_buffer:
                     self.buffer_label.set_markup(f"<b>{state.pinyin_buffer}</b> <span color='#f59e0b'>[部首: {rad_display}]</span>")
                 else:
@@ -177,6 +186,7 @@ class CandidateWindow(Gtk.Window):
             self.badge_label.get_style_context().remove_class("yanmo-badge-radical")
             self.badge_label.get_style_context().add_class("yanmo-badge-pinyin")
             self.buffer_label.set_text(state.pinyin_buffer if state.pinyin_buffer else "(待输入)")
+            self.picker_panel.highlight_stroke(None)
 
         # 2. Re-populate Candidate items
         for child in self.candidates_box.get_children():
@@ -214,7 +224,7 @@ class CandidateWindow(Gtk.Window):
                 self.candidates_box.pack_start(btn, False, False, 0)
         else:
             if state.mode == InputMode.RADICAL_FILTER:
-                lbl_empty = Gtk.Label(label=" (按首笔 h/s/p/d/z 或输入部首拼音) ")
+                lbl_empty = Gtk.Label(label=" (按 H/S/P/D/Z 或直接在下方点选部首) ")
                 lbl_empty.get_style_context().add_class("yanmo-cand-index")
                 self.candidates_box.pack_start(lbl_empty, False, False, 0)
 
