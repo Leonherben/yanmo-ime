@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# YanMo IME Daemon launcher script
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHON="$DIR/tools/.venv/bin/python"
+
+if [ ! -f "$PYTHON" ]; then
+    PYTHON="python3"
+fi
+
+export PYTHONPATH="$DIR:$PYTHONPATH"
+exec "$PYTHON" -m daemon.yanmo_daemon "$@"

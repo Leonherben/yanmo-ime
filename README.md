@@ -102,24 +102,49 @@ yanmo-ime/
   - 基于 Sherpa-ONNX + SenseVoice-Small INT8 本地轻量模型 (~229MB)
   - 无需独立显卡，Surface / 普通 CPU 实时毫秒级离线解码
   - 悬浮候选条 `[🎙️ 语音]` 按钮与沙盒 `F2` 全局热键听写上屏
-- [ ] **Phase 5: 跨平台适配与系统级输入法框架桥接**
-  - 接入 Fcitx 5 模块 / ibus 引擎
-  - Windows (TSF) / macOS 适配层探索
+- [x] **Phase 5: 系统级输入法常驻守护进程与 Fcitx-Rime 桥接** (已完成)
+  - 全局后台守护进程 (`bin/yanmo-daemon`、`daemon/yanmo_daemon.py`)
+  - Linux Mint (Cinnamon / X11) 全局热键 `Ctrl + Space` 无缝切换中/英输入
+  - 全局任意应用支持 **`v + 空格` 长按即说、松开即上屏**
+  - 活动窗口焦点与光标自适应悬浮跟随 (`daemon/window_tracker.py`)
+  - 任务栏系统托盘指示器 (`daemon/tray_indicator.py`) 与开机自启动
+  - Fcitx-Rime 兼容桥接方案 (`rime/yanmo.schema.yaml`, `rime/yanmo.dict.yaml`)
 
 ---
 
-## 🏃 快速上手与体验
+## 🏃 快速上手与使用指南
 
-### 1. 运行桌面原生体验沙盒
+### 1. 系统级全局常驻使用 (推荐)
+无需打开测试窗口，直接在系统的任意应用（浏览器、代码编辑器、终端、办公套件）中使用言墨输入法：
+
 ```bash
-# 激活 Python 虚拟环境后启动
+# 启动言墨后台守护进程
+yanmo-daemon start
+
+# 检查运行状态
+yanmo-daemon status
+
+# 停止或重启
+yanmo-daemon stop
+yanmo-daemon restart
+```
+
+- **切换中/英文**：全局按下 **`Ctrl + Space`** 随时切换。
+- **全局语音输入**：在任何窗口中长按 **`v + 空格`**，直接说话，**松开按键**立即秒级离线转写上屏！
+- **部首查字与输入**：键入拼音后按 `Tab`，再敲笔画首键（如 `d` 点），候选条锁定水部字！
+- **系统托盘**：屏幕右下角任务栏常驻“言”字托盘图标，右键可进行快速设置、开机自启切换与词库导出。
+
+### 2. 独立沙盒体验窗口 (测试模式)
+```bash
 tools/.venv/bin/python yanmo_gui.py
 ```
 
-### 2. 交互操作技巧
-- **常规键入**：键入拼音如 `he`、`yanmo`，即时展现候选词。
-- **部首/笔画过滤**：拼音后按 `Tab` 键，敲 `d`（点）即刻过滤为水部字（河、涸、渮）；或点击候选条右上角 `[部首全景 ▾]` 触控点选。
-- **语音快捷键 (长按即说，松开即上屏)**：**`v + 空格` 长按**，直接对着麦克风说话，**松开按键**立即毫秒级离线解码上屏！亦可按 `F2` 或点击候选条右上角 `[🎙️ 语音]`。
-- **自学词记忆**：选择词语上屏后，自动收录至个人词库 (`~/.local/share/yanmo/user.db`) 并动态置顶。
+### 3. Fcitx-Rime 方案桥接 (可选)
+如果希望直接使用现有的 Fcitx 框架调度言墨词库：
+```bash
+cp rime/yanmo.* ~/.config/fcitx/rime/
+# 在 fcitx-configtool 或 rime 方案列表中勾选 "言墨拼音"
+```
+
 
 

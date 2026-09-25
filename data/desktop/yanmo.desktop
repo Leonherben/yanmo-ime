@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=YanMo IME (言墨输入法)
+GenericName=Input Method
+Comment=言墨输入法全局后台守护进程
+Exec=/home/malus/.local/bin/yanmo-daemon start
+Icon=accessories-character-map
+Terminal=false
+Categories=Utility;InputMethod;
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
