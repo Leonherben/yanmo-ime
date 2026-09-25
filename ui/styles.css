@@ -1,0 +1,137 @@
+/* 言墨输入法 (YanMo IME) - 现代轻量悬浮候选框样式表 */
+
+.yanmo-candidate-window {
+    background-color: rgba(30, 34, 42, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+}
+
+.yanmo-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+}
+
+.yanmo-buffer {
+    font-size: 15px;
+    font-weight: bold;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+}
+
+.yanmo-badge-pinyin {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-right: 6px;
+}
+
+.yanmo-badge-radical {
+    background-color: #f59e0b;
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-right: 6px;
+}
+
+.yanmo-btn-radical {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    min-height: 24px;
+}
+
+.yanmo-btn-radical:hover {
+    background-color: rgba(56, 189, 248, 0.25);
+    color: #ffffff;
+}
+
+.yanmo-candidate-item {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    margin-right: 4px;
+    min-height: 32px;
+}
+
+.yanmo-candidate-item:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.yanmo-candidate-item.selected {
+    background-color: #2563eb;
+}
+
+.yanmo-cand-index {
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.yanmo-cand-text {
+    color: #f8fafc;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+}
+
+.yanmo-cand-comment {
+    color: #a855f7;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.yanmo-cand-user {
+    color: #ec4899;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 4px;
+}
+
+/* 部首速查面板样式 */
+.yanmo-radical-panel {
+    background-color: rgba(24, 28, 36, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 8px;
+    margin-top: 6px;
+}
+
+.yanmo-rad-chip {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 2px 6px;
+    margin: 2px;
+}
+
+.yanmo-rad-chip:hover {
+    background-color: #f59e0b;
+    color: #1e293b;
+    font-weight: bold;
+}
+
+.yanmo-rad-group-label {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
