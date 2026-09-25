@@ -1,7 +1,7 @@
 """
 YanMo IME (言墨输入法) Core Engine.
 Coordinates input state machine, pinyin matcher, and radical filtering.
-Integrates user dictionary self-learning.
+Integrates user dictionary self-learning and standalone radical lookup.
 """
 
 from pathlib import Path
@@ -38,20 +38,20 @@ class YanMoEngine:
 
         # 1. ESC: Cancel everything
         if key == "Escape":
-            if self.state.mode != InputMode.IDLE:
+            if self.state.mode != InputMode.IDLE or self.state.radical_buffer or self.state.pinyin_buffer:
                 self.reset()
                 return True
             return False
 
         # 2. TAB or ~ (Backtick): Toggle Radical Filter Mode
         if key in ("Tab", "`", "~"):
-            if self.state.mode == InputMode.COMPOSING:
+            if self.state.mode in (InputMode.COMPOSING, InputMode.IDLE):
                 self.state.mode = InputMode.RADICAL_FILTER
                 self._update_candidates()
                 return True
             elif self.state.mode == InputMode.RADICAL_FILTER:
                 if not self.state.radical_buffer:
-                    self.state.mode = InputMode.COMPOSING
+                    self.state.mode = InputMode.COMPOSING if self.state.pinyin_buffer else InputMode.IDLE
                     self._update_candidates()
                 return True
             return False
@@ -62,7 +62,7 @@ class YanMoEngine:
                 if self.state.radical_buffer:
                     self.state.radical_buffer = self.state.radical_buffer[:-1]
                 else:
-                    self.state.mode = InputMode.COMPOSING
+                    self.state.mode = InputMode.COMPOSING if self.state.pinyin_buffer else InputMode.IDLE
                 self._update_candidates()
                 return True
             elif self.state.mode == InputMode.COMPOSING:
@@ -82,7 +82,6 @@ class YanMoEngine:
                 self.select_candidate(0)
                 return True
             elif self.state.pinyin_buffer:
-                # Direct commit raw pinyin
                 self.state.committed_text = self.state.pinyin_buffer
                 self.reset()
                 return True
@@ -117,10 +116,11 @@ class YanMoEngine:
         if 0 <= index < len(self.state.candidates):
             selected = self.state.candidates[index]
             committed = selected.text
-            current_pinyin = self.state.pinyin_buffer
+            current_pinyin = self.state.pinyin_buffer or selected.pinyin
 
             # Learn into user dictionary
-            self.pinyin_matcher.record_selection(committed, current_pinyin)
+            if current_pinyin:
+                self.pinyin_matcher.record_selection(committed, current_pinyin)
 
             self.reset()
             self.state.committed_text = committed
@@ -139,21 +139,37 @@ class YanMoEngine:
     def apply_visual_radical_filter(self, radical_glyph: str):
         """
         Used by UI corner button: User directly clicks or touches a radical (e.g. '氵' or '木').
+        Works both with existing pinyin and standalone pure radical lookup.
         """
-        if self.state.mode in (InputMode.COMPOSING, InputMode.RADICAL_FILTER):
-            self.state.mode = InputMode.RADICAL_FILTER
-            self.state.radical_buffer = radical_glyph
-            self._update_candidates()
+        self.state.mode = InputMode.RADICAL_FILTER
+        self.state.radical_buffer = radical_glyph
+        self._update_candidates()
 
     def _update_candidates(self):
         """Re-compute candidate list based on current pinyin and radical filters."""
+        # Case 1: Standalone radical lookup (no pinyin entered)
         if not self.state.pinyin_buffer:
-            self.state.candidates = []
+            if self.state.mode == InputMode.RADICAL_FILTER and self.state.radical_buffer:
+                matched_chars = self.radical_matcher.get_characters_by_radical_query(self.state.radical_buffer)
+                cands = []
+                for ch in matched_chars:
+                    meta = self.radical_matcher.char_to_info.get(ch, {})
+                    cands.append(Candidate(
+                        text=ch,
+                        pinyin=meta.get("pinyin", ""),
+                        freq=meta.get("freq", 1000),
+                        radical=meta.get("radical"),
+                        comment=self.radical_matcher.get_radical_hint(ch),
+                        is_radical_matched=True
+                    ))
+                self.state.candidates = cands
+            else:
+                self.state.candidates = []
             return
 
+        # Case 2: Pinyin entered (+ optional radical filter)
         base_candidates = self.pinyin_matcher.match(self.state.pinyin_buffer)
 
-        # Enriched candidates with radical hints
         enriched_candidates = []
         for c in base_candidates:
             comment = c.comment

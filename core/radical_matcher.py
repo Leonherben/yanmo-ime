@@ -95,6 +95,39 @@ class RadicalMatcher:
 
         return matches
 
+    def get_characters_by_radical_query(self, query: str) -> List[str]:
+        """
+        Get all characters matching a radical query directly.
+        e.g. 'shui' or '氵' -> ['海', '河', '江', '湖', '波', ...]
+        """
+        query = query.strip().lower()
+        if not query:
+            return []
+
+        rad_infos = self.resolve_radical_query(query)
+        results = []
+        seen = set()
+
+        if rad_infos:
+            for rad_info in rad_infos:
+                all_glyphs = [rad_info.radical] + rad_info.variants
+                for glyph in all_glyphs:
+                    for ch in self.radical_to_chars.get(glyph, set()):
+                        if ch not in seen:
+                            seen.add(ch)
+                            results.append(ch)
+        else:
+            # Fallback: check if query glyph appears in components directly
+            for ch, meta in self.char_to_info.items():
+                if query in meta.get("components", []):
+                    if ch not in seen:
+                        seen.add(ch)
+                        results.append(ch)
+
+        # Sort characters by frequency descending
+        results.sort(key=lambda ch: self.char_to_info.get(ch, {}).get("freq", 1000), reverse=True)
+        return results
+
     def match_character(self, char: str, query: str) -> bool:
         """
         Check if a single character matches the given radical query.

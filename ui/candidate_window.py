@@ -1,6 +1,7 @@
 """
 Candidate Floating Window for YanMo IME (言墨输入法).
 Desktop floating bar with candidate list and corner radical picker toggle.
+Ensures zero focus stealing and full keyboard transparency.
 """
 
 from pathlib import Path
@@ -21,13 +22,17 @@ class CandidateWindow(Gtk.Window):
         self.engine = engine
         self.on_commit = on_commit
 
-        # Window properties
+        # Critical: Window must never take focus or steal typing from the active text field
         self.set_title("言墨候选条")
         self.set_decorated(False)
         self.set_keep_above(True)
         self.set_skip_taskbar_hint(True)
         self.set_skip_pager_hint(True)
         self.set_resizable(False)
+        self.set_accept_focus(False)
+        self.set_focus_on_map(False)
+        self.set_can_focus(False)
+        self.set_type_hint(Gdk.WindowTypeHint.POPUP_MENU)
 
         # Transparency support
         screen = self.get_screen()
@@ -50,14 +55,15 @@ class CandidateWindow(Gtk.Window):
             )
 
     def _build_ui(self):
-        # Outer main container
         self.main_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         self.main_card.get_style_context().add_class("yanmo-candidate-window")
+        self.main_card.set_can_focus(False)
         self.add(self.main_card)
 
         # 1. Header Box
         self.header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         self.header_box.get_style_context().add_class("yanmo-header")
+        self.header_box.set_can_focus(False)
 
         # Mode Badge
         self.badge_label = Gtk.Label(label="拼音")
@@ -69,12 +75,14 @@ class CandidateWindow(Gtk.Window):
         self.buffer_label.get_style_context().add_class("yanmo-buffer")
         self.header_box.pack_start(self.buffer_label, False, False, 0)
 
-        # Filler
         filler = Gtk.Box()
+        filler.set_can_focus(False)
         self.header_box.pack_start(filler, True, True, 0)
 
         # Right Corner Radical Picker Toggle Button
         self.btn_picker_toggle = Gtk.Button(label="部首 ▾")
+        self.btn_picker_toggle.set_can_focus(False)
+        self.btn_picker_toggle.set_focus_on_click(False)
         self.btn_picker_toggle.get_style_context().add_class("yanmo-btn-radical")
         self.btn_picker_toggle.connect("clicked", self._on_toggle_picker)
         self.header_box.pack_start(self.btn_picker_toggle, False, False, 0)
@@ -83,23 +91,32 @@ class CandidateWindow(Gtk.Window):
 
         # 2. Candidate List Container (Horizontal)
         self.candidates_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+        self.candidates_box.set_can_focus(False)
         self.main_card.pack_start(self.candidates_box, False, False, 0)
 
         # 3. Expandable Radical Picker Panel (hidden by default)
         self.picker_panel = RadicalPickerPanel(on_selected=self._on_radical_chosen)
-        self.picker_panel.set_no_show_all(True)
         self.picker_panel.hide()
         self.main_card.pack_start(self.picker_panel, False, False, 0)
 
-    def _on_toggle_picker(self, button):
+    def _on_toggle_picker(self, button=None):
         """Toggle visibility of the radical picker grid."""
         if self.picker_panel.get_visible():
             self.picker_panel.hide()
             self.btn_picker_toggle.set_label("部首 ▾")
         else:
-            self.picker_panel.show_all()
+            self.picker_panel.show()
             self.btn_picker_toggle.set_label("收起 ▴")
-        self.resize(1, 1)  # Re-fit window dimensions
+            # If idle and no candidates yet, show the candidate window so panel is seen!
+            self.show()
+        self.resize(1, 1)
+
+    def show_radical_picker(self):
+        """Programmatically expand radical picker panel."""
+        self.picker_panel.show()
+        self.btn_picker_toggle.set_label("收起 ▴")
+        self.show()
+        self.resize(1, 1)
 
     def _on_radical_chosen(self, radical_glyph: str):
         """Called when user clicks a radical in the grid."""
@@ -114,8 +131,9 @@ class CandidateWindow(Gtk.Window):
         if state.committed_text and self.on_commit:
             self.on_commit(state.committed_text)
 
-        # If idle and no candidates, hide window
-        if state.mode == InputMode.IDLE and not state.pinyin_buffer:
+        # If idle and no candidates and picker is hidden, hide window
+        has_content = bool(state.pinyin_buffer or state.radical_buffer or state.candidates or self.picker_panel.get_visible())
+        if not has_content:
             self.hide()
             return
 
@@ -126,49 +144,58 @@ class CandidateWindow(Gtk.Window):
             self.badge_label.get_style_context().add_class("yanmo-badge-radical")
 
             rad_display = state.radical_buffer if state.radical_buffer else "_"
-            self.buffer_label.set_markup(f"<b>{state.pinyin_buffer}</b> <span color='#f59e0b'>[{rad_display}]</span>")
+            if state.pinyin_buffer:
+                self.buffer_label.set_markup(f"<b>{state.pinyin_buffer}</b> <span color='#f59e0b'>[{rad_display}]</span>")
+            else:
+                self.buffer_label.set_markup(f"<span color='#f59e0b'>[部首查字: {rad_display}]</span>")
         else:
             self.badge_label.set_label("拼音")
             self.badge_label.get_style_context().remove_class("yanmo-badge-radical")
             self.badge_label.get_style_context().add_class("yanmo-badge-pinyin")
-            self.buffer_label.set_text(state.pinyin_buffer)
+            self.buffer_label.set_text(state.pinyin_buffer if state.pinyin_buffer else "(待输入)")
 
         # 2. Re-populate Candidate items
         for child in self.candidates_box.get_children():
             self.candidates_box.remove(child)
 
-        for i, cand in enumerate(state.candidates[:9]):
-            idx = i + 1
-            btn = Gtk.Button()
-            btn.get_style_context().add_class("yanmo-candidate-item")
+        if state.candidates:
+            for i, cand in enumerate(state.candidates[:9]):
+                idx = i + 1
+                btn = Gtk.Button()
+                btn.set_can_focus(False)
+                btn.set_focus_on_click(False)
+                btn.get_style_context().add_class("yanmo-candidate-item")
 
-            cand_item_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
+                cand_item_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
+                cand_item_box.set_can_focus(False)
 
-            lbl_idx = Gtk.Label(label=f"{idx}.")
-            lbl_idx.get_style_context().add_class("yanmo-cand-index")
-            cand_item_box.pack_start(lbl_idx, False, False, 0)
+                lbl_idx = Gtk.Label(label=f"{idx}.")
+                lbl_idx.get_style_context().add_class("yanmo-cand-index")
+                cand_item_box.pack_start(lbl_idx, False, False, 0)
 
-            lbl_text = Gtk.Label(label=cand.text)
-            lbl_text.get_style_context().add_class("yanmo-cand-text")
-            cand_item_box.pack_start(lbl_text, False, False, 0)
+                lbl_text = Gtk.Label(label=cand.text)
+                lbl_text.get_style_context().add_class("yanmo-cand-text")
+                cand_item_box.pack_start(lbl_text, False, False, 0)
 
-            if cand.comment:
-                lbl_comment = Gtk.Label(label=f"({cand.comment})")
-                if cand.comment == "自学词":
-                    lbl_comment.get_style_context().add_class("yanmo-cand-user")
-                else:
-                    lbl_comment.get_style_context().add_class("yanmo-cand-comment")
-                cand_item_box.pack_start(lbl_comment, False, False, 0)
+                if cand.comment:
+                    lbl_comment = Gtk.Label(label=f"({cand.comment})")
+                    if cand.comment == "自学词":
+                        lbl_comment.get_style_context().add_class("yanmo-cand-user")
+                    else:
+                        lbl_comment.get_style_context().add_class("yanmo-cand-comment")
+                    cand_item_box.pack_start(lbl_comment, False, False, 0)
 
-            btn.add(cand_item_box)
-            btn.connect("clicked", self._on_candidate_clicked, i)
-            self.candidates_box.pack_start(btn, False, False, 0)
+                btn.add(cand_item_box)
+                btn.connect("clicked", self._on_candidate_clicked, i)
+                self.candidates_box.pack_start(btn, False, False, 0)
+        else:
+            if state.mode == InputMode.RADICAL_FILTER:
+                lbl_empty = Gtk.Label(label=" (请键入部首拼音如 shui 或点击右上角部首速查) ")
+                lbl_empty.get_style_context().add_class("yanmo-cand-index")
+                self.candidates_box.pack_start(lbl_empty, False, False, 0)
 
-        self.show_all()
-        # Keep picker visibility as explicitly toggled
-        if not self.btn_picker_toggle.get_label().startswith("收起"):
-            self.picker_panel.hide()
-
+        self.candidates_box.show_all()
+        self.show()
         self.resize(1, 1)
 
     def _on_candidate_clicked(self, button, index: int):

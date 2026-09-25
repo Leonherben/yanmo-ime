@@ -74,6 +74,15 @@ class TestYanMoEngine(unittest.TestCase):
         self.assertIn("核", candidate_texts)
         self.assertNotIn("河", candidate_texts)
 
+    def test_standalone_radical_lookup(self):
+        # Click radical '氵' without any prior pinyin
+        self.engine.apply_visual_radical_filter("氵")
+        candidate_texts = [c.text for c in self.engine.state.candidates]
+        self.assertTrue(len(candidate_texts) > 0)
+        self.assertIn("河", candidate_texts)
+        self.assertIn("海", candidate_texts)
+        self.assertIn("江", candidate_texts)
+
     def test_backspace_navigation(self):
         self.engine.feed_key("h")
         self.engine.feed_key("e")

@@ -22,12 +22,14 @@ class RadicalPickerPanel(Gtk.Box):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         self.get_style_context().add_class("yanmo-radical-panel")
         self.on_selected = on_selected
+        self.set_can_focus(False)
 
         self._build_ui()
+        self.show_all()
 
     def _build_ui(self):
         title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        lbl_title = Gtk.Label(label="📌 常用部首速查 (点击/触碰直接过滤候选)")
+        lbl_title = Gtk.Label(label="📌 常用部首速查 (点击/触碰直接查字或过滤)")
         lbl_title.get_style_context().add_class("yanmo-rad-group-label")
         title_box.pack_start(lbl_title, False, False, 0)
         self.pack_start(title_box, False, False, 0)
@@ -43,6 +45,7 @@ class RadicalPickerPanel(Gtk.Box):
 
             # Flow / Grid of buttons
             flow_box = Gtk.FlowBox()
+            flow_box.set_can_focus(False)
             flow_box.set_selection_mode(Gtk.SelectionMode.NONE)
             flow_box.set_max_children_per_line(12)
             flow_box.set_min_children_per_line(6)
@@ -51,6 +54,8 @@ class RadicalPickerPanel(Gtk.Box):
 
             for rad in rad_list:
                 btn = Gtk.Button(label=rad)
+                btn.set_can_focus(False)
+                btn.set_focus_on_click(False)
                 btn.get_style_context().add_class("yanmo-rad-chip")
                 btn.connect("clicked", self._on_button_clicked, rad)
                 flow_box.add(btn)
