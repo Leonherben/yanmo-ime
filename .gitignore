@@ -26,3 +26,8 @@ target/
 data/user/
 *.db-journal
 *.db-wal
+
+# Machine Learning model weights (downloaded on demand)
+data/models/
+*.onnx
+

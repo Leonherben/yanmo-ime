@@ -9,15 +9,17 @@ from typing import List, Optional
 from .models import Candidate, EngineState, InputMode
 from .pinyin_matcher import PinyinMatcher
 from .radical_matcher import RadicalMatcher
+from .voice_engine import VoiceEngine
 
 
 class YanMoEngine:
-    def __init__(self, data_dir: Optional[Path] = None, user_db_path: Optional[Path] = None):
+    def __init__(self, data_dir: Optional[Path] = None, user_db_path: Optional[Path] = None, voice_model_dir: Optional[Path] = None):
         if data_dir is None:
             data_dir = Path(__file__).resolve().parent.parent / "data"
 
         self.pinyin_matcher = PinyinMatcher(dict_dir=data_dir / "dict", user_db_path=user_db_path)
         self.radical_matcher = RadicalMatcher(data_dir=data_dir / "radicals")
+        self.voice_engine = VoiceEngine(model_dir=voice_model_dir)
         self.state = EngineState()
 
     def reset(self):
@@ -144,6 +146,17 @@ class YanMoEngine:
         self.state.mode = InputMode.RADICAL_FILTER
         self.state.radical_buffer = radical_glyph
         self._update_candidates()
+
+    def start_voice_recording(self) -> bool:
+        """Start microphone recording for offline voice recognition."""
+        return self.voice_engine.start_recording()
+
+    def stop_voice_recording(self) -> str:
+        """Stop microphone recording, run SenseVoice inference, and return text."""
+        text = self.voice_engine.stop_recording()
+        if text:
+            self.state.committed_text = text
+        return text
 
     def _update_candidates(self):
         """Re-compute candidate list based on current pinyin and radical filters."""

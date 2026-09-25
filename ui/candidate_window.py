@@ -4,6 +4,7 @@ Desktop floating bar with candidate list and corner radical picker toggle.
 Displays all 5 basic stroke categories directly with dynamic spotlighting.
 """
 
+import threading
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -83,6 +84,14 @@ class CandidateWindow(Gtk.Window):
         filler.set_can_focus(False)
         self.header_box.pack_start(filler, True, True, 0)
 
+        # Voice Dictation Button
+        self.btn_voice_toggle = Gtk.Button(label="🎙️ 语音")
+        self.btn_voice_toggle.set_can_focus(False)
+        self.btn_voice_toggle.set_focus_on_click(False)
+        self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice")
+        self.btn_voice_toggle.connect("clicked", self._on_toggle_voice)
+        self.header_box.pack_start(self.btn_voice_toggle, False, False, 0)
+
         # Right Corner Radical Picker Toggle Button
         self.btn_picker_toggle = Gtk.Button(label="部首全景 ▾")
         self.btn_picker_toggle.set_can_focus(False)
@@ -105,6 +114,37 @@ class CandidateWindow(Gtk.Window):
         )
         self.picker_panel.hide()
         self.main_card.pack_start(self.picker_panel, False, False, 0)
+
+    def _on_toggle_voice(self, button=None):
+        """Toggle offline voice recognition dictation."""
+        if not hasattr(self.engine, "voice_engine"):
+            return
+
+        if not self.engine.voice_engine.is_recording:
+            started = self.engine.start_voice_recording()
+            if started:
+                self.btn_voice_toggle.set_label("🔴 倾听中... (点击完成)")
+                self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice")
+                self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice-recording")
+                self.update_from_engine()
+        else:
+            self.btn_voice_toggle.set_label("⏳ 识别中...")
+
+            def _worker():
+                text = self.engine.stop_voice_recording()
+
+                def _finish():
+                    self.btn_voice_toggle.set_label("🎙️ 语音")
+                    self.btn_voice_toggle.get_style_context().remove_class("yanmo-btn-voice-recording")
+                    self.btn_voice_toggle.get_style_context().add_class("yanmo-btn-voice")
+                    if text and self.on_commit:
+                        self.on_commit(text)
+                    self.update_from_engine()
+                    return False
+
+                GLib.idle_add(_finish)
+
+            threading.Thread(target=_worker, daemon=True).start()
 
     def _on_toggle_picker(self, button=None):
         """Toggle visibility of the radical picker grid."""
@@ -145,11 +185,17 @@ class CandidateWindow(Gtk.Window):
         if state.committed_text and self.on_commit:
             self.on_commit(state.committed_text)
 
+        is_voice_active = (
+            hasattr(self.engine, "voice_engine") and 
+            self.engine.voice_engine.is_recording
+        )
+
         has_content = bool(
             state.pinyin_buffer or 
             state.radical_buffer or 
             state.candidates or 
-            self.picker_visible
+            self.picker_visible or
+            is_voice_active
         )
 
         if not has_content:
@@ -157,9 +203,17 @@ class CandidateWindow(Gtk.Window):
             return
 
         # 1. Update Mode Badge & Buffer
-        if state.mode == InputMode.RADICAL_FILTER:
+        if is_voice_active:
+            self.badge_label.set_label("语音听写")
+            self.badge_label.get_style_context().remove_class("yanmo-badge-pinyin")
+            self.badge_label.get_style_context().remove_class("yanmo-badge-radical")
+            self.badge_label.get_style_context().add_class("yanmo-badge-voice")
+            self.buffer_label.set_markup("<span color='#ef4444'>🎙️ 正在倾听语音中... (点击语音按钮完成)</span>")
+            self.picker_panel.highlight_stroke(None)
+        elif state.mode == InputMode.RADICAL_FILTER:
             self.badge_label.set_label("部首/笔画")
             self.badge_label.get_style_context().remove_class("yanmo-badge-pinyin")
+            self.badge_label.get_style_context().remove_class("yanmo-badge-voice")
             self.badge_label.get_style_context().add_class("yanmo-badge-radical")
 
             rad_display = state.radical_buffer if state.radical_buffer else "_"
@@ -184,6 +238,7 @@ class CandidateWindow(Gtk.Window):
         else:
             self.badge_label.set_label("拼音")
             self.badge_label.get_style_context().remove_class("yanmo-badge-radical")
+            self.badge_label.get_style_context().remove_class("yanmo-badge-voice")
             self.badge_label.get_style_context().add_class("yanmo-badge-pinyin")
             self.buffer_label.set_text(state.pinyin_buffer if state.pinyin_buffer else "(待输入)")
             self.picker_panel.highlight_stroke(None)

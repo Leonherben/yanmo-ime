@@ -5,6 +5,7 @@
 """
 
 import sys
+import threading
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
@@ -55,7 +56,8 @@ class YanMoDesktopApp:
             " • <b>键盘常规输入</b>：在下方文本框中敲击拼音（如 <tt>he</tt>、<tt>yanmo</tt>），悬浮候选条实时跟随。\n"
             " • <b>Tab 键双模部首筛选</b>：输入拼音后按 <b>Tab</b> 键，既可敲<b>部首拼音</b>（如 <tt>shui</tt>），也可按<b>首笔画</b>：\n"
             "   👉 <b>h</b> (横) / <b>s</b> (竖) / <b>p</b> (撇) / <b>d</b> (点) / <b>z</b> (折) 秒级过滤！\n"
-            " • <b>触屏/鼠标视觉流</b>：点击候选条右上角 <b>[部首 ▾]</b>，按五大笔画分类点选部首查字！\n"
+            " • <b>触屏/鼠标视觉流</b>：点击候选条右上角 <b>[部首全景 ▾]</b>，按五大笔画分类点选部首查字！\n"
+            " • <b>离线轻量语音输入</b>：点击 <b>[🎙️ 语音]</b> 或快捷键 <b>F2</b>，使用 SenseVoice-Small 离线听写上屏！\n"
             " • <b>选词上屏与自学习</b>：按 <b>空格</b> 或 <b>数字键 1-9</b>，字符上屏并自动记录至个人词库。"
         )
         lbl_desc.set_xalign(0.0)
@@ -68,7 +70,7 @@ class YanMoDesktopApp:
         self.text_view.set_wrap_mode(Gtk.WrapMode.WORD)
         self.text_view.set_border_width(8)
         self.text_buffer = self.text_view.get_buffer()
-        self.text_buffer.set_text("言墨输入法就绪。请直接在此连续键入拼音测试...\n\n")
+        self.text_buffer.set_text("言墨输入法就绪。请直接在此连续键入拼音测试，或点击语音听写...\n\n")
 
         # Key press interception on sandbox
         self.text_view.connect("key-press-event", self._on_key_press)
@@ -87,6 +89,11 @@ class YanMoDesktopApp:
         btn_picker.connect("clicked", lambda b: self.candidate_window.show_radical_picker())
         btn_box.pack_start(btn_picker, False, False, 0)
 
+        self.btn_sandbox_voice = Gtk.Button(label="🎙️ 离线语音听写")
+        self.btn_sandbox_voice.set_focus_on_click(False)
+        self.btn_sandbox_voice.connect("clicked", self._on_sandbox_voice_clicked)
+        btn_box.pack_start(self.btn_sandbox_voice, False, False, 0)
+
         btn_demo = Gtk.Button(label="⚡ 自动打字演示 (Demo)")
         btn_demo.set_focus_on_click(False)
         btn_demo.connect("clicked", self._trigger_auto_demo)
@@ -97,7 +104,9 @@ class YanMoDesktopApp:
         btn_clear.connect("clicked", lambda b: self.text_buffer.set_text(""))
         btn_box.pack_start(btn_clear, False, False, 0)
 
-        self.lbl_status = Gtk.Label(label="词库状态: 正常 | 用户自学词: 已同步")
+        voice_ready = self.engine.voice_engine.is_model_ready()
+        voice_txt = "SenseVoice已就绪" if voice_ready else "SenseVoice未就绪"
+        self.lbl_status = Gtk.Label(label=f"词库: 正常 | 自学词: 已同步 | 🎙️ {voice_txt}")
         btn_box.pack_end(self.lbl_status, False, False, 0)
 
         vbox.pack_start(btn_box, False, False, 0)
@@ -109,10 +118,44 @@ class YanMoDesktopApp:
         w, h = self.sandbox_window.get_size()
         self.candidate_window.move(x + 40, y + h - 90)
 
+    def _on_sandbox_voice_clicked(self, button=None):
+        """Toggle offline voice dictation from sandbox."""
+        if not self.engine.voice_engine.is_recording:
+            started = self.engine.start_voice_recording()
+            if started:
+                self.btn_sandbox_voice.set_label("🔴 倾听中... (按F2或再点结束)")
+                self.lbl_status.set_text("🎙️ 正在录音倾听中...")
+                self.candidate_window.update_from_engine()
+        else:
+            self.btn_sandbox_voice.set_label("⏳ 识别中...")
+            self.lbl_status.set_text("🎙️ 正在进行 SenseVoice 离线解码识别...")
+
+            def _worker():
+                text = self.engine.stop_voice_recording()
+
+                def _finish():
+                    self.btn_sandbox_voice.set_label("🎙️ 离线语音听写")
+                    if text:
+                        self._on_commit_text(text)
+                        self.lbl_status.set_text(f"🎙️ 语音识别上屏成功: '{text}'")
+                    else:
+                        self.lbl_status.set_text("🎙️ 未检测到有效语音")
+                    self.candidate_window.update_from_engine()
+                    return False
+
+                GLib.idle_add(_finish)
+
+            threading.Thread(target=_worker, daemon=True).start()
+
     def _on_key_press(self, widget, event):
         """Intercept key events and route to YanMo engine."""
         keyval = event.keyval
         key_name = Gdk.keyval_name(keyval)
+
+        # F2 hotkey toggles speech dictation
+        if key_name in ("F2",):
+            self._on_sandbox_voice_clicked(None)
+            return True
 
         engine_key = None
         if key_name in ("Tab", "ISO_Left_Tab"):
