@@ -1,0 +1,28 @@
+# Python & Virtual Environments
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Rust / C++ artifacts
+target/
+*.o
+*.so
+*.a
+*.dll
+*.dylib
+
+# Editor & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# User personal databases (do not commit personal history)
+data/user/
+*.db-journal
+*.db-wal
