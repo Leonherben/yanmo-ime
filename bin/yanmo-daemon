@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # YanMo IME Daemon launcher script
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+DIR="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
 PYTHON="$DIR/tools/.venv/bin/python"
 
 if [ ! -f "$PYTHON" ]; then
@@ -9,4 +10,23 @@ if [ ! -f "$PYTHON" ]; then
 fi
 
 export PYTHONPATH="$DIR:$PYTHONPATH"
-exec "$PYTHON" -m daemon.yanmo_daemon "$@"
+
+ACTION="${1:-run}"
+
+if [ "$ACTION" = "start" ]; then
+    # Check if already running
+    "$PYTHON" -m daemon.yanmo_daemon status | grep -q "正常运行中"
+    if [ $? -eq 0 ]; then
+        "$PYTHON" -m daemon.yanmo_daemon status
+        exit 0
+    fi
+    LOG_FILE="$HOME/.local/share/yanmo/daemon.log"
+    mkdir -p "$HOME/.local/share/yanmo"
+    nohup "$PYTHON" -m daemon.yanmo_daemon run > "$LOG_FILE" 2>&1 &
+    DAEMON_PID=$!
+    echo "$DAEMON_PID" > "$HOME/.local/share/yanmo/daemon.pid"
+    echo "🚀 言墨输入法守护进程已在后台启动 (PID: $DAEMON_PID)"
+    echo "💡 提示: 全局按 Ctrl+Space 切换中英，长按【v + 空格】开始离线语音听写，松开即上屏！"
+else
+    exec "$PYTHON" -m daemon.yanmo_daemon "$@"
+fi
