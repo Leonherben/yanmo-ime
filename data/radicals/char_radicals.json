@@ -1,0 +1,1146 @@
+{
+  "河": {
+    "pinyin": "he",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "可"
+    ],
+    "freq": 9800
+  },
+  "涸": {
+    "pinyin": "he",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "固"
+    ],
+    "freq": 1200
+  },
+  "渮": {
+    "pinyin": "he",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "苛"
+    ],
+    "freq": 200
+  },
+  "江": {
+    "pinyin": "jiang",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "工"
+    ],
+    "freq": 9500
+  },
+  "海": {
+    "pinyin": "hai",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "每"
+    ],
+    "freq": 9900
+  },
+  "湖": {
+    "pinyin": "hu",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "胡"
+    ],
+    "freq": 8900
+  },
+  "波": {
+    "pinyin": "bo",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "皮"
+    ],
+    "freq": 8800
+  },
+  "浪": {
+    "pinyin": "lang",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "良"
+    ],
+    "freq": 8700
+  },
+  "流": {
+    "pinyin": "liu",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "充"
+    ],
+    "freq": 9200
+  },
+  "清": {
+    "pinyin": "qing",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "青"
+    ],
+    "freq": 9300
+  },
+  "池": {
+    "pinyin": "chi",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "也"
+    ],
+    "freq": 8600
+  },
+  "洋": {
+    "pinyin": "yang",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "羊"
+    ],
+    "freq": 9100
+  },
+  "洗": {
+    "pinyin": "xi",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "先"
+    ],
+    "freq": 8500
+  },
+  "润": {
+    "pinyin": "run",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "闰"
+    ],
+    "freq": 7800
+  },
+  "深": {
+    "pinyin": "shen",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "冖",
+      "木"
+    ],
+    "freq": 9300
+  },
+  "温": {
+    "pinyin": "wen",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "日",
+      "皿"
+    ],
+    "freq": 8900
+  },
+  "港": {
+    "pinyin": "gang",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "巷"
+    ],
+    "freq": 8400
+  },
+  "测": {
+    "pinyin": "ce",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "贝",
+      "刂"
+    ],
+    "freq": 8700
+  },
+  "渺": {
+    "pinyin": "miao",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "目",
+      "少"
+    ],
+    "freq": 4500
+  },
+  "淼": {
+    "pinyin": "miao",
+    "radical": "水",
+    "components": [
+      "水",
+      "水",
+      "水"
+    ],
+    "freq": 2100
+  },
+  "核": {
+    "pinyin": "he",
+    "radical": "木",
+    "components": [
+      "木",
+      "亥"
+    ],
+    "freq": 8900
+  },
+  "林": {
+    "pinyin": "lin",
+    "radical": "木",
+    "components": [
+      "木",
+      "木"
+    ],
+    "freq": 9200
+  },
+  "森": {
+    "pinyin": "sen",
+    "radical": "木",
+    "components": [
+      "木",
+      "木",
+      "木"
+    ],
+    "freq": 8700
+  },
+  "休": {
+    "pinyin": "xiu",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "木"
+    ],
+    "freq": 8500
+  },
+  "树": {
+    "pinyin": "shu",
+    "radical": "木",
+    "components": [
+      "木",
+      "又",
+      "寸"
+    ],
+    "freq": 9000
+  },
+  "机": {
+    "pinyin": "ji",
+    "radical": "木",
+    "components": [
+      "木",
+      "几"
+    ],
+    "freq": 9950
+  },
+  "枝": {
+    "pinyin": "zhi",
+    "radical": "木",
+    "components": [
+      "木",
+      "支"
+    ],
+    "freq": 7600
+  },
+  "果": {
+    "pinyin": "guo",
+    "radical": "木",
+    "components": [
+      "日",
+      "木"
+    ],
+    "freq": 9100
+  },
+  "根": {
+    "pinyin": "gen",
+    "radical": "木",
+    "components": [
+      "木",
+      "艮"
+    ],
+    "freq": 8800
+  },
+  "桥": {
+    "pinyin": "qiao",
+    "radical": "木",
+    "components": [
+      "木",
+      "乔"
+    ],
+    "freq": 8700
+  },
+  "梁": {
+    "pinyin": "liang",
+    "radical": "木",
+    "components": [
+      "刃",
+      "水",
+      "木"
+    ],
+    "freq": 8400
+  },
+  "校": {
+    "pinyin": "xiao",
+    "radical": "木",
+    "components": [
+      "木",
+      "交"
+    ],
+    "freq": 9300
+  },
+  "和": {
+    "pinyin": "he",
+    "radical": "口",
+    "components": [
+      "禾",
+      "口"
+    ],
+    "freq": 9990
+  },
+  "合": {
+    "pinyin": "he",
+    "radical": "口",
+    "components": [
+      "人",
+      "一",
+      "口"
+    ],
+    "freq": 9850
+  },
+  "喝": {
+    "pinyin": "he",
+    "radical": "口",
+    "components": [
+      "口",
+      "日",
+      "勹",
+      "人"
+    ],
+    "freq": 8700
+  },
+  "品": {
+    "pinyin": "pin",
+    "radical": "口",
+    "components": [
+      "口",
+      "口",
+      "口"
+    ],
+    "freq": 9300
+  },
+  "器": {
+    "pinyin": "qi",
+    "radical": "口",
+    "components": [
+      "口",
+      "口",
+      "犬",
+      "口",
+      "口"
+    ],
+    "freq": 8900
+  },
+  "唱": {
+    "pinyin": "chang",
+    "radical": "口",
+    "components": [
+      "口",
+      "昌"
+    ],
+    "freq": 8200
+  },
+  "叫": {
+    "pinyin": "jiao",
+    "radical": "口",
+    "components": [
+      "口",
+      "丩"
+    ],
+    "freq": 8900
+  },
+  "问": {
+    "pinyin": "wen",
+    "radical": "门",
+    "components": [
+      "门",
+      "口"
+    ],
+    "freq": 9500
+  },
+  "听": {
+    "pinyin": "ting",
+    "radical": "口",
+    "components": [
+      "口",
+      "斤"
+    ],
+    "freq": 9200
+  },
+  "荷": {
+    "pinyin": "he",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "何"
+    ],
+    "freq": 8100
+  },
+  "苗": {
+    "pinyin": "miao",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "田"
+    ],
+    "freq": 8000
+  },
+  "草": {
+    "pinyin": "cao",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "早"
+    ],
+    "freq": 9100
+  },
+  "花": {
+    "pinyin": "hua",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "化"
+    ],
+    "freq": 9600
+  },
+  "茶": {
+    "pinyin": "cha",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "人",
+      "木"
+    ],
+    "freq": 8800
+  },
+  "若": {
+    "pinyin": "ruo",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "右"
+    ],
+    "freq": 8900
+  },
+  "苦": {
+    "pinyin": "ku",
+    "radical": "艹",
+    "components": [
+      "艹",
+      "古"
+    ],
+    "freq": 8700
+  },
+  "何": {
+    "pinyin": "he",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "可"
+    ],
+    "freq": 9600
+  },
+  "你": {
+    "pinyin": "ni",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "尔"
+    ],
+    "freq": 9999
+  },
+  "他": {
+    "pinyin": "ta",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "也"
+    ],
+    "freq": 9990
+  },
+  "们": {
+    "pinyin": "men",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "门"
+    ],
+    "freq": 9980
+  },
+  "化": {
+    "pinyin": "hua",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "匕"
+    ],
+    "freq": 9300
+  },
+  "信": {
+    "pinyin": "xin",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "言"
+    ],
+    "freq": 9400
+  },
+  "作": {
+    "pinyin": "zuo",
+    "radical": "亻",
+    "components": [
+      "亻",
+      "乍"
+    ],
+    "freq": 9700
+  },
+  "禾": {
+    "pinyin": "he",
+    "radical": "禾",
+    "components": [
+      "禾"
+    ],
+    "freq": 7500
+  },
+  "秋": {
+    "pinyin": "qiu",
+    "radical": "禾",
+    "components": [
+      "禾",
+      "火"
+    ],
+    "freq": 8600
+  },
+  "科": {
+    "pinyin": "ke",
+    "radical": "禾",
+    "components": [
+      "禾",
+      "斗"
+    ],
+    "freq": 9400
+  },
+  "租": {
+    "pinyin": "zu",
+    "radical": "禾",
+    "components": [
+      "禾",
+      "且"
+    ],
+    "freq": 8300
+  },
+  "程": {
+    "pinyin": "cheng",
+    "radical": "禾",
+    "components": [
+      "禾",
+      "呈"
+    ],
+    "freq": 9100
+  },
+  "秀": {
+    "pinyin": "xiu",
+    "radical": "禾",
+    "components": [
+      "禾",
+      "乃"
+    ],
+    "freq": 8700
+  },
+  "明": {
+    "pinyin": "ming",
+    "radical": "日",
+    "components": [
+      "日",
+      "月"
+    ],
+    "freq": 9700
+  },
+  "晶": {
+    "pinyin": "jing",
+    "radical": "日",
+    "components": [
+      "日",
+      "日",
+      "日"
+    ],
+    "freq": 8200
+  },
+  "晴": {
+    "pinyin": "qing",
+    "radical": "日",
+    "components": [
+      "日",
+      "青"
+    ],
+    "freq": 8800
+  },
+  "早": {
+    "pinyin": "zao",
+    "radical": "日",
+    "components": [
+      "日",
+      "十"
+    ],
+    "freq": 9100
+  },
+  "晨": {
+    "pinyin": "chen",
+    "radical": "日",
+    "components": [
+      "日",
+      "辰"
+    ],
+    "freq": 8400
+  },
+  "阳": {
+    "pinyin": "yang",
+    "radical": "阝",
+    "components": [
+      "阝",
+      "日"
+    ],
+    "freq": 9300
+  },
+  "朋": {
+    "pinyin": "peng",
+    "radical": "月",
+    "components": [
+      "月",
+      "月"
+    ],
+    "freq": 9200
+  },
+  "朝": {
+    "pinyin": "chao",
+    "radical": "月",
+    "components": [
+      "十",
+      "日",
+      "十",
+      "月"
+    ],
+    "freq": 8900
+  },
+  "金": {
+    "pinyin": "jin",
+    "radical": "金",
+    "components": [
+      "金"
+    ],
+    "freq": 9500
+  },
+  "银": {
+    "pinyin": "yin",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "艮"
+    ],
+    "freq": 9000
+  },
+  "铜": {
+    "pinyin": "tong",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "同"
+    ],
+    "freq": 8700
+  },
+  "铁": {
+    "pinyin": "tie",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "失"
+    ],
+    "freq": 8900
+  },
+  "鑫": {
+    "pinyin": "xin",
+    "radical": "金",
+    "components": [
+      "金",
+      "金",
+      "金"
+    ],
+    "freq": 6500
+  },
+  "钢": {
+    "pinyin": "gang",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "冈"
+    ],
+    "freq": 8800
+  },
+  "钱": {
+    "pinyin": "qian",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "戋"
+    ],
+    "freq": 9400
+  },
+  "钟": {
+    "pinyin": "zhong",
+    "radical": "钅",
+    "components": [
+      "钅",
+      "中"
+    ],
+    "freq": 8800
+  },
+  "火": {
+    "pinyin": "huo",
+    "radical": "火",
+    "components": [
+      "火"
+    ],
+    "freq": 9200
+  },
+  "炎": {
+    "pinyin": "yan",
+    "radical": "火",
+    "components": [
+      "火",
+      "火"
+    ],
+    "freq": 8100
+  },
+  "焱": {
+    "pinyin": "yan",
+    "radical": "火",
+    "components": [
+      "火",
+      "火",
+      "火"
+    ],
+    "freq": 3500
+  },
+  "热": {
+    "pinyin": "re",
+    "radical": "灬",
+    "components": [
+      "执",
+      "灬"
+    ],
+    "freq": 9200
+  },
+  "点": {
+    "pinyin": "dian",
+    "radical": "灬",
+    "components": [
+      "占",
+      "灬"
+    ],
+    "freq": 9800
+  },
+  "照": {
+    "pinyin": "zhao",
+    "radical": "灬",
+    "components": [
+      "昭",
+      "灬"
+    ],
+    "freq": 9100
+  },
+  "熊": {
+    "pinyin": "xiong",
+    "radical": "灬",
+    "components": [
+      "能",
+      "灬"
+    ],
+    "freq": 8500
+  },
+  "土": {
+    "pinyin": "tu",
+    "radical": "土",
+    "components": [
+      "土"
+    ],
+    "freq": 9000
+  },
+  "地": {
+    "pinyin": "di",
+    "radical": "土",
+    "components": [
+      "土",
+      "也"
+    ],
+    "freq": 9950
+  },
+  "场": {
+    "pinyin": "chang",
+    "radical": "土",
+    "components": [
+      "土",
+      "昜"
+    ],
+    "freq": 9400
+  },
+  "城": {
+    "pinyin": "cheng",
+    "radical": "土",
+    "components": [
+      "土",
+      "成"
+    ],
+    "freq": 9300
+  },
+  "石": {
+    "pinyin": "shi",
+    "radical": "石",
+    "components": [
+      "石"
+    ],
+    "freq": 9200
+  },
+  "磊": {
+    "pinyin": "lei",
+    "radical": "石",
+    "components": [
+      "石",
+      "石",
+      "石"
+    ],
+    "freq": 7500
+  },
+  "研": {
+    "pinyin": "yan",
+    "radical": "石",
+    "components": [
+      "石",
+      "开"
+    ],
+    "freq": 9300
+  },
+  "破": {
+    "pinyin": "po",
+    "radical": "石",
+    "components": [
+      "石",
+      "皮"
+    ],
+    "freq": 9000
+  },
+  "言": {
+    "pinyin": "yan",
+    "radical": "言",
+    "components": [
+      "言"
+    ],
+    "freq": 9100
+  },
+  "语": {
+    "pinyin": "yu",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "吾"
+    ],
+    "freq": 9600
+  },
+  "话": {
+    "pinyin": "hua",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "舌"
+    ],
+    "freq": 9600
+  },
+  "说": {
+    "pinyin": "shuo",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "兑"
+    ],
+    "freq": 9800
+  },
+  "诗": {
+    "pinyin": "shi",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "寺"
+    ],
+    "freq": 8900
+  },
+  "词": {
+    "pinyin": "ci",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "司"
+    ],
+    "freq": 9100
+  },
+  "讯": {
+    "pinyin": "xun",
+    "radical": "讠",
+    "components": [
+      "讠",
+      "十"
+    ],
+    "freq": 8600
+  },
+  "手": {
+    "pinyin": "shou",
+    "radical": "手",
+    "components": [
+      "手"
+    ],
+    "freq": 9400
+  },
+  "打": {
+    "pinyin": "da",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "丁"
+    ],
+    "freq": 9700
+  },
+  "提": {
+    "pinyin": "ti",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "是"
+    ],
+    "freq": 9300
+  },
+  "持": {
+    "pinyin": "chi",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "寺"
+    ],
+    "freq": 9200
+  },
+  "把": {
+    "pinyin": "ba",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "巴"
+    ],
+    "freq": 9600
+  },
+  "找": {
+    "pinyin": "zhao",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "戈"
+    ],
+    "freq": 9400
+  },
+  "接": {
+    "pinyin": "jie",
+    "radical": "扌",
+    "components": [
+      "扌",
+      "妾"
+    ],
+    "freq": 9300
+  },
+  "心": {
+    "pinyin": "xin",
+    "radical": "心",
+    "components": [
+      "心"
+    ],
+    "freq": 9800
+  },
+  "情": {
+    "pinyin": "qing",
+    "radical": "忄",
+    "components": [
+      "忄",
+      "青"
+    ],
+    "freq": 9600
+  },
+  "快": {
+    "pinyin": "kuai",
+    "radical": "忄",
+    "components": [
+      "忄",
+      "夬"
+    ],
+    "freq": 9400
+  },
+  "慢": {
+    "pinyin": "man",
+    "radical": "忄",
+    "components": [
+      "忄",
+      "曼"
+    ],
+    "freq": 9000
+  },
+  "想": {
+    "pinyin": "xiang",
+    "radical": "心",
+    "components": [
+      "相",
+      "心"
+    ],
+    "freq": 9700
+  },
+  "思": {
+    "pinyin": "si",
+    "radical": "心",
+    "components": [
+      "田",
+      "心"
+    ],
+    "freq": 9500
+  },
+  "念": {
+    "pinyin": "nian",
+    "radical": "心",
+    "components": [
+      "今",
+      "心"
+    ],
+    "freq": 9100
+  },
+  "中": {
+    "pinyin": "zhong",
+    "radical": "丨",
+    "components": [
+      "丨",
+      "口"
+    ],
+    "freq": 9999
+  },
+  "文": {
+    "pinyin": "wen",
+    "radical": "文",
+    "components": [
+      "文"
+    ],
+    "freq": 9950
+  },
+  "国": {
+    "pinyin": "guo",
+    "radical": "囗",
+    "components": [
+      "囗",
+      "玉"
+    ],
+    "freq": 9998
+  },
+  "家": {
+    "pinyin": "jia",
+    "radical": "宀",
+    "components": [
+      "宀",
+      "豕"
+    ],
+    "freq": 9900
+  },
+  "学": {
+    "pinyin": "xue",
+    "radical": "子",
+    "components": [
+      "⺌",
+      "冖",
+      "子"
+    ],
+    "freq": 9800
+  },
+  "生": {
+    "pinyin": "sheng",
+    "radical": "生",
+    "components": [
+      "生"
+    ],
+    "freq": 9920
+  },
+  "自": {
+    "pinyin": "zi",
+    "radical": "自",
+    "components": [
+      "自"
+    ],
+    "freq": 9800
+  },
+  "用": {
+    "pinyin": "yong",
+    "radical": "用",
+    "components": [
+      "用"
+    ],
+    "freq": 9850
+  },
+  "墨": {
+    "pinyin": "mo",
+    "radical": "土",
+    "components": [
+      "黑",
+      "土"
+    ],
+    "freq": 8200
+  },
+  "码": {
+    "pinyin": "ma",
+    "radical": "石",
+    "components": [
+      "石",
+      "马"
+    ],
+    "freq": 8800
+  },
+  "法": {
+    "pinyin": "fa",
+    "radical": "氵",
+    "components": [
+      "氵",
+      "去"
+    ],
+    "freq": 9800
+  },
+  "入": {
+    "pinyin": "ru",
+    "radical": "入",
+    "components": [
+      "入"
+    ],
+    "freq": 9600
+  },
+  "输": {
+    "pinyin": "shu",
+    "radical": "车",
+    "components": [
+      "车",
+      "俞"
+    ],
+    "freq": 9100
+  }
+}

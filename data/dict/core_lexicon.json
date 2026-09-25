@@ -1,0 +1,963 @@
+[
+  {
+    "word": "言墨",
+    "pinyin": "yanmo",
+    "freq": 10000
+  },
+  {
+    "word": "输入法",
+    "pinyin": "shurufa",
+    "freq": 9800
+  },
+  {
+    "word": "中文",
+    "pinyin": "zhongwen",
+    "freq": 9900
+  },
+  {
+    "word": "中国",
+    "pinyin": "zhongguo",
+    "freq": 9999
+  },
+  {
+    "word": "编码",
+    "pinyin": "bianma",
+    "freq": 9100
+  },
+  {
+    "word": "部首",
+    "pinyin": "bushou",
+    "freq": 9500
+  },
+  {
+    "word": "拼音",
+    "pinyin": "pinyin",
+    "freq": 9600
+  },
+  {
+    "word": "词库",
+    "pinyin": "ciku",
+    "freq": 9400
+  },
+  {
+    "word": "语音",
+    "pinyin": "yuyin",
+    "freq": 9500
+  },
+  {
+    "word": "核心",
+    "pinyin": "hexin",
+    "freq": 9300
+  },
+  {
+    "word": "河水",
+    "pinyin": "heshui",
+    "freq": 8900
+  },
+  {
+    "word": "和平",
+    "pinyin": "heping",
+    "freq": 9400
+  },
+  {
+    "word": "合作",
+    "pinyin": "hezuo",
+    "freq": 9600
+  },
+  {
+    "word": "合同",
+    "pinyin": "hetong",
+    "freq": 9500
+  },
+  {
+    "word": "荷花",
+    "pinyin": "hehua",
+    "freq": 8800
+  },
+  {
+    "word": "喝水",
+    "pinyin": "heshui",
+    "freq": 8900
+  },
+  {
+    "word": "合力",
+    "pinyin": "heli",
+    "freq": 8700
+  },
+  {
+    "word": "合理",
+    "pinyin": "heli",
+    "freq": 9200
+  },
+  {
+    "word": "森林",
+    "pinyin": "senlin",
+    "freq": 9200
+  },
+  {
+    "word": "树木",
+    "pinyin": "shumu",
+    "freq": 9100
+  },
+  {
+    "word": "明月",
+    "pinyin": "mingyue",
+    "freq": 9000
+  },
+  {
+    "word": "明白",
+    "pinyin": "mingbai",
+    "freq": 9700
+  },
+  {
+    "word": "明天",
+    "pinyin": "mingtian",
+    "freq": 9800
+  },
+  {
+    "word": "晶莹",
+    "pinyin": "jingying",
+    "freq": 8600
+  },
+  {
+    "word": "品质",
+    "pinyin": "pinzhi",
+    "freq": 9400
+  },
+  {
+    "word": "作品",
+    "pinyin": "zuopin",
+    "freq": 9300
+  },
+  {
+    "word": "科学",
+    "pinyin": "kexue",
+    "freq": 9700
+  },
+  {
+    "word": "技术",
+    "pinyin": "jishu",
+    "freq": 9800
+  },
+  {
+    "word": "系统",
+    "pinyin": "xitong",
+    "freq": 9800
+  },
+  {
+    "word": "开发",
+    "pinyin": "kaifa",
+    "freq": 9700
+  },
+  {
+    "word": "程序",
+    "pinyin": "chengxu",
+    "freq": 9600
+  },
+  {
+    "word": "机器",
+    "pinyin": "jiqi",
+    "freq": 9500
+  },
+  {
+    "word": "学习",
+    "pinyin": "xuexi",
+    "freq": 9800
+  },
+  {
+    "word": "我们",
+    "pinyin": "women",
+    "freq": 9990
+  },
+  {
+    "word": "你们",
+    "pinyin": "nimen",
+    "freq": 9950
+  },
+  {
+    "word": "他们",
+    "pinyin": "tamen",
+    "freq": 9960
+  },
+  {
+    "word": "自己",
+    "pinyin": "ziji",
+    "freq": 9920
+  },
+  {
+    "word": "国家",
+    "pinyin": "guojia",
+    "freq": 9950
+  },
+  {
+    "word": "时间",
+    "pinyin": "shijian",
+    "freq": 9940
+  },
+  {
+    "word": "问题",
+    "pinyin": "wenti",
+    "freq": 9920
+  },
+  {
+    "word": "工作",
+    "pinyin": "gongzuo",
+    "freq": 9910
+  },
+  {
+    "word": "河",
+    "pinyin": "he",
+    "freq": 9800,
+    "radical": "氵"
+  },
+  {
+    "word": "涸",
+    "pinyin": "he",
+    "freq": 1200,
+    "radical": "氵"
+  },
+  {
+    "word": "渮",
+    "pinyin": "he",
+    "freq": 200,
+    "radical": "氵"
+  },
+  {
+    "word": "江",
+    "pinyin": "jiang",
+    "freq": 9500,
+    "radical": "氵"
+  },
+  {
+    "word": "海",
+    "pinyin": "hai",
+    "freq": 9900,
+    "radical": "氵"
+  },
+  {
+    "word": "湖",
+    "pinyin": "hu",
+    "freq": 8900,
+    "radical": "氵"
+  },
+  {
+    "word": "波",
+    "pinyin": "bo",
+    "freq": 8800,
+    "radical": "氵"
+  },
+  {
+    "word": "浪",
+    "pinyin": "lang",
+    "freq": 8700,
+    "radical": "氵"
+  },
+  {
+    "word": "流",
+    "pinyin": "liu",
+    "freq": 9200,
+    "radical": "氵"
+  },
+  {
+    "word": "清",
+    "pinyin": "qing",
+    "freq": 9300,
+    "radical": "氵"
+  },
+  {
+    "word": "池",
+    "pinyin": "chi",
+    "freq": 8600,
+    "radical": "氵"
+  },
+  {
+    "word": "洋",
+    "pinyin": "yang",
+    "freq": 9100,
+    "radical": "氵"
+  },
+  {
+    "word": "洗",
+    "pinyin": "xi",
+    "freq": 8500,
+    "radical": "氵"
+  },
+  {
+    "word": "润",
+    "pinyin": "run",
+    "freq": 7800,
+    "radical": "氵"
+  },
+  {
+    "word": "深",
+    "pinyin": "shen",
+    "freq": 9300,
+    "radical": "氵"
+  },
+  {
+    "word": "温",
+    "pinyin": "wen",
+    "freq": 8900,
+    "radical": "氵"
+  },
+  {
+    "word": "港",
+    "pinyin": "gang",
+    "freq": 8400,
+    "radical": "氵"
+  },
+  {
+    "word": "测",
+    "pinyin": "ce",
+    "freq": 8700,
+    "radical": "氵"
+  },
+  {
+    "word": "渺",
+    "pinyin": "miao",
+    "freq": 4500,
+    "radical": "氵"
+  },
+  {
+    "word": "淼",
+    "pinyin": "miao",
+    "freq": 2100,
+    "radical": "水"
+  },
+  {
+    "word": "核",
+    "pinyin": "he",
+    "freq": 8900,
+    "radical": "木"
+  },
+  {
+    "word": "林",
+    "pinyin": "lin",
+    "freq": 9200,
+    "radical": "木"
+  },
+  {
+    "word": "森",
+    "pinyin": "sen",
+    "freq": 8700,
+    "radical": "木"
+  },
+  {
+    "word": "休",
+    "pinyin": "xiu",
+    "freq": 8500,
+    "radical": "亻"
+  },
+  {
+    "word": "树",
+    "pinyin": "shu",
+    "freq": 9000,
+    "radical": "木"
+  },
+  {
+    "word": "机",
+    "pinyin": "ji",
+    "freq": 9950,
+    "radical": "木"
+  },
+  {
+    "word": "枝",
+    "pinyin": "zhi",
+    "freq": 7600,
+    "radical": "木"
+  },
+  {
+    "word": "果",
+    "pinyin": "guo",
+    "freq": 9100,
+    "radical": "木"
+  },
+  {
+    "word": "根",
+    "pinyin": "gen",
+    "freq": 8800,
+    "radical": "木"
+  },
+  {
+    "word": "桥",
+    "pinyin": "qiao",
+    "freq": 8700,
+    "radical": "木"
+  },
+  {
+    "word": "梁",
+    "pinyin": "liang",
+    "freq": 8400,
+    "radical": "木"
+  },
+  {
+    "word": "校",
+    "pinyin": "xiao",
+    "freq": 9300,
+    "radical": "木"
+  },
+  {
+    "word": "和",
+    "pinyin": "he",
+    "freq": 9990,
+    "radical": "口"
+  },
+  {
+    "word": "合",
+    "pinyin": "he",
+    "freq": 9850,
+    "radical": "口"
+  },
+  {
+    "word": "喝",
+    "pinyin": "he",
+    "freq": 8700,
+    "radical": "口"
+  },
+  {
+    "word": "品",
+    "pinyin": "pin",
+    "freq": 9300,
+    "radical": "口"
+  },
+  {
+    "word": "器",
+    "pinyin": "qi",
+    "freq": 8900,
+    "radical": "口"
+  },
+  {
+    "word": "唱",
+    "pinyin": "chang",
+    "freq": 8200,
+    "radical": "口"
+  },
+  {
+    "word": "叫",
+    "pinyin": "jiao",
+    "freq": 8900,
+    "radical": "口"
+  },
+  {
+    "word": "问",
+    "pinyin": "wen",
+    "freq": 9500,
+    "radical": "门"
+  },
+  {
+    "word": "听",
+    "pinyin": "ting",
+    "freq": 9200,
+    "radical": "口"
+  },
+  {
+    "word": "荷",
+    "pinyin": "he",
+    "freq": 8100,
+    "radical": "艹"
+  },
+  {
+    "word": "苗",
+    "pinyin": "miao",
+    "freq": 8000,
+    "radical": "艹"
+  },
+  {
+    "word": "草",
+    "pinyin": "cao",
+    "freq": 9100,
+    "radical": "艹"
+  },
+  {
+    "word": "花",
+    "pinyin": "hua",
+    "freq": 9600,
+    "radical": "艹"
+  },
+  {
+    "word": "茶",
+    "pinyin": "cha",
+    "freq": 8800,
+    "radical": "艹"
+  },
+  {
+    "word": "若",
+    "pinyin": "ruo",
+    "freq": 8900,
+    "radical": "艹"
+  },
+  {
+    "word": "苦",
+    "pinyin": "ku",
+    "freq": 8700,
+    "radical": "艹"
+  },
+  {
+    "word": "何",
+    "pinyin": "he",
+    "freq": 9600,
+    "radical": "亻"
+  },
+  {
+    "word": "你",
+    "pinyin": "ni",
+    "freq": 9999,
+    "radical": "亻"
+  },
+  {
+    "word": "他",
+    "pinyin": "ta",
+    "freq": 9990,
+    "radical": "亻"
+  },
+  {
+    "word": "们",
+    "pinyin": "men",
+    "freq": 9980,
+    "radical": "亻"
+  },
+  {
+    "word": "化",
+    "pinyin": "hua",
+    "freq": 9300,
+    "radical": "亻"
+  },
+  {
+    "word": "信",
+    "pinyin": "xin",
+    "freq": 9400,
+    "radical": "亻"
+  },
+  {
+    "word": "作",
+    "pinyin": "zuo",
+    "freq": 9700,
+    "radical": "亻"
+  },
+  {
+    "word": "禾",
+    "pinyin": "he",
+    "freq": 7500,
+    "radical": "禾"
+  },
+  {
+    "word": "秋",
+    "pinyin": "qiu",
+    "freq": 8600,
+    "radical": "禾"
+  },
+  {
+    "word": "科",
+    "pinyin": "ke",
+    "freq": 9400,
+    "radical": "禾"
+  },
+  {
+    "word": "租",
+    "pinyin": "zu",
+    "freq": 8300,
+    "radical": "禾"
+  },
+  {
+    "word": "程",
+    "pinyin": "cheng",
+    "freq": 9100,
+    "radical": "禾"
+  },
+  {
+    "word": "秀",
+    "pinyin": "xiu",
+    "freq": 8700,
+    "radical": "禾"
+  },
+  {
+    "word": "明",
+    "pinyin": "ming",
+    "freq": 9700,
+    "radical": "日"
+  },
+  {
+    "word": "晶",
+    "pinyin": "jing",
+    "freq": 8200,
+    "radical": "日"
+  },
+  {
+    "word": "晴",
+    "pinyin": "qing",
+    "freq": 8800,
+    "radical": "日"
+  },
+  {
+    "word": "早",
+    "pinyin": "zao",
+    "freq": 9100,
+    "radical": "日"
+  },
+  {
+    "word": "晨",
+    "pinyin": "chen",
+    "freq": 8400,
+    "radical": "日"
+  },
+  {
+    "word": "阳",
+    "pinyin": "yang",
+    "freq": 9300,
+    "radical": "阝"
+  },
+  {
+    "word": "朋",
+    "pinyin": "peng",
+    "freq": 9200,
+    "radical": "月"
+  },
+  {
+    "word": "朝",
+    "pinyin": "chao",
+    "freq": 8900,
+    "radical": "月"
+  },
+  {
+    "word": "金",
+    "pinyin": "jin",
+    "freq": 9500,
+    "radical": "金"
+  },
+  {
+    "word": "银",
+    "pinyin": "yin",
+    "freq": 9000,
+    "radical": "钅"
+  },
+  {
+    "word": "铜",
+    "pinyin": "tong",
+    "freq": 8700,
+    "radical": "钅"
+  },
+  {
+    "word": "铁",
+    "pinyin": "tie",
+    "freq": 8900,
+    "radical": "钅"
+  },
+  {
+    "word": "鑫",
+    "pinyin": "xin",
+    "freq": 6500,
+    "radical": "金"
+  },
+  {
+    "word": "钢",
+    "pinyin": "gang",
+    "freq": 8800,
+    "radical": "钅"
+  },
+  {
+    "word": "钱",
+    "pinyin": "qian",
+    "freq": 9400,
+    "radical": "钅"
+  },
+  {
+    "word": "钟",
+    "pinyin": "zhong",
+    "freq": 8800,
+    "radical": "钅"
+  },
+  {
+    "word": "火",
+    "pinyin": "huo",
+    "freq": 9200,
+    "radical": "火"
+  },
+  {
+    "word": "炎",
+    "pinyin": "yan",
+    "freq": 8100,
+    "radical": "火"
+  },
+  {
+    "word": "焱",
+    "pinyin": "yan",
+    "freq": 3500,
+    "radical": "火"
+  },
+  {
+    "word": "热",
+    "pinyin": "re",
+    "freq": 9200,
+    "radical": "灬"
+  },
+  {
+    "word": "点",
+    "pinyin": "dian",
+    "freq": 9800,
+    "radical": "灬"
+  },
+  {
+    "word": "照",
+    "pinyin": "zhao",
+    "freq": 9100,
+    "radical": "灬"
+  },
+  {
+    "word": "熊",
+    "pinyin": "xiong",
+    "freq": 8500,
+    "radical": "灬"
+  },
+  {
+    "word": "土",
+    "pinyin": "tu",
+    "freq": 9000,
+    "radical": "土"
+  },
+  {
+    "word": "地",
+    "pinyin": "di",
+    "freq": 9950,
+    "radical": "土"
+  },
+  {
+    "word": "场",
+    "pinyin": "chang",
+    "freq": 9400,
+    "radical": "土"
+  },
+  {
+    "word": "城",
+    "pinyin": "cheng",
+    "freq": 9300,
+    "radical": "土"
+  },
+  {
+    "word": "石",
+    "pinyin": "shi",
+    "freq": 9200,
+    "radical": "石"
+  },
+  {
+    "word": "磊",
+    "pinyin": "lei",
+    "freq": 7500,
+    "radical": "石"
+  },
+  {
+    "word": "研",
+    "pinyin": "yan",
+    "freq": 9300,
+    "radical": "石"
+  },
+  {
+    "word": "破",
+    "pinyin": "po",
+    "freq": 9000,
+    "radical": "石"
+  },
+  {
+    "word": "言",
+    "pinyin": "yan",
+    "freq": 9100,
+    "radical": "言"
+  },
+  {
+    "word": "语",
+    "pinyin": "yu",
+    "freq": 9600,
+    "radical": "讠"
+  },
+  {
+    "word": "话",
+    "pinyin": "hua",
+    "freq": 9600,
+    "radical": "讠"
+  },
+  {
+    "word": "说",
+    "pinyin": "shuo",
+    "freq": 9800,
+    "radical": "讠"
+  },
+  {
+    "word": "诗",
+    "pinyin": "shi",
+    "freq": 8900,
+    "radical": "讠"
+  },
+  {
+    "word": "词",
+    "pinyin": "ci",
+    "freq": 9100,
+    "radical": "讠"
+  },
+  {
+    "word": "讯",
+    "pinyin": "xun",
+    "freq": 8600,
+    "radical": "讠"
+  },
+  {
+    "word": "手",
+    "pinyin": "shou",
+    "freq": 9400,
+    "radical": "手"
+  },
+  {
+    "word": "打",
+    "pinyin": "da",
+    "freq": 9700,
+    "radical": "扌"
+  },
+  {
+    "word": "提",
+    "pinyin": "ti",
+    "freq": 9300,
+    "radical": "扌"
+  },
+  {
+    "word": "持",
+    "pinyin": "chi",
+    "freq": 9200,
+    "radical": "扌"
+  },
+  {
+    "word": "把",
+    "pinyin": "ba",
+    "freq": 9600,
+    "radical": "扌"
+  },
+  {
+    "word": "找",
+    "pinyin": "zhao",
+    "freq": 9400,
+    "radical": "扌"
+  },
+  {
+    "word": "接",
+    "pinyin": "jie",
+    "freq": 9300,
+    "radical": "扌"
+  },
+  {
+    "word": "心",
+    "pinyin": "xin",
+    "freq": 9800,
+    "radical": "心"
+  },
+  {
+    "word": "情",
+    "pinyin": "qing",
+    "freq": 9600,
+    "radical": "忄"
+  },
+  {
+    "word": "快",
+    "pinyin": "kuai",
+    "freq": 9400,
+    "radical": "忄"
+  },
+  {
+    "word": "慢",
+    "pinyin": "man",
+    "freq": 9000,
+    "radical": "忄"
+  },
+  {
+    "word": "想",
+    "pinyin": "xiang",
+    "freq": 9700,
+    "radical": "心"
+  },
+  {
+    "word": "思",
+    "pinyin": "si",
+    "freq": 9500,
+    "radical": "心"
+  },
+  {
+    "word": "念",
+    "pinyin": "nian",
+    "freq": 9100,
+    "radical": "心"
+  },
+  {
+    "word": "中",
+    "pinyin": "zhong",
+    "freq": 9999,
+    "radical": "丨"
+  },
+  {
+    "word": "文",
+    "pinyin": "wen",
+    "freq": 9950,
+    "radical": "文"
+  },
+  {
+    "word": "国",
+    "pinyin": "guo",
+    "freq": 9998,
+    "radical": "囗"
+  },
+  {
+    "word": "家",
+    "pinyin": "jia",
+    "freq": 9900,
+    "radical": "宀"
+  },
+  {
+    "word": "学",
+    "pinyin": "xue",
+    "freq": 9800,
+    "radical": "子"
+  },
+  {
+    "word": "生",
+    "pinyin": "sheng",
+    "freq": 9920,
+    "radical": "生"
+  },
+  {
+    "word": "自",
+    "pinyin": "zi",
+    "freq": 9800,
+    "radical": "自"
+  },
+  {
+    "word": "用",
+    "pinyin": "yong",
+    "freq": 9850,
+    "radical": "用"
+  },
+  {
+    "word": "墨",
+    "pinyin": "mo",
+    "freq": 8200,
+    "radical": "土"
+  },
+  {
+    "word": "码",
+    "pinyin": "ma",
+    "freq": 8800,
+    "radical": "石"
+  },
+  {
+    "word": "法",
+    "pinyin": "fa",
+    "freq": 9800,
+    "radical": "氵"
+  },
+  {
+    "word": "入",
+    "pinyin": "ru",
+    "freq": 9600,
+    "radical": "入"
+  },
+  {
+    "word": "输",
+    "pinyin": "shu",
+    "freq": 9100,
+    "radical": "车"
+  }
+]
