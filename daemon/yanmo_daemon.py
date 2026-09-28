@@ -4,8 +4,10 @@ Runs in background on Linux Mint (Cinnamon / X11) to provide global Chinese typi
 5-stroke radical touch panel, Push-To-Talk offline voice dictation, and system tray.
 """
 
+import ast
 import os
 import signal
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -59,12 +61,14 @@ class YanMoDaemon:
         self.grabber = KeyboardGrabber(
             on_key_event=self._on_key_event,
             on_mode_toggle=self.toggle_mode,
-            on_voice_toggle=self._on_voice_toggle
+            on_voice_toggle=self._on_voice_toggle,
+            on_panic_exit=self.panic_stop
         )
 
     def start(self):
         """Start daemon loop and register signal handlers."""
         self._write_pid()
+        ensure_desktop_shortcut()
 
         # Handle termination signals
         signal.signal(signal.SIGINT, lambda s, f: self.stop())
@@ -76,6 +80,18 @@ class YanMoDaemon:
 
         # Start GTK event loop
         Gtk.main()
+
+    def panic_stop(self):
+        """Emergency stop triggered by global panic hotkey (Ctrl+Alt+Escape)."""
+        print("[YanMo] 🛑 收到全局紧急关闭快捷键 (Ctrl+Alt+Escape)，正在终止输入法守护进程...")
+        try:
+            subprocess.run([
+                "notify-send", "-t", "2500", "-i", "input-keyboard",
+                "言墨输入法", "🛑 已强制关闭后台守护进程 (Ctrl+Alt+Esc)"
+            ], check=False)
+        except Exception:
+            pass
+        self.stop()
 
     def stop(self):
         """Clean shutdown of daemon."""
@@ -200,6 +216,27 @@ X-GNOME-Autostart-enabled=true
         self.injector.inject_text(text, target_window_id=target_win)
 
 
+def ensure_desktop_shortcut():
+    """Ensure Cinnamon global shortcut for one-key force start/stop toggle is registered."""
+    try:
+        res = subprocess.check_output(
+            ["gsettings", "get", "org.cinnamon.desktop.keybindings", "custom-list"],
+            encoding="utf-8"
+        ).strip()
+        lst = ast.literal_eval(res)
+        if "custom-yanmo" not in lst:
+            lst.append("custom-yanmo")
+            subprocess.run(["gsettings", "set", "org.cinnamon.desktop.keybindings", "custom-list", str(lst)], check=False)
+
+        path = "org.cinnamon.desktop.keybindings.custom-keybinding:/org/cinnamon/desktop/keybindings/custom-keybindings/custom-yanmo/"
+        subprocess.run(["gsettings", "set", path, "name", "言墨输入法一键启停"], check=False)
+        cmd_path = str(Path.home() / ".local" / "bin" / "yanmo-daemon")
+        subprocess.run(["gsettings", "set", path, "command", f"{cmd_path} toggle"], check=False)
+        subprocess.run(["gsettings", "set", path, "binding", "['<Primary><Alt>Escape', '<Super>y']"], check=False)
+    except Exception:
+        pass
+
+
 def get_running_pid() -> Optional[int]:
     if PID_FILE.exists():
         try:
@@ -234,6 +271,35 @@ def main():
                 print(f"停止失败: {e}")
         else:
             print("言墨守护进程未在运行。")
+
+    elif action in ("--toggle", "toggle"):
+        pid = get_running_pid()
+        if pid:
+            try:
+                os.kill(pid, signal.SIGTERM)
+                print(f"🛑 已强制关闭言墨守护进程 (PID: {pid})")
+                subprocess.run([
+                    "notify-send", "-t", "2000", "-i", "input-keyboard",
+                    "言墨输入法", "🛑 已强制关闭后台守护进程"
+                ], check=False)
+            except OSError as e:
+                print(f"关闭失败: {e}")
+        else:
+            print("🚀 正在强制启动言墨守护进程...")
+            repo_root = Path(__file__).resolve().parent.parent
+            script_path = repo_root / "bin" / "yanmo-daemon"
+            subprocess.run([str(script_path), "start"], check=False)
+            subprocess.run([
+                "notify-send", "-t", "2000", "-i", "accessories-character-map",
+                "言墨输入法", "🚀 言墨输入法已强制启动"
+            ], check=False)
+
+    elif action in ("--register-shortcut", "register-shortcut"):
+        ensure_desktop_shortcut()
+        print("✅ 已成功注册 Linux Mint / Cinnamon 全局快捷键：")
+        print("   - Ctrl + Alt + Escape")
+        print("   - Win(Super) + Y")
+        print("   按下上述任意快捷键即可一键强制启动/关闭言墨输入法。")
 
     elif action in ("--status", "status"):
         pid = get_running_pid()

@@ -25,10 +25,12 @@ class KeyboardGrabber:
         on_key_event: Optional[Callable[[str, bool], None]] = None,
         on_mode_toggle: Optional[Callable[[], None]] = None,
         on_voice_toggle: Optional[Callable[[bool], None]] = None,
+        on_panic_exit: Optional[Callable[[], None]] = None,
     ):
         self.on_key_event = on_key_event
         self.on_mode_toggle = on_mode_toggle
         self.on_voice_toggle = on_voice_toggle
+        self.on_panic_exit = on_panic_exit
 
         self.display = display.Display() if HAS_XLIB else None
         self.root = self.display.screen().root if self.display else None
@@ -210,8 +212,15 @@ class KeyboardGrabber:
         kc = ev.detail
         state = ev.state
 
-        # Check Ctrl+Space toggle
+        # Check Ctrl+Alt+Escape emergency panic exit
         is_ctrl = bool(state & X.ControlMask)
+        is_alt = bool(state & X.Mod1Mask)
+        if kc == self.kc_escape and is_ctrl and is_alt:
+            if self.on_panic_exit:
+                GLib.idle_add(self.on_panic_exit)
+            return
+
+        # Check Ctrl+Space toggle
         if kc == self.kc_space and is_ctrl:
             if self.on_mode_toggle:
                 GLib.idle_add(self.on_mode_toggle)
