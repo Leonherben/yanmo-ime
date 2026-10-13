@@ -4,6 +4,7 @@ Listens to global hotkeys (Ctrl+Space, v+Space) and intercepts typing keys
 when Chinese input mode is active.
 """
 
+import os
 import threading
 import time
 from typing import Callable, Optional, Set
@@ -24,21 +25,32 @@ class KeyboardGrabber:
         self,
         on_key_event: Optional[Callable[[str, bool], None]] = None,
         on_mode_toggle: Optional[Callable[[], None]] = None,
+        on_punct_toggle: Optional[Callable[[], None]] = None,
+        on_fullwidth_toggle: Optional[Callable[[], None]] = None,
         on_voice_toggle: Optional[Callable[[bool], None]] = None,
         on_panic_exit: Optional[Callable[[], None]] = None,
     ):
         self.on_key_event = on_key_event
         self.on_mode_toggle = on_mode_toggle
+        self.on_punct_toggle = on_punct_toggle
+        self.on_fullwidth_toggle = on_fullwidth_toggle
         self.on_voice_toggle = on_voice_toggle
         self.on_panic_exit = on_panic_exit
 
         self.display = display.Display() if HAS_XLIB else None
+        if self.display:
+            try:
+                self.display.set_error_handler(lambda *args: None)
+            except Exception:
+                pass
         self.root = self.display.screen().root if self.display else None
 
         self.running = False
         self.thread: Optional[threading.Thread] = None
 
         self.is_chinese_mode = False
+        self.is_chinese_punct = True
+        self.is_full_width = False
         self.is_composing = False
 
         # Key state tracking for v + Space push-to-talk
@@ -55,11 +67,24 @@ class KeyboardGrabber:
             return
 
         self.kc_space = self.display.keysym_to_keycode(XK.XK_space)
+        self.kc_return = self.display.keysym_to_keycode(XK.XK_Return)
         self.kc_v = self.display.keysym_to_keycode(XK.XK_v)
         self.kc_tab = self.display.keysym_to_keycode(XK.XK_Tab)
         self.kc_backspace = self.display.keysym_to_keycode(XK.XK_BackSpace)
         self.kc_escape = self.display.keysym_to_keycode(XK.XK_Escape)
         self.kc_grave = self.display.keysym_to_keycode(XK.XK_grave)
+        self.kc_down = self.display.keysym_to_keycode(XK.XK_Down)
+        self.kc_up = self.display.keysym_to_keycode(XK.XK_Up)
+        self.kc_minus = self.display.keysym_to_keycode(XK.XK_minus)
+        self.kc_equal = self.display.keysym_to_keycode(XK.XK_equal)
+        self.kc_bracketleft = self.display.keysym_to_keycode(XK.XK_bracketleft)
+        self.kc_bracketright = self.display.keysym_to_keycode(XK.XK_bracketright)
+        self.kc_comma = self.display.keysym_to_keycode(XK.XK_comma)
+        self.kc_period = self.display.keysym_to_keycode(XK.XK_period)
+        self.kc_semicolon = self.display.keysym_to_keycode(XK.XK_semicolon)
+        self.kc_slash = self.display.keysym_to_keycode(XK.XK_slash)
+        self.kc_backslash = self.display.keysym_to_keycode(XK.XK_backslash)
+        self.kc_apostrophe = self.display.keysym_to_keycode(XK.XK_apostrophe)
 
         # Alpha keys a-z
         self.alpha_keycodes = {}
@@ -110,32 +135,64 @@ class KeyboardGrabber:
         if not self.display or not self.root:
             return
 
-        # 1. Global Activation Hotkeys (Always grabbed): Ctrl+Space
+        # 1. Global Activation Hotkeys (Always grabbed):
+        # Ctrl+Space (IME toggle), Ctrl+. (Chinese/English Punctuation), Shift+Space (Full/Half width)
+        # Ctrl+Alt+Escape (P1-3 Emergency Panic Exit)
         self._grab(self.kc_space, X.ControlMask)
+        self._grab(self.kc_period, X.ControlMask)
+        self._grab(self.kc_space, X.ShiftMask)
+        self._grab(self.kc_escape, X.ControlMask | X.Mod1Mask)
 
-        # 2. In Chinese Mode: Grab letters a-z
+        punct_keys = [
+            self.kc_comma, self.kc_period, self.kc_semicolon,
+            self.kc_bracketleft, self.kc_bracketright,
+            self.kc_slash, self.kc_backslash, self.kc_apostrophe
+        ]
+
+        # 2. In Chinese Mode: Grab letters a-z and punctuation if in Chinese punctuation mode
         if self.is_chinese_mode:
             for kc in self.alpha_keycodes:
                 self._grab(kc, 0)
+            if self.is_chinese_punct:
+                for kc in punct_keys:
+                    if kc:
+                        self._grab(kc, 0)
+                        self._grab(kc, X.ShiftMask)
+            else:
+                for kc in punct_keys:
+                    if kc:
+                        self._ungrab(kc, 0)
+                        self._ungrab(kc, X.ShiftMask)
+
+            # In full-width mode, intercept space to output full-width space
+            if self.is_full_width and not self.is_composing:
+                self._grab(self.kc_space, 0)
         else:
             for kc in self.alpha_keycodes:
                 self._ungrab(kc, 0)
+            for kc in punct_keys:
+                if kc:
+                    self._ungrab(kc, 0)
+                    self._ungrab(kc, X.ShiftMask)
 
-        # 3. In Composing State: Grab Space, digits 1-9, Backspace, Tab, Escape
+        # 3. In Composing State: Grab Space, digits 1-9, Backspace, Tab, Escape, Arrows, Pagination
+        composing_keys = [
+            self.kc_space, self.kc_return, self.kc_tab, self.kc_backspace,
+            self.kc_escape, self.kc_grave, self.kc_down, self.kc_up,
+            self.kc_minus, self.kc_equal, self.kc_bracketleft, self.kc_bracketright,
+            self.kc_comma, self.kc_period, self.kc_semicolon, self.kc_slash,
+            self.kc_backslash, self.kc_apostrophe
+        ]
         if self.is_chinese_mode and self.is_composing:
-            self._grab(self.kc_space, 0)
-            self._grab(self.kc_tab, 0)
-            self._grab(self.kc_backspace, 0)
-            self._grab(self.kc_escape, 0)
-            self._grab(self.kc_grave, 0)
+            for kc in composing_keys:
+                if kc: self._grab(kc, 0)
             for kc in self.digit_keycodes:
                 self._grab(kc, 0)
         else:
-            self._ungrab(self.kc_space, 0)
-            self._ungrab(self.kc_tab, 0)
-            self._ungrab(self.kc_backspace, 0)
-            self._ungrab(self.kc_escape, 0)
-            self._ungrab(self.kc_grave, 0)
+            for kc in composing_keys:
+                if not (self.is_chinese_mode and self.is_chinese_punct and kc in punct_keys):
+                    if not (self.is_chinese_mode and self.is_full_width and kc == self.kc_space):
+                        if kc: self._ungrab(kc, 0)
             for kc in self.digit_keycodes:
                 self._ungrab(kc, 0)
 
@@ -144,6 +201,16 @@ class KeyboardGrabber:
     def set_chinese_mode(self, enabled: bool):
         """Set Chinese typing mode state and refresh grabs."""
         self.is_chinese_mode = enabled
+        self.update_grabs()
+
+    def set_chinese_punct(self, enabled: bool):
+        """Set Chinese punctuation state and refresh grabs."""
+        self.is_chinese_punct = enabled
+        self.update_grabs()
+
+    def set_full_width(self, enabled: bool):
+        """Set Full-width character state."""
+        self.is_full_width = enabled
         self.update_grabs()
 
     def set_composing(self, composing: bool):
@@ -207,23 +274,57 @@ class KeyboardGrabber:
                 self.display.sync()
             except Exception:
                 pass
+        if self.display:
+            try:
+                self.display.close()
+            except Exception:
+                pass
+            self.display = None
+            self.root = None
+
+    def __del__(self):
+        self.stop()
 
     def _handle_x_key_press(self, ev):
         kc = ev.detail
         state = ev.state
 
-        # Check Ctrl+Alt+Escape emergency panic exit
+        # Check Ctrl+Alt+Escape emergency panic exit (P1-3: handled immediately in X thread, never queued to GLib)
         is_ctrl = bool(state & X.ControlMask)
         is_alt = bool(state & X.Mod1Mask)
         if kc == self.kc_escape and is_ctrl and is_alt:
+            print("[KeyboardGrabber] Emergency panic hotkey (Ctrl+Alt+Escape) triggered in X listener thread!")
+            try:
+                self.stop()
+            except Exception:
+                pass
             if self.on_panic_exit:
-                GLib.idle_add(self.on_panic_exit)
+                try:
+                    self.on_panic_exit()
+                except Exception as e:
+                    print(f"[KeyboardGrabber] Panic callback error: {e}")
+            else:
+                os._exit(0)
             return
 
         # Check Ctrl+Space toggle
         if kc == self.kc_space and is_ctrl:
             if self.on_mode_toggle:
                 GLib.idle_add(self.on_mode_toggle)
+            return
+
+        is_shift = bool(state & X.ShiftMask)
+
+        # Check Ctrl+. toggle Chinese / English punctuation
+        if kc == self.kc_period and is_ctrl:
+            if self.on_punct_toggle:
+                GLib.idle_add(self.on_punct_toggle)
+            return
+
+        # Check Shift+Space toggle Full-width / Half-width characters
+        if kc == self.kc_space and is_shift:
+            if self.on_fullwidth_toggle:
+                GLib.idle_add(self.on_fullwidth_toggle)
             return
 
         # Track v and space keys for Push-To-Talk (v+Space hold)
@@ -258,6 +359,8 @@ class KeyboardGrabber:
             key_name = self.digit_keycodes[kc]
         elif kc == self.kc_space:
             key_name = " "
+        elif kc == self.kc_return:
+            key_name = "Enter"
         elif kc == self.kc_tab:
             key_name = "Tab"
         elif kc == self.kc_backspace:
@@ -266,9 +369,33 @@ class KeyboardGrabber:
             key_name = "Escape"
         elif kc == self.kc_grave:
             key_name = "`"
+        elif kc == self.kc_down:
+            key_name = "ArrowDown"
+        elif kc == self.kc_up:
+            key_name = "ArrowUp"
+        elif kc == self.kc_minus:
+            key_name = "-"
+        elif kc == self.kc_equal:
+            key_name = "="
+        elif kc == self.kc_bracketleft:
+            key_name = "{" if is_shift else "["
+        elif kc == self.kc_bracketright:
+            key_name = "}" if is_shift else "]"
+        elif kc == self.kc_comma:
+            key_name = "<" if is_shift else ","
+        elif kc == self.kc_period:
+            key_name = ">" if is_shift else "."
+        elif kc == self.kc_semicolon:
+            key_name = ":" if is_shift else ";"
+        elif kc == self.kc_slash:
+            key_name = "?" if is_shift else "/"
+        elif kc == self.kc_backslash:
+            key_name = "|" if is_shift else "\\"
+        elif hasattr(self, "kc_apostrophe") and kc == self.kc_apostrophe:
+            key_name = '"' if is_shift else "'"
 
         if key_name and self.on_key_event:
-            GLib.idle_add(self.on_key_event, key_name, True)
+            GLib.idle_add(self.on_key_event, key_name, True, is_shift, kc)
 
     def _handle_x_key_release(self, ev):
         kc = ev.detail

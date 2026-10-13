@@ -23,36 +23,54 @@
 ```text
 +-------------------------------------------------------------+
 |                     用户输入交互层 (UI & Adapter)             |
-|   - 键盘/快捷键事件拦截 (Key Event Hook)                       |
-|   - 候选词浮窗渲染 (Candidate Window: 候选词列表 + [部首]按钮)    |
-|   - 最终字符上屏 (Commit Text)                                 |
+|   - 键盘/快捷键事件拦截 (Key Event Hook / Push-To-Talk)       |
+|   - 候选词浮窗渲染 (Candidate Window: 候选词矩阵 + [部首]面板)   |
+|   - 最终字符上屏 (Commit Text via Clipboard/XTEST)          |
 +------------------------------+------------------------------+
-                               | 标准输入事件 (KeyCode / Modifiers)
+                               | 原始击键流 (KeyCode / Raw Pinyin)
                                v
 +-------------------------------------------------------------+
-|                  言墨核心引擎 (yanmo-core)                    |
+|                  言墨核心引擎 (yanmo-core / C++20)           |
 |                                                             |
 |   +-----------------------------------------------------+   |
 |   | 输入状态机 (Input State Machine)                     |   |
 |   | 状态: Empty -> Pinyin -> RadicalFilter -> Selected   |   |
 |   +--------------------------+--------------------------+   |
-|                              |                              |
+|                              | 原始拼写 (如 "zhaogn", "shuosmn")
+|                              v
+|   +-----------------------------------------------------+   |
+|   | 拼写代数引擎 (Speller Engine)                        |   |
+|   | - 规范化与正字法 (jv->ju, LUE->lve)                   |   |
+|   | - 击键手误自动纠错 (zhaogn -> zhang)                 |   |
+|   | - 隔音符切分与歧义解析 (xi'an vs xian)                |   |
+|   | - 413 全音节 DP 切分与全简拼混输分析 (shuo + smn)      |   |
+|   | - 模糊音变体生成 (zh<->z, an<->ang 等)                |   |
+|   +--------------------------+--------------------------+   |
+|                              | 拼写切分结构体 SpellingParse
+|                              v
 |         +--------------------+--------------------+         |
 |         v                                         v         |
 |   +-----------------------+             +-----------------+ |
-|   | 拼音检索与分词模块     |             | 部首/IDS 过滤树 | |
+|   | 拼音检索与简拼匹配模块 |             | 部首/IDS 过滤树 | |
 |   | (Pinyin Matcher)      |             | (Radical Index) | |
 |   +-----------+-----------+             +--------+--------+ |
+|               |                                  |          |
+|               v                                  |          |
+|   +-----------------------+                      |          |
+|   | 2-Gram 与长句解码引擎  |                      |          |
+|   | (Sentence Decoder)    |                      |          |
+|   +-----------+-----------+                      |          |
 |               |                                  |          |
 |               +----------------+-----------------+          |
 |                                v                            |
 |             +-------------------------------------+         |
 |             | 候选词排序与加权引擎 (Candidate Ranker) |         |
-|             | - 词频权重 + 用户频次 + 部首匹配度     |         |
+|             | - 基础词频 + 2-Gram 转移分 + 动态自学习|         |
+|             | - 全简拼混合成词 + 最大前缀兜底保障     |         |
 |             +------------------+------------------+         |
 |                                |                            |
 +--------------------------------+----------------------------+
-                                 | 候选列表: [{"text": "河", "comment": "氵部"}]
+                                 | 候选列表: [{"text": "说什么呢", "comment": ""}]
                                  v
                      [ 外壳层渲染候选并等待选择 ]
 ```
@@ -61,8 +79,18 @@
 
 ## 3. 核心子系统设计
 
-### 3.1 部首与汉字结构引擎 (Radical & IDS Engine)
-- **数据源**：Unicode 汉字表意描述字符集（IDS, Ideographic Description Sequences）与常用 214 康熙部首/现代常用部首表。
+### 3.1 拼写代数引擎 (Speller Engine)
+- **定位**：位于输入状态机与词库检索之间，作为字符级与音素级的预处理与语法分析中枢（实现于 `cpp/include/yanmo/speller.h` 与 `cpp/src/speller.cpp`）。
+- **主要职责**：
+  1. **拼写规范化与正字法 (Orthography Normalization)**：自动清洗大小写与特殊映射（如 `LUE` $\to$ `lve`, `jv/qv/xv` $\to$ `ju/qu/xu`）。
+  2. **智能手误容错 (Typo Auto-Correction)**：自动修正搜狗式常见击键倒装手误（如 `zhaogn` $\to$ `zhang`，`dign` $\to$ `ding`，`liou` $\to$ `liu`）。
+  3. **隔音符处理 (Apostrophe Delimiters)**：支持单引号显式切音（如 `xi'an` $\to$ `["xi", "an"]` 优先匹配“西安”而非“先”）。
+  4. **413 音节动态规划切分 (DP DAG Syllable Segmentation)**：基于中国拼音正词法 413 个标准全拼音节库，进行无歧义 DAG 最优切分并保留歧义备选（如 `xian` $\to$ `["xian"]` 与 `["xi", "an"]`）。
+  5. **全拼与简拼混输分析 (Hybrid Segmentation)**：当用户输入全拼与多辅音尾缀时（如 `shuosmn`），智能切分为全拼主音节 `["shuo"]` 与辅音序列尾缀 `"smn"`，为后续混合成词奠定基础。
+  6. **模糊音派生矩阵 (Fuzzy Matrix)**：支持可配置的平翘舌（`zh/ch/sh` $\leftrightarrow$ `z/c/s`）、前后鼻音（`an/en/in` $\leftrightarrow$ `ang/eng/ing`）及声母（`l` $\leftrightarrow$ `n`, `f` $\leftrightarrow$ `h`）笛卡尔积派生。
+
+### 3.2 部首与汉字结构引擎 (Radical & IDS Engine)
+- **数据源**：Unicode 汉字表意描述字符集（IDS, Ideographic Description Sequences）与常用 214 康熙部首/现代常用部首表（`cpp/src/radical_matcher.cpp`）。
 - **倒排索引（Inverted Index）**：
   - 结构：`部首拼音 / 标识符 -> 构件集合 -> 汉字集合`
   - 示例：
@@ -72,22 +100,37 @@
   1. **辅码过滤**：给定已匹配的同音候选集 $C$，执行 $C \cap S_{\text{radical}}$ 求交集，毫秒级缩减候选。
   2. **部件拼装**：输入部件（如 `kou kou kou`）直接定位 `品`。
 
-### 3.2 分级词库体系 (Lexicon System)
-- **Layer 1: 系统基础词库 (SysDict)**
-  - 只读二进制格式（Double-Array Trie 或 LMDB）。
-  - 按拼音前缀索引，包含现代汉语常用词频（约 10 万~30 万词条）。
-- **Layer 2: 用户自学习词库 (UserDict)**
-  - 采用轻量嵌入式 SQLite 数据库存储在 `~/.local/share/yanmo/user.db`。
-  - 结构：`(word, pinyin, frequency, last_used_timestamp)`。
-  - 支持动态词频自增，输入即学习。
+### 3.3 语言模型与长句解码器 (Bigram & Sentence Decoder)
+- **定位**：实现搜狗式流畅长句输入的关键模块（`cpp/src/bigram.cpp` 与 `cpp/src/decoder.cpp`）。
+- **2-Gram 转移概率模型 (BigramModel)**：
+  - 采用轻量紧凑哈希索引管理二元词组转移奖励（`word_A + word_B`），常驻内存 $< 1\text{MB}$；
+  - 支持动态自适应学习：当用户连续确认搭配时，自动动态累加转移加权。
+- **Viterbi DP 整句解码器 (SentenceDecoder)**：
+  - 基于动态规划评估 Unigram 词频、词长奖励与 2-Gram 转移分，求全局最优解；
+  - 支持未闭合前缀长句推导（如输入 `zenmeshuon` 自动推导出最优组合“怎么说呢”）。
 
-### 3.3 离线语音引擎 (Voice ASR Subsystem)
-- **引擎架构**：Sherpa-ONNX C/C++ 动态链接库绑定。
-- **模型规格**：SenseVoice-Small INT8 量化模型（~110MB）。
-- **生命周期**：
-  - 待机状态：仅保留模型句柄，不占用音频设备，CPU 使用率为 0%。
-  - 录音状态：通过 PortAudio 或 ALSA/PulseAudio 捕获 16kHz 16bit 单声道音频流。
-  - 结束状态：VAD（静音检测）或按键释放后，触发推理，即刻发送文本上屏并关闭音频通道。
+### 3.4 分级词库体系与检索器 (Lexicon & Pinyin Matcher)
+- **Layer 1: 系统核心词库 (SysDict)**
+  - 只读紧凑 Trie 前缀树索引，加载约 10 万~30 万词条（`data/dict/core_lexicon.tsv`）。
+  - 双前缀树架构：`trie_`（全拼检索树）与 `abbrev_trie_`（首字母简拼检索树）。
+  - **全简拼混输组词 (Hybrid Matcher)**：支持全拼前缀与简拼后缀动态交叉组词（如 `shuo` + `smn` $\to$ “说” + “什么呢” $\to$ **“说什么呢”**）。
+  - **前缀兜底机制 (Prefix Fallback)**：对任意输入保证逐级前缀回退，候选词永不白屏。
+- **Layer 2: 动态用户自学习词库 (UserDict)**
+  - 内存与持久化两级缓存（`~/.local/share/yanmo/user_dict.json`）；
+  - 输入即学习：选中词即刻获得动态加权（+35000），下次输入瞬间提至首选。
+
+### 3.5 离线语音引擎 (Voice ASR Subsystem)
+- **引擎架构**：Sherpa-ONNX C/C++ 动态链接库绑定（SenseVoice-Small INT8 量化模型，~110MB）。
+- **交互协议**：Push-To-Talk（`v+Space` 长按唤醒）：
+  - 待机状态：仅保留模型句柄，不占用音频设备，CPU 使用率为 0%；
+  - 录音状态：捕获 16kHz 16bit 单声道音频流，浮窗展示动态倾听波纹；
+  - 释放状态：按键物理释放瞬间，即刻完成毫秒级端侧推理并秒速上屏。
+
+### 3.6 异步大模型辅助通道 (ILLMProvider / AIService)
+- **C++ 抽象接口 (`ILLMProvider`)**：纯虚基类，主输入循环调用 `predict_async` 耗时 $< 2\text{ms}$ 返回 `std::future`，绝不阻塞打字。
+- **Python 异步服务 (`AIService`)**：
+  - 默认本地离线规则降级：秒级剔除口语停顿词（如“呃/那个/就是说”）并规范句末标点；
+  - 自由扩展大模型：支持对接本地 Ollama（如 `qwen2.5-coder:1.5b`）或火山引擎豆包等 OpenAI 规范云端 API。
 
 ---
 

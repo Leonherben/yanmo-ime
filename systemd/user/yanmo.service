@@ -1,0 +1,18 @@
+[Unit]
+Description=YanMo IME (言墨输入法) Desktop Daemon
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/Project/IME/bin/yanmo-daemon run
+ExecStop=%h/Project/IME/bin/yanmo-daemon stop
+TimeoutStopSec=2s
+SendSIGKILL=yes
+FinalKillSignal=SIGKILL
+Restart=on-failure
+RestartSec=2s
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

@@ -36,16 +36,19 @@ class VoiceEngine:
         self.audio_chunks = []
         self.record_thread: Optional[threading.Thread] = None
 
-        self._init_recognizer()
+        # Lazy loading: Recognizer will be initialized on first use, not on startup.
+
+    def _ensure_recognizer(self) -> bool:
+        """Lazily initialize recognizer when actually requested."""
+        if self.recognizer is None and HAS_VOICE_DEPS:
+            self._init_recognizer()
+        return self.recognizer is not None
 
     def is_model_ready(self) -> bool:
-        """Check if SenseVoice model files exist and are loaded."""
-        return (
-            HAS_VOICE_DEPS and
-            self.model_file.exists() and
-            self.tokens_file.exists() and
-            self.recognizer is not None
-        )
+        """Check if SenseVoice model files exist and recognizer is ready."""
+        if not (HAS_VOICE_DEPS and self.model_file.exists() and self.tokens_file.exists()):
+            return False
+        return self._ensure_recognizer()
 
     def _init_recognizer(self):
         """Initialize sherpa-onnx offline SenseVoice recognizer if model is ready."""

@@ -31,3 +31,12 @@ data/user/
 data/models/
 *.onnx
 
+# C++ Build outputs & logs
+cpp/bin/
+cpp/lib/
+cpp/build_asan/
+*.log
+*.ses
+*.d
+
+

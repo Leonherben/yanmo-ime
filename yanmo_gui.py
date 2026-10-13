@@ -60,7 +60,8 @@ class YanMoDesktopApp:
         lbl_desc = Gtk.Label()
         lbl_desc.set_markup(
             "<b>功能特性体验指南:</b>\n"
-            " • <b>键盘常规输入</b>：在下方文本框中敲击拼音（如 <tt>he</tt>、<tt>yanmo</tt>），悬浮候选条实时跟随。\n"
+            " • <b>键盘常规输入</b>：在下方文本框中敲击拼音（如 <tt>he</tt>、<tt>yanmo</tt>），悬浮候选条实时跟随光标。\n"
+            " • <b>中英文标点与全半角切换</b>：<b>Ctrl + .</b> 切换【中文标点 / 英文半角标点】，<b>Shift + 空格</b> 切换【全角 / 半角字符】。\n"
             " • <b>Tab 键双模部首筛选</b>：输入拼音后按 <b>Tab</b> 键，既可敲<b>部首拼音</b>（如 <tt>shui</tt>），也可按<b>首笔画</b>：\n"
             "   👉 <b>h</b> (横) / <b>s</b> (竖) / <b>p</b> (撇) / <b>d</b> (点) / <b>z</b> (折) 秒级过滤！\n"
             " • <b>触屏/鼠标视觉流</b>：点击候选条右上角 <b>[部首全景 ▾]</b>，按五大笔画分类点选部首查字！\n"
@@ -127,6 +128,26 @@ class YanMoDesktopApp:
         w, h = self.sandbox_window.get_size()
         self.candidate_window.move(x + 40, y + h - 90)
 
+    def _update_candidate_position_from_caret(self):
+        """Update candidate bar position dynamically following Gtk.TextView cursor caret."""
+        try:
+            insert_mark = self.text_buffer.get_insert()
+            if not insert_mark:
+                return
+            iter_curr = self.text_buffer.get_iter_at_mark(insert_mark)
+            rect = self.text_view.get_iter_location(iter_curr)
+            wx, wy = self.text_view.buffer_to_window_coords(
+                Gtk.TextWindowType.TEXT, rect.x, rect.y + rect.height
+            )
+            win = self.text_view.get_window(Gtk.TextWindowType.TEXT)
+            if win:
+                root_x, root_y = win.get_root_coords(wx, wy)
+                self.candidate_window.move(root_x, root_y + 4)
+            else:
+                self._position_candidate_bar()
+        except Exception:
+            self._position_candidate_bar()
+
     def _on_sandbox_voice_clicked(self, button=None):
         """Toggle offline voice dictation from sandbox."""
         if not self.engine.voice_engine.is_recording:
@@ -151,6 +172,25 @@ class YanMoDesktopApp:
         """Intercept key events and route to YanMo engine."""
         keyval = event.keyval
         key_name = Gdk.keyval_name(keyval)
+
+        is_ctrl = bool(event.state & Gdk.ModifierType.CONTROL_MASK)
+        is_shift = bool(event.state & Gdk.ModifierType.SHIFT_MASK)
+
+        # Ctrl + . : Toggle Chinese / English Punctuation
+        if is_ctrl and key_name in ("period", "periodcentered"):
+            new_state = not self.engine.is_full_width_punct()
+            self.engine.set_full_width_punct(new_state)
+            punct_txt = "中文全角标点" if new_state else "英文/半角标点"
+            self.lbl_status.set_text(f"已切换标点: {punct_txt} (Ctrl+.)")
+            return True
+
+        # Shift + Space : Toggle Full-width / Half-width Characters
+        if is_shift and key_name in ("space", "KP_Space"):
+            new_state = not self.engine.is_full_width_char()
+            self.engine.set_full_width_char(new_state)
+            width_txt = "全角字符" if new_state else "半角字符"
+            self.lbl_status.set_text(f"已切换字符: {width_txt} (Shift+Space)")
+            return True
 
         # F2 hotkey toggles speech dictation
         if key_name in ("F2",):
@@ -195,6 +235,7 @@ class YanMoDesktopApp:
             engine_key = key_name
 
         if engine_key:
+            self._update_candidate_position_from_caret()
             if engine_key in ("Tab", "`") and self.engine.state.mode == InputMode.COMPOSING:
                 self.candidate_window.show_radical_picker()
 
@@ -205,6 +246,7 @@ class YanMoDesktopApp:
             if not self.text_view.is_focus():
                 self.text_view.grab_focus()
 
+            self._update_candidate_position_from_caret()
             if consumed:
                 return True
 
@@ -275,6 +317,7 @@ class YanMoDesktopApp:
 
         # Re-focus text view so typing is never interrupted
         self.text_view.grab_focus()
+        GLib.idle_add(self._update_candidate_position_from_caret)
 
     def _trigger_auto_demo(self, button):
         """Simulate typing sequence in desktop environment."""

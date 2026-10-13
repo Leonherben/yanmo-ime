@@ -3,9 +3,11 @@
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 DIR="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
-PYTHON="$DIR/tools/.venv/bin/python"
-
-if [ ! -f "$PYTHON" ]; then
+if [ -f "$DIR/.venv/bin/python" ]; then
+    PYTHON="$DIR/.venv/bin/python"
+elif [ -f "$DIR/tools/.venv/bin/python" ]; then
+    PYTHON="$DIR/tools/.venv/bin/python"
+else
     PYTHON="python3"
 fi
 
@@ -27,6 +29,28 @@ if [ "$ACTION" = "start" ]; then
     echo "🚀 言墨输入法守护进程已在后台启动 (PID: $DAEMON_PID)"
     echo "💡 提示: 全局按 Ctrl+Space 切换中英，按 Ctrl+Alt+Esc 或 Win+Y 可一键强制关闭/启动！"
     command -v notify-send >/dev/null 2>&1 && notify-send -t 2000 -i accessories-character-map "言墨输入法" "🚀 守护进程已启动 (PID: $DAEMON_PID)"
+elif [ "$ACTION" = "stop" ]; then
+    PID_FILE="$HOME/.local/share/yanmo/daemon.pid"
+    PID=""
+    if [ -f "$PID_FILE" ]; then
+        PID="$(cat "$PID_FILE" 2>/dev/null)"
+    fi
+    "$PYTHON" -m daemon.yanmo_daemon stop
+    # P1-3: Fallback kill -9 if process is still alive after 0.5s
+    if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
+        sleep 0.5
+        if kill -0 "$PID" 2>/dev/null; then
+            echo "⚠️ 守护进程响应超时，执行 SIGKILL 强制杀除 (kill -9 $PID)..."
+            kill -9 "$PID" 2>/dev/null || true
+        fi
+    fi
+    pkill -9 -f "daemon.yanmo_daemon" 2>/dev/null || true
+    rm -f "$HOME/.local/share/yanmo/daemon.pid" 2>/dev/null || true
+    echo "🛑 言墨输入法守护进程已停止"
+elif [ "$ACTION" = "restart" ]; then
+    "$SCRIPT_PATH" stop
+    sleep 0.5
+    "$SCRIPT_PATH" start
 elif [ "$ACTION" = "toggle" ]; then
     PID_FILE="$HOME/.local/share/yanmo/daemon.pid"
     RUNNING=0
